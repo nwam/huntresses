@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
-    private float turnSpeed = 2f;
+    private float turnSpeed = 7.5f;
     [SerializeField]
     private int health = 3;
 
@@ -26,11 +26,11 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         bool turning = false;
-        if (this.transform.position.y >= 5)
+        if (transform.position.y >= 5)
         {
-            this.transform.SetPositionAndRotation(new Vector3(this.transform.position.x, 5, 0), this.transform.rotation);
-            this.transform.Rotate(this.transform.forward, 180 * turnSpeed * Time.deltaTime);
-            if (this.transform.rotation.z > 0)
+            transform.SetPositionAndRotation(new Vector3(transform.position.x, 5, 0), transform.rotation);
+            transform.Rotate(transform.forward, 180 * turnSpeed * Time.deltaTime);
+            if (transform.rotation.z > 0)
             {
                 turning = true;
             }
@@ -39,11 +39,11 @@ public class Enemy : MonoBehaviour
                 transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 180));
             }
         }
-        else if (this.transform.position.y <= -5)
+        else if (transform.position.y <= -5)
         {
-            this.transform.SetPositionAndRotation(new Vector3(this.transform.position.x, -5, 0), this.transform.rotation);
-            this.transform.Rotate(this.transform.forward, 180 * turnSpeed * Time.deltaTime);
-            if (this.transform.rotation.z < 0)
+            transform.SetPositionAndRotation(new Vector3(transform.position.x, -5, 0), transform.rotation);
+            transform.Rotate(transform.forward, 180 * turnSpeed * Time.deltaTime);
+            if (transform.rotation.z < 0)
             {
                 turning = true;
             }
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
 
         if (!turning)
         {
-            this.transform.position += speed * this.transform.up * Time.deltaTime;
+            transform.position += speed * transform.up * Time.deltaTime;
         }
     }
 }

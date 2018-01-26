@@ -21,6 +21,6 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        this.transform.position += speed * this.transform.up * Time.deltaTime;
+        transform.position += speed * transform.up * Time.deltaTime;
     }
 }
