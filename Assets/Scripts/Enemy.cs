@@ -2,29 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
-{
-    [SerializeField]
-    private float speed = 5f;
+public class Enemy : MonoBehaviour, IShootable, IFreezable {
+
+    public const float SPEED = 5f;
+
     [SerializeField]
     private float turnSpeed = 7.5f;
     [SerializeField]
     private int health = 3;
-    [SerializeField]
-    private float drainRate = 1f;
+
+    private float currentSpeed = SPEED;
+
     private Corpse harvestTarget;
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void FixedUpdate()
     {
@@ -58,24 +47,46 @@ public class Enemy : MonoBehaviour
 
         if (!turning)
         {
-            transform.position += speed * transform.up * Time.deltaTime;
+            transform.position += currentSpeed * transform.up * Time.deltaTime;
         }
     }
 
-    public bool Harvest(Corpse corpse) {
+    public void GetShot(int damage) {
+        health -= damage;
+        Debug.Log(name + " got shot, now I have " + health + "hp");
 
+        if (health <= 0) {
+            // Die
+            Debug.Log(name + " is dead");
+        }
+    }
+
+    public void Freeze() {
+        Debug.Log(name + " frozen");
+        currentSpeed = 0;
+        // Also cannot rotate or shoot
+    }
+
+    public void UnFreeze() {
+        Debug.Log(name + " unfrozen");
+        currentSpeed = SPEED;
+        // Restore ability to rotate and shoot
+    }
+
+    public bool isDestroyed() {
+        return this == null;
+    }
+
+    public bool Harvest(Corpse corpse) {
         CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
         CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
 
         if (harvester.IsTouching(harvestable) && (!corpse.getBeingHarvested() || corpse == harvestTarget)) {
-
             float drained = corpse.beHarvested();
             return drained != 0;
 
         }
 
         return false;
-
     }
-
 }
