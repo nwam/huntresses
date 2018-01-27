@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IShootable, IFreezable 
 {
+
+	private struct PlayerLocation
+	{
+		public Vector2 location;
+		public int direction;
+
+		public PlayerLocation(Vector2 loc, int dir){
+			direction = dir;
+			location = loc;
+		}
+	}
+
 	private const float SPEED_MULTIPLIER = 0.01f;
 
     [SerializeField]
@@ -19,13 +31,17 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private List<Vector2> path;
 	private int nextPoint = 0;
 
-	private Stack<Vector2> playerLocations;
+	private Stack<PlayerLocation> playerLocations;
 
 	private Vector2 lastSeenPlayerLoc;
 	private bool seePlayer = false;
 
+	// Keep track of the direction which the player is heading in
+	private float deltaRot = 0;
+	private Vector2 prevRight;
+
 	[SerializeField]
-	private float spinSpeed = 20; // Degrees per FixedUpdate
+	private float spinSpeed = 8; // Degrees per FixedUpdate
 	private bool spinning = false;
 	private int spinUpdates;
 	private int fullSpinUpdates;
@@ -34,13 +50,18 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private Quaternion startRotation;
 	private int turningUpdates;
 
+	// When a player chase is over and the enemy wants to return
+	// to where they left off
+	private bool returningToPath = false;
+	private Vector2 lastPathLocation;
+
     // Use this for initialization
     void Start()
 	{
 		transform.position = path [nextPoint];
 		NextPathPoint ();
 
-		playerLocations = new Stack<Vector2> ();
+		playerLocations = new Stack<PlayerLocation> ();
 
 		// Because we don't want all of our speeds to be 0.01, 0.015, etc.
 		defaultSpeed = speed * SPEED_MULTIPLIER;
@@ -55,34 +76,57 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 		/* Shooting at player */
 		if (foundPlayer != null) {
+
+			// Keep track of the direction the player is heading in
+			if (seePlayer == true) {
+				deltaRot = Vector2.Angle (prevRight, transform.right);
+			}
+			prevRight = transform.right;
+				
+			// Stop all other actions
 			seePlayer = true;
 			spinning = false;
 			turning = false;
+
+			// Track the player's location
 			lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
+
 			Turn (lastSeenPlayerLoc);
-			// #### Shoot at location ###
+			// TODO: #### Shoot at location ###
 		}
 
-		/* Stop shooting at player -- player hid */
+		/* Stop shooting at player -- player hid... or died lol */
 		else if (foundPlayer == null && seePlayer) {
-			playerLocations.Push (lastSeenPlayerLoc);
+			playerLocations.Push (new PlayerLocation (lastSeenPlayerLoc, (int)Mathf.Sign (-deltaRot)));
+			lastPathLocation = transform.position;
 			seePlayer = false;
 		}
 			
 		/* Performing a spin to find player */
-		else if (spinning) {
-			if (!Spin ()) {
+		else if (spinning && playerLocations.Count > 0) {
+			if (!Spin (playerLocations.Peek ().direction)) {
 				spinning = false;
 				playerLocations.Pop ();
+
+				if (playerLocations.Count <= 0) {
+					returningToPath = true;
+				}
 			}
 		}
 
 		/* Following last seen player location */
 		else if (playerLocations.Count > 0) {
-			if (!Move (playerLocations.Peek ())) {
+			if (!Move (playerLocations.Peek ().location)) {
 				ToSpinState ();
 			}
-		} 
+		}
+
+		/* Returning to where we last left our patrol path */
+		else if (returningToPath) {
+			if (!Move (lastPathLocation)) {
+				returningToPath = false;
+			}
+		}
 
 		/* On preset path */
 		else {
@@ -139,8 +183,8 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	}
 
 	// Returns true when still spinning
-	private bool Spin(){
-		transform.Rotate (new Vector3(0,0, spinSpeed));
+	private bool Spin(int direction){
+		transform.Rotate (new Vector3(0,0, spinSpeed*direction));
 		spinUpdates += 1;
 
 		if (spinUpdates >= fullSpinUpdates) {

@@ -187,6 +187,11 @@ Prefab:
       propertyPath: path.Array.data[2].x
       value: -3
       objectReference: {fileID: 0}
+    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
+        type: 2}
+      propertyPath: spinSpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8af6e056a42bbd043871910c3c5c69f9, type: 2}
   m_IsPrefabParent: 0
@@ -252,13 +257,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1501972228910300, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
       propertyPath: m_Name
-      value: Player (1)
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 1501972228910300, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4396489140789198, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 4.02
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 50406275611757228, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &537625777 stripped
@@ -272,7 +282,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 537625777}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
