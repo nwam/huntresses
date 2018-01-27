@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private bool stoppingTime = false;
 
     public GameObject bulletPrefab;
+    public TimeBubble timeBubble;
 
     public string playerID = "0";
 
@@ -23,14 +24,10 @@ public class Player : MonoBehaviour
         if (playerID == "1")
         {
             Select();
+            timeBubble = GetComponent<TimeBubble>();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void FixedUpdate()
     {
@@ -74,19 +71,6 @@ public class Player : MonoBehaviour
                 transform.position += Vector3.right * speed * Time.deltaTime;
             }
 
-            // Time Stop controls
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (stoppingTime)
-                {
-                    StartTime();
-                }
-                else
-                {
-                    StopTime();
-                }
-            }
-
             // Shooting controls
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -97,7 +81,7 @@ public class Player : MonoBehaviour
     
     void Select() {
         selected = true;
-        TimeBubble.SetSelectedPlayer(this);
+        timeBubble.SetSelectedPlayer(this);
     }
 
     void Deselect() {
@@ -107,7 +91,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Fire a bullet in the direction the player is facing
-        GameObject newBulletGO = (GameObject)Instantiate(bulletPrefab, transform.position + transform.up * 0.5f, transform.rotation);
+        GameObject newBulletGO = (GameObject)Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
     }
     
     public void GetShot(int damage) {
