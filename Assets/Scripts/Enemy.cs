@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
 	private List<Vector2> path;
 	private int nextPoint = 0;
 
+	private Stack<Vector2> playerLocations;
+
 	private bool turning = true;
 	private Quaternion startRotation;
 	private int turningUpdates;
