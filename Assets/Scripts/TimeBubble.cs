@@ -36,7 +36,6 @@ public class TimeBubble : MonoBehaviour {
             // Drain Blood
             if (!bloodPool.Withdraw()) {
                 isActive = false;
-                return;
             }
         }
 
