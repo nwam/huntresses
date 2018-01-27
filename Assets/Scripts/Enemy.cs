@@ -24,8 +24,10 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private GameObject projectilePrefab;
 
 	[SerializeField]
-	private int fireDelay = 30;
-	private int fireDelayCount = 0;
+	private int projectileCooldown = 30;
+	private int projectileCooldownCount = 0;
+	[SerializeField]
+	private float fov = 60; // in degrees
 
 	[SerializeField]
 	private int health = 3;
@@ -83,14 +85,14 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
     private void FixedUpdate()
     {
-		GameObject foundPlayer = LookForPlayer ();
+		GameObject foundPlayer = LookForPlayers ();
 
 		/* Shooting at player */
 		if (foundPlayer != null) {
 
 			// Keep track of the direction the player is heading in
 			if (seePlayer == true) {
-				deltaRot = Vector2.Angle (prevRight, transform.right);
+				deltaRot = Vector2.SignedAngle (prevRight, transform.right);
 			}
 			prevRight = transform.right;
 				
@@ -104,20 +106,20 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 			Turn (lastSeenPlayerLoc);
 
-			if (fireDelayCount % fireDelay == 0) {
+			if (projectileCooldownCount % projectileCooldown == 0) {
 				Vector3 ea = transform.rotation.eulerAngles;
 				Quaternion fireDirection = Quaternion.Euler (ea.x, ea.y, ea.z - 90);
 				Instantiate (projectilePrefab, transform.position + transform.right * transform.lossyScale.x * 1.2f, fireDirection);
 			}
-			fireDelayCount += 1;
+			projectileCooldownCount += 1;
 		}
 
 		/* Stop shooting at player -- player hid... or died lol */
 		else if (foundPlayer == null && seePlayer) {
-			playerLocations.Push (new PlayerLocation (lastSeenPlayerLoc, (int)Mathf.Sign (-deltaRot)));
+			playerLocations.Push (new PlayerLocation (lastSeenPlayerLoc, (int)Mathf.Sign (deltaRot)));
 			lastPathLocation = transform.position;
 			seePlayer = false;
-			fireDelayCount = 0;
+			projectileCooldownCount = 0;
 		}
 			
 		/* Performing a spin to find player */
@@ -162,17 +164,28 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
     }
 
 
-	private GameObject LookForPlayer(){
-		Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.right.normalized);
-		RaycastHit2D castHit = Physics2D.Raycast (frontOfSelf, transform.right);
+	private GameObject LookForPlayers(){
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		foreach (GameObject player in players){
+			float angle = Vector2.Angle (player.transform.position - transform.position, transform.right);
+		
+			if (Mathf.Abs(angle) <= fov/2) {
+				Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.right.normalized);
+				Vector2 rayDirection = player.transform.position - transform.position;
+				RaycastHit2D castHit = Physics2D.Raycast (frontOfSelf, rayDirection);
+				Debug.DrawRay (frontOfSelf, rayDirection);
 
-		if (castHit.transform != null) {
-			GameObject hitObject = castHit.transform.gameObject;
+				if (castHit.transform != null) {
+					GameObject hitObject = castHit.transform.gameObject;
 
-			if (hitObject.CompareTag("Player")){
-				return hitObject;
+					if (hitObject.CompareTag("Player")){
+						return hitObject;
+					}
+				}
 			}
 		}
+
+
 		return null;
 	}
 
