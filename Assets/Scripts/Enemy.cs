@@ -27,6 +27,8 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
     private Corpse harvestTarget;
 
+    public GameObject corpsePrefab;
+
     // Use this for initialization
     void Start()
 	{
@@ -108,12 +110,21 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 		Debug.Log(name + " got shot, now I have " + health + "hp");
 
 		if (health <= 0) {
-			// Die
 			Debug.Log(name + " is dead");
+            Die();
 		}
-	}
+    }
 
-	public void Freeze() {
+    private void Die()
+    {
+        GameObject newCorpse = Instantiate(corpsePrefab, transform.position, transform.rotation);
+        
+        // TODO: Make the corpse use an enemy corpse sprite.
+
+        Destroy(gameObject);
+    }
+
+    public void Freeze() {
 		Debug.Log(name + " frozen");
 		currentSpeed = 0;
 		// Also cannot rotate or shoot
