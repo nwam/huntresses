@@ -5,7 +5,7 @@ using UnityEngine;
 public class Corpse : MonoBehaviour {
     
     [SerializeField]
-    private float bloodCapacity = 100f;
+    private float bloodCapacity = 10f;
     private bool beingHarvested = false;
     [SerializeField]
     private float drainRate = 1f;
@@ -13,8 +13,6 @@ public class Corpse : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-
-
 	}
 	
 	// Update is called once per frame
@@ -29,24 +27,16 @@ public class Corpse : MonoBehaviour {
     public void setBeingHarvested(bool bh) { beingHarvested = bh; }
 
     public float beHarvested() {
-
         beingHarvested = true;
         float drained = drainRate * Time.deltaTime;
 
         if (bloodCapacity > drained) {
-
             bloodCapacity -= drained;
-            return drained;
-
         }
         else {
-
             drained = bloodCapacity;
             bloodCapacity = 0;
-            return drained;
-
         }
-
+        return drained;
     }
-
 }

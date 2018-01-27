@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class BloodPool : MonoBehaviour {
     [SerializeField]
-    private int maxDuration = 60;       // In seconds
+    private float maxDuration = 60;       // In seconds
 
     [SerializeField]
-    private int drainPerSecond = 1;
+    private float drainPerSecond = 1;
 
     [SerializeField]
     private Text text;
@@ -41,7 +41,7 @@ public class BloodPool : MonoBehaviour {
         }        
     }
 
-    public void Fill(int amount) {
+    public void Fill(float amount) {
         available += amount;
         if(available > maxDuration) {
             available = maxDuration;
