@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// NOTE: Enemies "forward" direction is position.right
+
 public class Enemy : MonoBehaviour, IShootable, IFreezable 
 {
 
@@ -18,27 +20,26 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 	private const float SPEED_MULTIPLIER = 0.01f;
 
+	[SerializeField]
+	private GameObject projectilePrefab;
+
+	[SerializeField]
+	private int fireDelay = 30;
+	private int fireDelayCount = 0;
+
+	[SerializeField]
+	private int health = 3;
+
     [SerializeField]
     private float speed = 10f;
 	private float defaultSpeed;
 	private float currentSpeed;
-    [SerializeField]
-    private float turnSpeed = 0.1f; // Percent of turn per FixedUpdate
-    [SerializeField]
-    private int health = 3;
-
+    
 	[SerializeField]
-	private List<Vector2> path;
-	private int nextPoint = 0;
-
-	private Stack<PlayerLocation> playerLocations;
-
-	private Vector2 lastSeenPlayerLoc;
-	private bool seePlayer = false;
-
-	// Keep track of the direction which the player is heading in
-	private float deltaRot = 0;
-	private Vector2 prevRight;
+    private float turnSpeed = 0.1f; // Percent of turn per FixedUpdate
+	private bool turning = true;
+	private Quaternion startRotation;
+	private int turningUpdates;
 
 	[SerializeField]
 	private float spinSpeed = 8; // Degrees per FixedUpdate
@@ -46,9 +47,19 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private int spinUpdates;
 	private int fullSpinUpdates;
 
-	private bool turning = true;
-	private Quaternion startRotation;
-	private int turningUpdates;
+	[SerializeField]
+	private List<Vector2> path;
+	private int nextPoint = 0;
+
+	private Stack<PlayerLocation> playerLocations;
+	private Vector2 lastSeenPlayerLoc;
+	private bool seePlayer = false;
+
+	// Keep track of the direction which the player is heading in
+	private float deltaRot = 0;
+	private Vector2 prevRight;
+
+
 
 	// When a player chase is over and the enemy wants to return
 	// to where they left off
@@ -92,7 +103,13 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 			lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
 
 			Turn (lastSeenPlayerLoc);
-			// TODO: #### Shoot at location ###
+
+			if (fireDelayCount % fireDelay == 0) {
+				Vector3 ea = transform.rotation.eulerAngles;
+				Quaternion fireDirection = Quaternion.Euler (ea.x, ea.y, ea.z - 90);
+				Instantiate (projectilePrefab, transform.position + transform.right * transform.lossyScale.x * 1.2f, fireDirection);
+			}
+			fireDelayCount += 1;
 		}
 
 		/* Stop shooting at player -- player hid... or died lol */
@@ -100,6 +117,7 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 			playerLocations.Push (new PlayerLocation (lastSeenPlayerLoc, (int)Mathf.Sign (-deltaRot)));
 			lastPathLocation = transform.position;
 			seePlayer = false;
+			fireDelayCount = 0;
 		}
 			
 		/* Performing a spin to find player */
