@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - harvestable
   - ignores-bullets
-  - Enemy
   layers:
   - Default
   - TransparentFX
