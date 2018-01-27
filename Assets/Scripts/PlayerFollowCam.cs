@@ -19,8 +19,8 @@ public class PlayerFollowCam : MonoBehaviour {
         setPositionRelativeToPlayer();
 	}
 
-    public void setActivePlayer(Player player) {
-        activePlayer = player.transform;
+    public void setActivePlayer(Transform player) {
+        activePlayer = player;
         setPositionRelativeToPlayer();
     }
 

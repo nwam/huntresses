@@ -11,9 +11,11 @@ public class Player : MonoBehaviour, IShootable {
     [SerializeField]
     private float fov = 60; // in degrees
     [SerializeField]
-    private bool selected = false;
-    [SerializeField]
     private KeyCode harvestKey;
+    [SerializeField]
+    private string playerID = "0";
+    [SerializeField]
+    private PlayerFollowCam followCam;
 
     [SerializeField]
     private float timePerShot = 1f; // in seconds
@@ -21,11 +23,10 @@ public class Player : MonoBehaviour, IShootable {
 
     public GameObject bulletPrefab;
     public GameObject corpsePrefab;
-    //public TimeBubble timeBubble;
 
     private BloodPool bloodPool;
 
-    public string playerID = "0";
+    private bool selected = false;
 
     private Corpse harvestTarget, harvestingTarget; // harvestTarget is for proximity check, harvestingTarget is for no multiple drain check
     private bool harvesting = false;
@@ -35,10 +36,10 @@ public class Player : MonoBehaviour, IShootable {
 
     // Use this for initialization
     void Start() {
+       bloodPool = FindObjectOfType<BloodPool>();
         if (playerID == "1") {
             Select();
         }
-        bloodPool = FindObjectOfType<BloodPool>();
     }
 
     private void FixedUpdate() {
@@ -126,18 +127,16 @@ public class Player : MonoBehaviour, IShootable {
                 harvestingTarget.setBeingHarvested(false);
                 harvestingTarget = null; // Reset harvesting target
             }
-            else {
-                Debug.Log("This corpse has " + harvestingTarget.getBloodCapacity() + " blood left.");
-            }
         }
     }
 
-    public bool isSelected() {
+    public bool IsSelected() {
         return selected;
     }
 
     void Select() {
         selected = true;
+        followCam.setActivePlayer(gameObject.transform);
         //timeBubble.SetSelectedPlayer(this);
     }
 
