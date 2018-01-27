@@ -61,8 +61,6 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private float deltaRot = 0;
 	private Vector2 prevRight;
 
-
-
 	// When a player chase is over and the enemy wants to return
 	// to where they left off
 	private bool returningToPath = false;
@@ -116,8 +114,12 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 		/* Stop shooting at player -- player hid... or died lol */
 		else if (foundPlayer == null && seePlayer) {
+
+			if (playerLocations.Count <= 0) {
+				lastPathLocation = transform.position;
+			}
+
 			playerLocations.Push (new PlayerLocation (lastSeenPlayerLoc, (int)Mathf.Sign (deltaRot)));
-			lastPathLocation = transform.position;
 			seePlayer = false;
 			projectileCooldownCount = 0;
 		}
