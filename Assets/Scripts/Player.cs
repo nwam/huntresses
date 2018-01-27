@@ -3,33 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Player : MonoBehaviour, IShootable {
-
+public class Player : MonoBehaviour
+{
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
     private float health = 1f;
 
     private bool selected = false;
+    private bool stoppingTime = false;
 
     public GameObject bulletPrefab;
+
+    public string playerID = "0";
 
     // Use this for initialization
     void Start()
     {
-        // Change this
-        Select();
+        if (playerID == "1")
+        {
+            Select();
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
     private void FixedUpdate()
     {
+        // Select player
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (Input.GetKeyDown(playerID))
+            {
+                selected = true;
+            }
+            else
+            {
+                selected = false;
+            }
+        }
+
         if (selected)
         {
             // Face cursor
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 targetVector = mousePosition - transform.position;
             transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
-            
+
             //transform.LookAt(Input.mousePosition);
 
             // Player Movement controls
@@ -50,6 +74,19 @@ public class Player : MonoBehaviour, IShootable {
                 transform.position += Vector3.right * speed * Time.deltaTime;
             }
 
+            // Time Stop controls
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (stoppingTime)
+                {
+                    StartTime();
+                }
+                else
+                {
+                    StopTime();
+                }
+            }
+
             // Shooting controls
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -57,7 +94,7 @@ public class Player : MonoBehaviour, IShootable {
             }
         }
     }
-
+    
     void Select() {
         selected = true;
         TimeBubble.SetSelectedPlayer(this);
@@ -67,7 +104,8 @@ public class Player : MonoBehaviour, IShootable {
         selected = false;
     }
 
-    void Shoot() {
+    void Shoot()
+    {
         // Fire a bullet in the direction the player is facing
         GameObject newBulletGO = (GameObject)Instantiate(bulletPrefab, transform.position + transform.up * 0.5f, transform.rotation);
     }
@@ -82,5 +120,4 @@ public class Player : MonoBehaviour, IShootable {
             Debug.Log(name + " is dead");
         }
     }
-
 }
