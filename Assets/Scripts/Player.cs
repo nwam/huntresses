@@ -58,7 +58,15 @@ public class Player : MonoBehaviour, IShootable {
             }
         }
 
-        if (selected) {
+        if (harvesting) {
+            if (!Harvest(harvestTarget)) {
+                Debug.Log("This corpse has no blood left to drain!");
+                harvesting = false;
+                harvestingTarget.setBeingHarvested(false);
+                harvestingTarget = null; // Reset harvesting target
+            }
+        }
+        else if (selected) {
             // Face cursor
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 targetVector = mousePosition - transform.position;
@@ -112,20 +120,8 @@ public class Player : MonoBehaviour, IShootable {
         else // Not selected
         {
             // Overwatching
-            if (overwatching)
-            {
+            if (overwatching) {
                 Overwatch();
-            }
-        }
-
-        // Harvesting
-
-        if (harvesting) {
-            if (!Harvest(harvestTarget)) {
-                Debug.Log("This corpse has no blood left to drain!");
-                harvesting = false;
-                harvestingTarget.setBeingHarvested(false);
-                harvestingTarget = null; // Reset harvesting target
             }
         }
     }
