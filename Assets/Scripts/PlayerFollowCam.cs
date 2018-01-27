@@ -16,7 +16,9 @@ public class PlayerFollowCam : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        setPositionRelativeToPlayer();
+        if(activePlayer != null) {
+            setPositionRelativeToPlayer();
+        }
 	}
 
     public void setActivePlayer(Transform player) {
