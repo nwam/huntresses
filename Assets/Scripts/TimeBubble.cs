@@ -28,7 +28,7 @@ public class TimeBubble : MonoBehaviour {
 	void Update () {
         bool wasActive = isActive;
 
-        if(Input.GetKeyDown(key) && attachedPlayer.isSelected()) {
+        if(Input.GetKeyDown(key) && attachedPlayer.IsSelected()) {
             isActive = !isActive;
         }
 
