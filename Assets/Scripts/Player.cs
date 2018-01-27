@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     public string playerID = "0";
 
-    private Corpse harvestTarget;
+    private Corpse harvestTarget, harvestingTarget; // harvestTarget is for proximity check, harvestingTarget is for no multiple drain check
 
     // Use this for initialization
     void Start()
@@ -83,8 +83,16 @@ public class Player : MonoBehaviour
 
             // Harvesting
 
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                // TODO: Find nearest corpse and attempt to drain blood from it
+            if (Input.GetKey(KeyCode.Q)) {
+                if (harvestTarget == null) {
+                    Debug.Log("I don't have a corpse to harvest!");
+                }
+                else if (!Harvest(harvestTarget)) {
+                    Debug.Log("This corpse has no blood left to drain!");
+                }
+                else {
+                    Debug.Log("This corpse has" + harvestTarget.getBloodCapacity() + " blood left");
+                }
             }
 
         }
@@ -120,13 +128,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool Harvest(Corpse corpse) {
+    private bool Harvest(Corpse corpse) {
         CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
         CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
 
-        if (harvester.IsTouching(harvestable) && (!corpse.getBeingHarvested() || corpse == harvestTarget))
+        if (!corpse.getBeingHarvested() || corpse == harvestingTarget) // Check if already being harvested by someone else
         {
-            harvestTarget = corpse;
+            harvestingTarget = corpse;
             float drained = corpse.beHarvested();
             bloodPool.Fill((int)drained); // TODO: Change blood pool to be a float?
             return drained != 0;
@@ -134,4 +142,35 @@ public class Player : MonoBehaviour
 
         return false;
     }
+
+    private void OnTriggerStay2D(Collider2D collision) {
+        Corpse swapHarvestTarget = collision.gameObject.GetComponent<Corpse>();
+
+        if (swapHarvestTarget != null) { // Check if colliding with a corpse
+            if (harvestTarget == null) { // If there is no current harvest target
+                harvestTarget = swapHarvestTarget;
+                Debug.Log("Set Harvest Target");
+            }
+            else if (swapHarvestTarget != harvestTarget) { // Swap target is not the current target
+                Vector2 swapPos = collision.gameObject.transform.position;
+                Vector2 curPos = harvestTarget.gameObject.transform.position;
+                Vector2 thisPos = transform.position;
+
+                if (Vector2.Distance(swapPos, thisPos) < Vector2.Distance(curPos, thisPos)) { // Set harvest target to closer corpse
+                    harvestTarget = swapHarvestTarget;
+                    Debug.Log("Swapped Harvest Target");
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        Corpse deselectTarget = collision.gameObject.GetComponent<Corpse>();
+
+        if (deselectTarget != null && harvestTarget == deselectTarget) { // Check if exiting the current target corpse
+            harvestTarget = null;
+            Debug.Log("Lost Harvest Target");
+        }
+    }
+
 }
