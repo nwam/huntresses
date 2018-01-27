@@ -158,14 +158,11 @@ public class Player : MonoBehaviour, IShootable
     }
 
     private bool Harvest(Corpse corpse) {
-        CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
-        CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
-
         if (!corpse.getBeingHarvested() || corpse == harvestingTarget) // Check if already being harvested by someone else
         {
             harvestingTarget = corpse;
             float drained = corpse.beHarvested();
-            bloodPool.Fill((int)drained); // TODO: Change blood pool to be a float?
+            bloodPool.Fill(drained); // TODO: Change blood pool to be a float?
             return drained != 0;
         }
 
