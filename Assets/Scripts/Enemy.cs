@@ -58,4 +58,14 @@ public class Enemy : MonoBehaviour
             transform.position += speed * transform.up * Time.deltaTime;
         }
     }
+
+    public void DecreaseHealth(int amount) {
+        health -= amount;
+        Debug.Log(name + " got shot, now I have " + health + "hp");
+
+        if (health <= 0) {
+            // Die
+            Debug.Log(name + " is dead");
+        }
+    }
 }
