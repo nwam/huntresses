@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IShootable, IFreezable 
 {
 	private const float SPEED_MULTIPLIER = 0.01f;
 
     [SerializeField]
-    private float speed = 5f;
+    private float speed = 10f;
+	private float defaultSpeed;
+	private float currentSpeed;
     [SerializeField]
     private float turnSpeed = 0.1f;
     [SerializeField]
@@ -30,7 +32,8 @@ public class Enemy : MonoBehaviour
 		NextPathPoint ();
 
 		// Because we don't want all of our speeds to be 0.01, 0.015, etc.
-		speed *= SPEED_MULTIPLIER;
+		defaultSpeed = speed * SPEED_MULTIPLIER;
+		currentSpeed = defaultSpeed;
     }
 
     private void FixedUpdate()
@@ -62,7 +65,7 @@ public class Enemy : MonoBehaviour
 	}
 
 	private void Move(){
-		transform.position = Vector2.MoveTowards (transform.position, path [nextPoint], speed);
+		transform.position = Vector2.MoveTowards (transform.position, path [nextPoint], currentSpeed);
 
 		if ((Vector2)transform.position == path [nextPoint]) {
 			NextPathPoint ();
@@ -96,5 +99,29 @@ public class Enemy : MonoBehaviour
 		nextPoint += 1;
 		nextPoint %= path.Count;
 		return nextPoint;
+	}
+
+
+
+	public void GetShot(int damage) {
+		health -= damage;
+		Debug.Log(name + " got shot, now I have " + health + "hp");
+
+		if (health <= 0) {
+			// Die
+			Debug.Log(name + " is dead");
+		}
+	}
+
+	public void Freeze() {
+		Debug.Log(name + " frozen");
+		currentSpeed = 0;
+		// Also cannot rotate or shoot
+	}
+
+	public void UnFreeze() {
+		Debug.Log(name + " unfrozen");
+		currentSpeed = defaultSpeed;
+		// Restore ability to rotate and shoot
 	}
 }

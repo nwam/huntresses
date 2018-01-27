@@ -2,25 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour, IFreezable {
+
     [SerializeField]
-    private float speed = 15f;
+    private const float SPEED = 15f;
 
-    // Use this for initialization
-    void Start()
-    {
-        speed = 1.5f;
-    }
+    private float currentSpeed = SPEED;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField]
+    public int damage = 1;
 
     private void FixedUpdate()
     {
-        transform.position += speed * transform.up * Time.deltaTime;
+        transform.position += currentSpeed * transform.up * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        GameObject other = collision.gameObject;
+
+        if (other == null) {
+            return;
+        }
+
+        IShootable shootable = other.GetComponent<IShootable>();
+        if (shootable != null) {
+            shootable.GetShot(damage);
+        }
+
+        // Ignore objects that are tagged to ignore bullets
+        if (other.tag == "ignores-bullets") {
+            return;
+        }
+        
+
+        // Hit something other than an enemy
+        // Walls, doors, etc. just destroy the bullet - Anything else a bullet can interact with?
+        Debug.Log("Destroying: " + name);
+        gameObject.SetActive(false);
+        Destroy(this);
+    }
+
+    public void Freeze() {
+        Debug.Log(name + " frozen");
+        currentSpeed = 0;
+    }
+
+    public void UnFreeze() {
+        Debug.Log(name + " unfrozen");
+        currentSpeed = SPEED;
     }
 }
