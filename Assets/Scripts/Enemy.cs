@@ -83,6 +83,7 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 		currentSpeed = defaultSpeed;
 
 		fullSpinUpdates = (int) (360 / spinSpeed);
+        
     }
 
     private void FixedUpdate()
