@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IShootable
 {
     [SerializeField]
     private float speed = 5f;
@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private KeyCode harvestKey;
 
     public GameObject bulletPrefab;
+    public GameObject corpsePrefab;
     //public TimeBubble timeBubble;
 
     private BloodPool bloodPool;
@@ -119,13 +120,23 @@ public class Player : MonoBehaviour
     
     public void GetShot(int damage) {
         // Duped with Enemy but will diverge later (right?)
+        // Re: above: probably won't? both should die and leave behind a corpse. Their Die() methods will differ once we get sprites in.
         health -= damage;
         Debug.Log(name + " got shot, now I have " + health + "hp");
 
         if (health <= 0) {
-            // Die
             Debug.Log(name + " is dead");
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        GameObject newCorpse = Instantiate(corpsePrefab, transform.position, transform.rotation);
+
+        // TODO: Make the corpse use the appropriate player corpse
+
+        Destroy(gameObject);
     }
 
     private bool Harvest(Corpse corpse) {
