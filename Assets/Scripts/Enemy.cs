@@ -4,58 +4,77 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+	private const float SPEED_MULTIPLIER = 0.01f;
+
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
-    private float turnSpeed = 7.5f;
+    private float turnSpeed = 0.1f;
     [SerializeField]
     private int health = 3;
+	[SerializeField]
+	private List<Vector2> path;
+	private int nextPoint = 0;
+
+	private bool turning = true;
+	private Quaternion startRotation;
+	private int turningUpdates;
 
     // Use this for initialization
     void Start()
-    {
+	{
+		transform.position = path [nextPoint];
+		NextPathPoint ();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+		// Because we don't want all of our speeds to be 0.01, 0.015, etc.
+		speed *= SPEED_MULTIPLIER;
     }
 
     private void FixedUpdate()
     {
-        bool turning = false;
-        if (transform.position.y >= 5)
-        {
-            transform.SetPositionAndRotation(new Vector3(transform.position.x, 5, 0), transform.rotation);
-            transform.Rotate(transform.forward, 180 * turnSpeed * Time.deltaTime);
-            if (transform.rotation.z > 0)
-            {
-                turning = true;
-            }
-            else
-            {
-                transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 180));
-            }
-        }
-        else if (transform.position.y <= -5)
-        {
-            transform.SetPositionAndRotation(new Vector3(transform.position.x, -5, 0), transform.rotation);
-            transform.Rotate(transform.forward, 180 * turnSpeed * Time.deltaTime);
-            if (transform.rotation.z < 0)
-            {
-                turning = true;
-            }
-            else
-            {
-                transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
-            }
-        }
-
-        if (!turning)
-        {
-            transform.position += speed * transform.up * Time.deltaTime;
-        }
+		if (!turning) {
+			Move ();
+		} else {
+			Turn ();
+		}
     }
+
+
+	private void Move(){
+		transform.position = Vector2.MoveTowards (transform.position, path [nextPoint], speed);
+
+		if ((Vector2)transform.position == path [nextPoint]) {
+			NextPathPoint ();
+			ToTurnState ();
+		}
+	}
+
+	private void Turn(){
+		Vector3 targetDirection = path [nextPoint] - (Vector2)transform.position;
+		float targetAngle = Mathf.Atan2 (targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+		Quaternion targetRotation = Quaternion.AngleAxis (targetAngle, Vector3.forward);
+		float turnProgress = turnSpeed * turningUpdates;
+		transform.rotation = Quaternion.Slerp (startRotation, targetRotation, turnSpeed*turningUpdates);
+		turningUpdates += 1;
+
+		if (turnProgress >= 1) {
+			ToMoveState ();
+		}
+	}
+
+	private void ToTurnState(){
+		turning = true;
+		startRotation = transform.rotation;
+		turningUpdates = 0;
+	}
+
+	private void ToMoveState(){
+		turning = false;
+	}
+
+	private int NextPathPoint(){
+		nextPoint += 1;
+		nextPoint %= path.Count;
+		return nextPoint;
+	}
 }
