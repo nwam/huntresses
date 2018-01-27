@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,7 +53,7 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private List<Vector2> path;
 	private int nextPoint = 0;
 
-	[SerializeFiled]
+	[SerializeField]
 	public GameObject corpsePrefab;
 	private Corpse harvestTarget, harvestingTarget;
 
@@ -250,17 +249,6 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 		nextPoint += 1;
 		nextPoint %= path.Count;
 		return nextPoint;
-	}
-
-
-	public void GetShot(int damage) {
-		health -= damage;
-		Debug.Log(name + " got shot, now I have " + health + "hp");
-
-		if (health <= 0) {
-			// Die
-			Debug.Log(name + " is dead");
-		}
 	}
 
 	public void Freeze() {

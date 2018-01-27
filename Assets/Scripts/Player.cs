@@ -108,6 +108,14 @@ public class Player : MonoBehaviour, IShootable {
                 }
             }
         }
+        else // Not selected
+        {
+            // Overwatching
+            if (overwatching)
+            {
+                Overwatch();
+            }
+        }
 
         // Harvesting
 
@@ -120,13 +128,6 @@ public class Player : MonoBehaviour, IShootable {
             }
             else {
                 Debug.Log("This corpse has " + harvestingTarget.getBloodCapacity() + " blood left.");
-            }
-        }
-        else // Not selected
-        {
-            // Overwatching
-            if (overwatching) {
-                Overwatch();
             }
         }
     }
