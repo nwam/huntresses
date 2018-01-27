@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, IShootable
     public string playerID = "0";
 
     private Corpse harvestTarget, harvestingTarget; // harvestTarget is for proximity check, harvestingTarget is for no multiple drain check
+    private bool harvesting = false;
 
     // Use this for initialization
     void Start()
@@ -58,45 +59,62 @@ public class Player : MonoBehaviour, IShootable
 
             //transform.LookAt(Input.mousePosition);
 
-            // Player Movement controls
-            if (Input.GetKey(KeyCode.W))
-            {
-                transform.position += Vector3.up * speed * Time.deltaTime;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                transform.position += Vector3.down * speed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.position += Vector3.left * speed * Time.deltaTime;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                transform.position += Vector3.right * speed * Time.deltaTime;
-            }
+            if (!harvesting) {
 
-            // Shooting controls
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                Shoot();
-            }
-
-            // Harvesting
-
-            if (Input.GetKey(KeyCode.Q)) {
-                if (harvestTarget == null) {
-                    Debug.Log("I don't have a corpse to harvest!");
+                // Player Movement controls
+                if (Input.GetKey(KeyCode.W)) {
+                    transform.position += Vector3.up * speed * Time.deltaTime;
                 }
-                else if (!Harvest(harvestTarget)) {
-                    Debug.Log("This corpse has no blood left to drain!");
+                else if (Input.GetKey(KeyCode.S)) {
+                    transform.position += Vector3.down * speed * Time.deltaTime;
+                }
+                if (Input.GetKey(KeyCode.A)) {
+                    transform.position += Vector3.left * speed * Time.deltaTime;
+                }
+                else if (Input.GetKey(KeyCode.D)) {
+                    transform.position += Vector3.right * speed * Time.deltaTime;
+                }
+
+                // Shooting controls
+                if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                    Shoot();
+                }
+            }
+
+            // Harvesting Toggle
+
+            if (Input.GetKeyDown(KeyCode.Q)) {
+                if (!harvesting) {
+                    if (harvestTarget == null) {
+                        Debug.Log("I don't have a corpse to harvest!");
+                    }
+                    else {
+                        harvesting = true;
+                    }
                 }
                 else {
-                    Debug.Log("This corpse has" + harvestTarget.getBloodCapacity() + " blood left");
+                    harvesting = false;
+                    harvestingTarget.setBeingHarvested(false);
+                    harvestingTarget = null;
                 }
             }
-
         }
+
+        // Harvesting
+
+        if (harvesting) {
+            if (!Harvest(harvestTarget)) {
+                Debug.Log("This corpse has no blood left to drain!");
+                harvesting = false;
+                harvestingTarget.setBeingHarvested(false);
+                harvestingTarget = null; // Reset harvesting target
+            }
+            else {
+                Debug.Log("This corpse has " + harvestingTarget.getBloodCapacity() + " blood left.");
+            }
+        }
+        
+
     }
 
     public bool isSelected() {
