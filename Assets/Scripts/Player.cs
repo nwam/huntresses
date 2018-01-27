@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private float speed = 5f;
     [SerializeField]
     private float health = 1f;
+    [SerializeField]
+
 
     private bool selected = false;
     private bool stoppingTime = false;

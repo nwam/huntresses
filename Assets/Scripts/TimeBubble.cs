@@ -50,7 +50,6 @@ public class TimeBubble : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log("timebubble collides with " + collision.gameObject.name);
         IFreezable freezable = collision.gameObject.GetComponent<IFreezable>();
 
         if(freezable != null) {
@@ -62,7 +61,6 @@ public class TimeBubble : MonoBehaviour {
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-        Debug.Log("timebubble STOPS collide with " + collision.gameObject.name);
         IFreezable freezable = collision.gameObject.GetComponent<IFreezable>();
 
         if (freezable != null) {
