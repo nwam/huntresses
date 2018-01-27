@@ -11,17 +11,22 @@ public class Player : MonoBehaviour, IShootable {
     [SerializeField]
     private float fov = 60; // in degrees
     [SerializeField]
-    private bool selected = false;
-    [SerializeField]
     private KeyCode harvestKey;
+    [SerializeField]
+    private string playerID = "0";
+    [SerializeField]
+    private PlayerFollowCam followCam;
+
+    [SerializeField]
+    private float timePerShot = 1f; // in seconds
+    private float timeUntilShot = 0f;
 
     public GameObject bulletPrefab;
     public GameObject corpsePrefab;
-    //public TimeBubble timeBubble;
 
     private BloodPool bloodPool;
 
-    public string playerID = "0";
+    private bool selected = false;
 
     private Corpse harvestTarget, harvestingTarget; // harvestTarget is for proximity check, harvestingTarget is for no multiple drain check
     private bool harvesting = false;
@@ -31,13 +36,18 @@ public class Player : MonoBehaviour, IShootable {
 
     // Use this for initialization
     void Start() {
+       bloodPool = FindObjectOfType<BloodPool>();
         if (playerID == "1") {
             Select();
         }
-        bloodPool = FindObjectOfType<BloodPool>();
     }
 
     private void FixedUpdate() {
+        if (timeUntilShot > 0f)
+        {
+            timeUntilShot -= Time.deltaTime;
+        }
+
         // Select player
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
             if (Input.GetKeyDown(playerID)) {
@@ -99,6 +109,14 @@ public class Player : MonoBehaviour, IShootable {
                 }
             }
         }
+        else // Not selected
+        {
+            // Overwatching
+            if (overwatching)
+            {
+                Overwatch();
+            }
+        }
 
         // Harvesting
 
@@ -109,25 +127,16 @@ public class Player : MonoBehaviour, IShootable {
                 harvestingTarget.setBeingHarvested(false);
                 harvestingTarget = null; // Reset harvesting target
             }
-            else {
-                Debug.Log("This corpse has " + harvestingTarget.getBloodCapacity() + " blood left.");
-            }
-        }
-        else // Not selected
-        {
-            // Overwatching
-            if (overwatching) {
-                Overwatch();
-            }
         }
     }
 
-    public bool isSelected() {
+    public bool IsSelected() {
         return selected;
     }
 
     void Select() {
         selected = true;
+        followCam.setActivePlayer(gameObject.transform);
         //timeBubble.SetSelectedPlayer(this);
     }
 
@@ -142,8 +151,12 @@ public class Player : MonoBehaviour, IShootable {
     }
 
     void Shoot() {
-        // Fire a bullet in the direction the player is facing
-        GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
+        if (timeUntilShot <= 0f)
+        {
+            // Fire a bullet in the direction the player is facing
+            GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
+            timeUntilShot = timePerShot;
+        }
     }
 
     void StartOverwatch() {

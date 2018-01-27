@@ -105,6 +105,7 @@ MonoBehaviour:
   fov: 60
   health: 3
   speed: 10
+  chaseSpeed: 20
   turnSpeed: 0.1
   spinSpeed: 8
   path: []

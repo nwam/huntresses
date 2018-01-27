@@ -20,9 +20,6 @@ public class Corpse : MonoBehaviour {
 		
 	}
 
-    public float getBloodCapacity() { return bloodCapacity; }
-    public void setBloodCapacity(float bc) { bloodCapacity = bc; }
-
     public bool getBeingHarvested() { return beingHarvested; }
     public void setBeingHarvested(bool bh) { beingHarvested = bh; }
 
