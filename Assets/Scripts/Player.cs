@@ -83,6 +83,10 @@ public class Player : MonoBehaviour
 
             // Harvesting
 
+            if (Input.GetKeyDown(KeyCode.Q)) {
+                // TODO: Find nearest corpse and attempt to drain blood from it
+            }
+
         }
     }
 
@@ -124,7 +128,7 @@ public class Player : MonoBehaviour
         {
             harvestTarget = corpse;
             float drained = corpse.beHarvested();
-            
+            bloodPool.Fill((int)drained); // TODO: Change blood pool to be a float?
             return drained != 0;
         }
 
