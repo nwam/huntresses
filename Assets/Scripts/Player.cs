@@ -10,6 +10,8 @@ public class Player : MonoBehaviour, IShootable
     [SerializeField]
     private float health = 1f;
     [SerializeField]
+    private float fov = 60; // in degrees
+    [SerializeField]
     private bool selected = false;
     [SerializeField]
     private KeyCode harvestKey;
@@ -166,21 +168,30 @@ public class Player : MonoBehaviour, IShootable
 
     private GameObject LookForEnemy()
     {
-        Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.up.normalized);
-
-        //Debug.Log(frontOfSelf);
-
-        RaycastHit2D castHit = Physics2D.Raycast(frontOfSelf, transform.up);
-
-        if (castHit.transform != null)
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
         {
-            GameObject hitObject = castHit.transform.gameObject;
+            float angle = Vector2.Angle(enemy.transform.position - transform.position, transform.up);
 
-            if (hitObject.CompareTag("Enemy"))
+            if (Mathf.Abs(angle) <= fov / 2)
             {
-                return hitObject;
+                Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.up.normalized);
+                Vector2 rayDirection = enemy.transform.position - transform.position;
+                RaycastHit2D castHit = Physics2D.Raycast(frontOfSelf, rayDirection);
+                Debug.DrawRay(frontOfSelf, rayDirection);
+
+                if (castHit.transform != null)
+                {
+                    GameObject hitObject = castHit.transform.gameObject;
+
+                    if (hitObject.CompareTag("Enemy"))
+                    {
+                        return hitObject;
+                    }
+                }
             }
         }
+        
         return null;
     }
 
