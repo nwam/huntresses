@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TimeBubble : MonoBehaviour {
 
-    private BloodPool bloodPool = BloodPool.Instance();
-
     private bool isActive;
     private Renderer rend;
 
@@ -13,6 +11,9 @@ public class TimeBubble : MonoBehaviour {
 
     [SerializeField]
     private Player attachedPlayer;
+
+    [SerializeField]
+    private BloodPool bloodPool;
 
     [SerializeField]
     private KeyCode key;
@@ -31,12 +32,22 @@ public class TimeBubble : MonoBehaviour {
             isActive = !isActive;
         }
 
+        if (isActive) {
+            // Drain Blood
+            if (!bloodPool.Withdraw()) {
+                isActive = false;
+                return;
+            }
+        }
+
         rend.enabled = isActive;
 
-        // Remove destroyed objects
-        for(int i = 0; i < collisions.Count; i++) {
-            if(collisions[i].isDestroyed()) {
-                collisions.RemoveAt(i);
+        if(isActive) {
+            // Remove destroyed objects - should be a way to optimize this
+            for (int i = 0; i < collisions.Count; i++) {
+                if (collisions[i].isDestroyed()) {
+                    collisions.RemoveAt(i);
+                }
             }
         }
 

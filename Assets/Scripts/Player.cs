@@ -10,17 +10,18 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float health = 1f;
     [SerializeField]
-
-
     private bool selected = false;
-    private bool stoppingTime = false;
+    [SerializeField]
+    private KeyCode harvestKey;
 
     public GameObject bulletPrefab;
     //public TimeBubble timeBubble;
 
+    private BloodPool bloodPool;
+
     public string playerID = "0";
-    
-    Corpse harvestTarget;
+
+    private Corpse harvestTarget;
 
     // Use this for initialization
     void Start()
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
         {
             Select();
         }
+        bloodPool = FindObjectOfType<BloodPool>();
     }
 
     private void FixedUpdate()
@@ -78,6 +80,9 @@ public class Player : MonoBehaviour
             {
                 Shoot();
             }
+
+            // Harvesting
+
         }
     }
 
@@ -97,7 +102,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Fire a bullet in the direction the player is facing
-        GameObject newBulletGO = (GameObject)Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
+        GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
     }
     
     public void GetShot(int damage) {
@@ -111,15 +116,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool Harvest(Corpse corpse)
-    {
+    public bool Harvest(Corpse corpse) {
         CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
         CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
 
         if (harvester.IsTouching(harvestable) && (!corpse.getBeingHarvested() || corpse == harvestTarget))
         {
+            harvestTarget = corpse;
             float drained = corpse.beHarvested();
-            // TODO: Fill blood pool
+            
             return drained != 0;
         }
 
