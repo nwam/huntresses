@@ -4,18 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BloodPool : MonoBehaviour {
-
-    /*
-    // Singleton
-    private static BloodPool instance;
-
-    public static BloodPool Instance() {
-        if(instance == null) {
-            instance = new BloodPool();
-        }
-        return instance;
-    }*/
-    
     [SerializeField]
     private int maxDuration = 60;       // In seconds
 
@@ -62,7 +50,6 @@ public class BloodPool : MonoBehaviour {
 
     IEnumerator displayNotEnoughBlood() {
         needBloodIndicator.SetActive(true);
-
         yield return new WaitForSeconds(1);
         needBloodIndicator.SetActive(false);
     }
