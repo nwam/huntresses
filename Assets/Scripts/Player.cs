@@ -11,9 +11,7 @@ public class Player : MonoBehaviour
     private float health = 1f;
     [SerializeField]
 
-
     private bool selected = false;
-    private bool stoppingTime = false;
 
     public GameObject bulletPrefab;
     //public TimeBubble timeBubble;
@@ -95,7 +93,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Fire a bullet in the direction the player is facing
-        GameObject newBulletGO = (GameObject)Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
+        GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
     }
     
     public void GetShot(int damage) {
