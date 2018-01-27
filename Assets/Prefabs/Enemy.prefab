@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 61352582299436646}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,8 @@ MonoBehaviour:
   turnSpeed: 0.1
   health: 3
   path: []
+  corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
+    type: 2}
 --- !u!212 &212638545848714966
 SpriteRenderer:
   m_ObjectHideFlags: 1

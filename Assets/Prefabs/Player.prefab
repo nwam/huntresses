@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 212275460987801538}
   - component: {fileID: 114792938100059168}
   - component: {fileID: 58257990941636144}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TimeBubble
   m_TagString: ignores-bullets
   m_Icon: {fileID: 0}

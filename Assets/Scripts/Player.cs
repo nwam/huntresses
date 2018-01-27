@@ -24,6 +24,9 @@ public class Player : MonoBehaviour, IShootable
 
     private Corpse harvestTarget;
 
+    private bool overwatching = false;
+    private Quaternion overwatchRotation;
+
     // Use this for initialization
     void Start()
     {
@@ -61,29 +64,44 @@ public class Player : MonoBehaviour, IShootable
             // Player Movement controls
             if (Input.GetKey(KeyCode.W))
             {
-                transform.position += Vector3.up * speed * Time.deltaTime;
+                Move(Vector3.up);
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                transform.position += Vector3.down * speed * Time.deltaTime;
+                Move(Vector3.down);
             }
             if (Input.GetKey(KeyCode.A))
             {
-                transform.position += Vector3.left * speed * Time.deltaTime;
+                Move(Vector3.left);
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                transform.position += Vector3.right * speed * Time.deltaTime;
+                Move(Vector3.right);
             }
 
             // Shooting controls
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 Shoot();
+                EndOverwatch();
+            }
+
+            // Overwatch
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                StartOverwatch();
             }
 
             // Harvesting
 
+        }
+        else // Not selected
+        {
+            // Overwatching
+            if (overwatching)
+            {
+                Overwatch();
+            }
         }
     }
 
@@ -100,12 +118,72 @@ public class Player : MonoBehaviour, IShootable
         selected = false;
     }
 
+    void Move(Vector3 direction)
+    {
+        transform.position += direction * speed * Time.deltaTime;
+
+        EndOverwatch();
+    }
+
     void Shoot()
     {
         // Fire a bullet in the direction the player is facing
         GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
     }
-    
+
+    void StartOverwatch()
+    {
+        overwatching = true;
+        overwatchRotation = transform.rotation;
+        Debug.Log("Player " + playerID + " overwatching");
+    }
+
+    void EndOverwatch()
+    {
+        overwatching = false;
+    }
+
+    void Overwatch()
+    {
+        transform.rotation = overwatchRotation;
+
+        // Find an enemy.
+        GameObject visibleEnemy = LookForEnemy();
+        if (visibleEnemy == null)
+        {
+            Debug.Log("No visible enemy");
+            return;
+        }
+
+        // Found an enemy. Rotate to point right at enemy.
+        Vector3 targetVector = visibleEnemy.transform.position - transform.position;
+        transform.rotation = Quaternion.LookRotation(transform.forward, targetVector);
+
+        // FIRE ZE ARROWS!!!1!
+        Shoot();
+
+    }
+
+    private GameObject LookForEnemy()
+    {
+        Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.up.normalized);
+
+        //Debug.Log(frontOfSelf);
+
+        RaycastHit2D castHit = Physics2D.Raycast(frontOfSelf, transform.up);
+
+        if (castHit.transform != null)
+        {
+            GameObject hitObject = castHit.transform.gameObject;
+
+            if (hitObject.CompareTag("Enemy"))
+            {
+                return hitObject;
+            }
+        }
+        return null;
+    }
+
     public void GetShot(int damage) {
         // Duped with Enemy but will diverge later (right?)
         // Re: above: probably won't? both should die and leave behind a corpse. Their Die() methods will differ once we get sprites in.
