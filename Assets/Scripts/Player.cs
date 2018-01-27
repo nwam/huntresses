@@ -13,13 +13,17 @@ public class Player : MonoBehaviour
     private bool selected = false;
     private bool stoppingTime = false;
 
-
     public GameObject bulletPrefab;
+
+    public string playerID = "0";
 
     // Use this for initialization
     void Start()
     {
-        selected = true;
+        if (playerID == "1")
+        {
+            selected = true;
+        }
     }
 
     // Update is called once per frame
@@ -30,13 +34,26 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Select player
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (Input.GetKeyDown(playerID))
+            {
+                selected = true;
+            }
+            else
+            {
+                selected = false;
+            }
+        }
+
         if (selected)
         {
             // Face cursor
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 targetVector = mousePosition - transform.position;
             transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
-            
+
             //transform.LookAt(Input.mousePosition);
 
             // Player Movement controls
@@ -56,14 +73,15 @@ public class Player : MonoBehaviour
             {
                 transform.position += Vector3.right * speed * Time.deltaTime;
             }
-            
+
             // Time Stop controls
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (stoppingTime)
                 {
                     StartTime();
-                } else
+                }
+                else
                 {
                     StopTime();
                 }
