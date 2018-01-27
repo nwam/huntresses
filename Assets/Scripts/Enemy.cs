@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
     [SerializeField]
     private float speed = 10f;
+	[SerializeField]
+	private float chaseSpeed = 20f;
 	private float defaultSpeed;
 	private float currentSpeed;
     
@@ -80,6 +82,7 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 		// Because we don't want all of our speeds to be 0.01, 0.015, etc.
 		defaultSpeed = speed * SPEED_MULTIPLIER;
+		chaseSpeed *= SPEED_MULTIPLIER;
 		currentSpeed = defaultSpeed;
 
 		fullSpinUpdates = (int) (360 / spinSpeed);
@@ -143,6 +146,9 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 		/* Following last seen player location */
 		else if (playerLocations.Count > 0) {
+			if (currentSpeed != 0) {
+				currentSpeed = chaseSpeed;
+			}
 			if (!Move (playerLocations.Peek ().location)) {
 				ToSpinState ();
 			}
@@ -150,6 +156,9 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
 		/* Returning to where we last left our patrol path */
 		else if (returningToPath) {
+			if (currentSpeed != 0) {
+				currentSpeed = defaultSpeed;
+			}
 			if (!Move (lastPathLocation)) {
 				returningToPath = false;
 			}

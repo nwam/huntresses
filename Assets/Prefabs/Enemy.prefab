@@ -99,9 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0005230d6e853254cb5dbbb772df90d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  turnSpeed: 0.1
+  projectilePrefab: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200,
+    type: 2}
+  projectileCooldown: 30
+  fov: 60
   health: 3
+  speed: 10
+  chaseSpeed: 20
+  turnSpeed: 0.1
+  spinSpeed: 8
   path: []
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
