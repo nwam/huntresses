@@ -8,7 +8,7 @@ public class BloodPool : MonoBehaviour {
     private float maxDuration = 60;       // In seconds
 
     [SerializeField]
-    private float drainPerSecond = 1;
+    private float drainPerSecond = 0;
 
     [SerializeField]
     private Text text;

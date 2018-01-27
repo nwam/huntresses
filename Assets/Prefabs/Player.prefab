@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 61674716243720970}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,13 +149,14 @@ MonoBehaviour:
   speed: 5
   health: 10
   fov: 60
-  selected: 0
   harvestKey: 113
+  playerID: 0
+  followCam: {fileID: 0}
+  timePerShot: 1
   bulletPrefab: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
-  playerID: 0
 --- !u!114 &114792938100059168
 MonoBehaviour:
   m_ObjectHideFlags: 1
