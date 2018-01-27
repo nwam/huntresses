@@ -10,13 +10,18 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float health = 1f;
     [SerializeField]
-
     private bool selected = false;
+    [SerializeField]
+    private KeyCode harvestKey;
 
     public GameObject bulletPrefab;
     //public TimeBubble timeBubble;
 
+    private BloodPool bloodPool;
+
     public string playerID = "0";
+
+    private Corpse harvestTarget;
 
     // Use this for initialization
     void Start()
@@ -25,6 +30,7 @@ public class Player : MonoBehaviour
         {
             Select();
         }
+        bloodPool = FindObjectOfType<BloodPool>();
     }
 
     private void FixedUpdate()
@@ -74,6 +80,9 @@ public class Player : MonoBehaviour
             {
                 Shoot();
             }
+
+            // Harvesting
+
         }
     }
 
@@ -105,5 +114,20 @@ public class Player : MonoBehaviour
             // Die
             Debug.Log(name + " is dead");
         }
+    }
+
+    public bool Harvest(Corpse corpse) {
+        CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
+        CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
+
+        if (harvester.IsTouching(harvestable) && (!corpse.getBeingHarvested() || corpse == harvestTarget))
+        {
+            harvestTarget = corpse;
+            float drained = corpse.beHarvested();
+            
+            return drained != 0;
+        }
+
+        return false;
     }
 }

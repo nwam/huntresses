@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 	private Quaternion startRotation;
 	private int turningUpdates;
 
+    private Corpse harvestTarget;
+
     // Use this for initialization
     void Start()
 	{
@@ -63,7 +65,7 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 		return false;
 	}
 
-	private void Move(){
+	private void Move(){        
 		transform.position = Vector2.MoveTowards (transform.position, path [nextPoint], currentSpeed);
 
 		if ((Vector2)transform.position == path [nextPoint]) {
@@ -125,5 +127,19 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable
 
     public bool isDestroyed() {
         return this == null;
+    }
+
+    public bool Harvest(Corpse corpse) {
+        CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
+        CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
+
+        if (harvester.IsTouching(harvestable) && (!corpse.getBeingHarvested() || corpse == harvestTarget)) {
+            harvestTarget = corpse;
+            float drained = corpse.beHarvested();
+            return drained != 0;
+
+        }
+
+        return false;
     }
 }

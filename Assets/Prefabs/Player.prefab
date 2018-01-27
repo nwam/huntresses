@@ -174,9 +174,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   health: 10
+  selected: 0
+  harvestKey: 113
   bulletPrefab: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  playerID: 1
+  playerID: 0
 --- !u!114 &114792938100059168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attachedPlayer: {fileID: 114168982197938162}
+  bloodPool: {fileID: 0}
   key: 101
 --- !u!212 &212275460987801538
 SpriteRenderer:
