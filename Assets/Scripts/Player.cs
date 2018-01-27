@@ -15,6 +15,10 @@ public class Player : MonoBehaviour, IShootable {
     [SerializeField]
     private KeyCode harvestKey;
 
+    [SerializeField]
+    private float timePerShot = 1f; // in seconds
+    private float timeUntilShot = 0f;
+
     public GameObject bulletPrefab;
     public GameObject corpsePrefab;
     //public TimeBubble timeBubble;
@@ -38,6 +42,11 @@ public class Player : MonoBehaviour, IShootable {
     }
 
     private void FixedUpdate() {
+        if (timeUntilShot > 0f)
+        {
+            timeUntilShot -= Time.deltaTime;
+        }
+
         // Select player
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
             if (Input.GetKeyDown(playerID)) {
@@ -142,8 +151,12 @@ public class Player : MonoBehaviour, IShootable {
     }
 
     void Shoot() {
-        // Fire a bullet in the direction the player is facing
-        GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
+        if (timeUntilShot <= 0f)
+        {
+            // Fire a bullet in the direction the player is facing
+            GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
+            timeUntilShot = timePerShot;
+        }
     }
 
     void StartOverwatch() {
