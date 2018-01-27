@@ -11,7 +11,8 @@ public class TimeBubble : MonoBehaviour {
 
     private List<IFreezable> collisions = new List<IFreezable>();
 
-    private Transform activePlayerPos;
+    [SerializeField]
+    private Player attachedPlayer;
 
     [SerializeField]
     private KeyCode key;
@@ -26,23 +27,26 @@ public class TimeBubble : MonoBehaviour {
 	void Update () {
         bool wasActive = isActive;
 
-        if(Input.GetKeyDown(key)) {
+        if(Input.GetKeyDown(key) && attachedPlayer.isSelected()) {
             isActive = !isActive;
         }
 
         rend.enabled = isActive;
 
-        transform.position = activePlayerPos.transform.position;
+        // Remove destroyed objects
+        for(int i = 0; i < collisions.Count; i++) {
+            if(collisions[i].isDestroyed()) {
+                collisions.RemoveAt(i);
+            }
+        }
+
+        transform.position = attachedPlayer.transform.position;
         if (isActive && !wasActive) {
             collisions.ForEach(obj => obj.Freeze());
         }
         else if(!isActive && wasActive) {
             collisions.ForEach(obj => obj.UnFreeze());
         }
-    }
-
-    public void SetSelectedPlayer(Player player) {
-        activePlayerPos = player.transform;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

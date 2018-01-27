@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private bool stoppingTime = false;
 
     public GameObject bulletPrefab;
-    public TimeBubble timeBubble;
+    //public TimeBubble timeBubble;
 
     public string playerID = "0";
 
@@ -76,10 +76,14 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public bool isSelected() {
+        return selected;
+    }
     
     void Select() {
         selected = true;
-        timeBubble.SetSelectedPlayer(this);
+        //timeBubble.SetSelectedPlayer(this);
     }
 
     void Deselect() {

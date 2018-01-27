@@ -51,4 +51,8 @@ public class Bullet : MonoBehaviour, IFreezable {
         Debug.Log(name + " unfrozen");
         currentSpeed = SPEED;
     }
+
+    public bool isDestroyed() {
+        return this == null;
+    }
 }

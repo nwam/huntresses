@@ -70,4 +70,8 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable {
         currentSpeed = SPEED;
         // Restore ability to rotate and shoot
     }
+
+    public bool isDestroyed() {
+        return this == null;
+    }
 }
