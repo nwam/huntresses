@@ -24,10 +24,8 @@ public class Player : MonoBehaviour
         if (playerID == "1")
         {
             Select();
-            timeBubble = GetComponent<TimeBubble>();
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -36,11 +34,11 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(playerID))
             {
-                selected = true;
+                Select();
             }
             else
             {
-                selected = false;
+                Deselect();
             }
         }
 
