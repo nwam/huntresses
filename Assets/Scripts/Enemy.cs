@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private float turnSpeed = 0.1f;
     [SerializeField]
     private int health = 3;
+
 	[SerializeField]
 	private List<Vector2> path;
 	private int nextPoint = 0;
@@ -32,6 +33,10 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+		if (LookForPlayer ()) {
+			print ("Found Player!");
+		}
+
 		if (!turning) {
 			Move ();
 		} else {
@@ -39,6 +44,20 @@ public class Enemy : MonoBehaviour
 		}
     }
 
+
+	private bool LookForPlayer(){
+		Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.right.normalized);
+		RaycastHit2D castHit = Physics2D.Raycast (frontOfSelf, transform.right);
+
+		if (castHit.transform != null) {
+			GameObject hitObject = castHit.transform.gameObject;
+
+			if (hitObject.CompareTag("Player")){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private void Move(){
 		transform.position = Vector2.MoveTowards (transform.position, path [nextPoint], speed);
@@ -50,12 +69,11 @@ public class Enemy : MonoBehaviour
 	}
 
 	private void Turn(){
+		float turnProgress = turnSpeed * turningUpdates++;
 		Vector3 targetDirection = path [nextPoint] - (Vector2)transform.position;
 		float targetAngle = Mathf.Atan2 (targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
 		Quaternion targetRotation = Quaternion.AngleAxis (targetAngle, Vector3.forward);
-		float turnProgress = turnSpeed * turningUpdates;
 		transform.rotation = Quaternion.Slerp (startRotation, targetRotation, turnSpeed*turningUpdates);
-		turningUpdates += 1;
 
 		if (turnProgress >= 1) {
 			ToMoveState ();
