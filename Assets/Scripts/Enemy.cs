@@ -2,76 +2,144 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IShootable, IFreezable {
-
-    public const float SPEED = 5f;
+public class Enemy : MonoBehaviour, IShootable, IFreezable 
+{
+	private const float SPEED_MULTIPLIER = 0.01f;
 
     [SerializeField]
-    private float turnSpeed = 7.5f;
+    private float speed = 10f;
+	private float defaultSpeed;
+	private float currentSpeed;
+    [SerializeField]
+    private float turnSpeed = 0.1f;
     [SerializeField]
     private int health = 3;
 
-    private float currentSpeed = SPEED;
+	[SerializeField]
+	private List<Vector2> path;
+	private int nextPoint = 0;
+
+	private Stack<Vector2> playerLocations;
+
+	private bool turning = true;
+	private Quaternion startRotation;
+	private int turningUpdates;
+
+    private Corpse harvestTarget;
+
+    // Use this for initialization
+    void Start()
+	{
+		transform.position = path [nextPoint];
+		NextPathPoint ();
+
+		// Because we don't want all of our speeds to be 0.01, 0.015, etc.
+		defaultSpeed = speed * SPEED_MULTIPLIER;
+		currentSpeed = defaultSpeed;
+    }
 
     private void FixedUpdate()
     {
-        bool turning = false;
-        if (transform.position.y >= 5)
-        {
-            transform.SetPositionAndRotation(new Vector3(transform.position.x, 5, 0), transform.rotation);
-            transform.Rotate(transform.forward, 180 * turnSpeed * Time.deltaTime);
-            if (transform.rotation.z > 0)
-            {
-                turning = true;
-            }
-            else
-            {
-                transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 180));
-            }
-        }
-        else if (transform.position.y <= -5)
-        {
-            transform.SetPositionAndRotation(new Vector3(transform.position.x, -5, 0), transform.rotation);
-            transform.Rotate(transform.forward, 180 * turnSpeed * Time.deltaTime);
-            if (transform.rotation.z < 0)
-            {
-                turning = true;
-            }
-            else
-            {
-                transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
-            }
-        }
+		if (LookForPlayer ()) {
+			print ("Found Player!");
+		}
 
-        if (!turning)
-        {
-            transform.position += currentSpeed * transform.up * Time.deltaTime;
-        }
+		if (!turning) {
+			Move ();
+		} else {
+			Turn ();
+		}
     }
 
-    public void GetShot(int damage) {
-        health -= damage;
-        Debug.Log(name + " got shot, now I have " + health + "hp");
+	private bool LookForPlayer(){
+		Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * transform.right.normalized);
+		RaycastHit2D castHit = Physics2D.Raycast (frontOfSelf, transform.right);
 
-        if (health <= 0) {
-            // Die
-            Debug.Log(name + " is dead");
-        }
-    }
+		if (castHit.transform != null) {
+			GameObject hitObject = castHit.transform.gameObject;
 
-    public void Freeze() {
-        Debug.Log(name + " frozen");
-        currentSpeed = 0;
-        // Also cannot rotate or shoot
-    }
+			if (hitObject.CompareTag("Player")){
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public void UnFreeze() {
-        Debug.Log(name + " unfrozen");
-        currentSpeed = SPEED;
-        // Restore ability to rotate and shoot
-    }
+	private void Move(){        
+		transform.position = Vector2.MoveTowards (transform.position, path [nextPoint], currentSpeed);
+
+		if ((Vector2)transform.position == path [nextPoint]) {
+			NextPathPoint ();
+			ToTurnState ();
+		}
+	}
+
+	private void Turn(){
+		float turnProgress = turnSpeed * turningUpdates++;
+		Vector3 targetDirection = path [nextPoint] - (Vector2)transform.position;
+		float targetAngle = Mathf.Atan2 (targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+		Quaternion targetRotation = Quaternion.AngleAxis (targetAngle, Vector3.forward);
+		transform.rotation = Quaternion.Slerp (startRotation, targetRotation, turnSpeed*turningUpdates);
+
+		if (turnProgress >= 1) {
+			ToMoveState ();
+		}
+	}
+
+	private void ToTurnState(){
+		turning = true;
+		startRotation = transform.rotation;
+		turningUpdates = 0;
+	}
+
+	private void ToMoveState(){
+		turning = false;
+	}
+
+	private int NextPathPoint(){
+		nextPoint += 1;
+		nextPoint %= path.Count;
+		return nextPoint;
+	}
+
+
+	public void GetShot(int damage) {
+		health -= damage;
+		Debug.Log(name + " got shot, now I have " + health + "hp");
+
+		if (health <= 0) {
+			// Die
+			Debug.Log(name + " is dead");
+		}
+	}
+
+	public void Freeze() {
+		Debug.Log(name + " frozen");
+		currentSpeed = 0;
+		// Also cannot rotate or shoot
+	}
+
+	public void UnFreeze() {
+		Debug.Log(name + " unfrozen");
+		currentSpeed = defaultSpeed;
+		// Restore ability to rotate and shoot
+	}
 
     public bool isDestroyed() {
         return this == null;
+    }
+
+    public bool Harvest(Corpse corpse) {
+        CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
+        CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
+
+        if (harvester.IsTouching(harvestable) && (!corpse.getBeingHarvested() || corpse == harvestTarget)) {
+            harvestTarget = corpse;
+            float drained = corpse.beHarvested();
+            return drained != 0;
+
+        }
+
+        return false;
     }
 }
