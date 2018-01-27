@@ -11,7 +11,7 @@ public class TimeBubble : MonoBehaviour {
 
     private List<IFreezable> collisions = new List<IFreezable>();
 
-    private Player activePlayer;
+    private static Player activePlayer;
 
     [SerializeField]
     private KeyCode key;
@@ -35,6 +35,10 @@ public class TimeBubble : MonoBehaviour {
         else if(!isActive && wasActive) {
             collisions.ForEach(obj => obj.UnFreeze());
         }
+    }
+
+    public static void SetSelectedPlayer(Player player) {
+        activePlayer = player;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
