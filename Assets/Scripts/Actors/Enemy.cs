@@ -42,6 +42,7 @@ public class Enemy : Actor, IFreezable {
     private Stack<PlayerLocation> playerLocations;
     private Vector2 lastSeenPlayerLoc;
     private bool seePlayer = false;
+    private bool waiting = true;
 
     // Keep track of the direction which the player is heading in
     private float deltaRot = 0;
@@ -56,6 +57,11 @@ public class Enemy : Actor, IFreezable {
     void Start() {
         transform.position = path[nextPoint];
         NextPathPoint();
+
+        if (0 != nextPoint)
+        {
+            waiting = false;
+        }
 
         playerLocations = new Stack<PlayerLocation>();
 
@@ -86,6 +92,7 @@ public class Enemy : Actor, IFreezable {
             seePlayer = true;
             spinning = false;
             turning = false;
+            waiting = false;
 
             // Track the player's location
             lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
@@ -147,7 +154,13 @@ public class Enemy : Actor, IFreezable {
 
         /* On preset path */
         else {
-            if (!turning) {
+            if (waiting) {
+                int oldPoint = nextPoint;
+                if (NextPathPoint() != oldPoint) {
+                    waiting = false;
+                }
+            }
+            else if (!turning) {
                 if (!Move(path[nextPoint])) {
                     NextPathPoint();
                     ToTurnState();
