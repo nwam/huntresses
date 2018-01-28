@@ -101,6 +101,17 @@ public class Player : Actor, IShootable {
         }
     }
 
+    private void OnMouseOver() {
+        if (Input.GetKeyDown(KeyCode.Mouse1)) {
+            Player[] players = FindObjectsOfType<Player>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].Deselect();
+            }
+            Select();
+        }
+    }
+
     public bool IsSelected() {
         return selected;
     }
