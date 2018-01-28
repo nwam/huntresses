@@ -24,6 +24,17 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     private List<Corpse> harvestableCorpses = new List<Corpse>();
     protected bool isHarvesting = false;
 
+	Animator animator;
+
+	void Start(){
+		animator = GetComponent<Animator> ();
+		AfterStart ();
+	}
+
+	protected virtual void AfterStart(){
+
+	}
+
     // Update is called once per frame
     protected virtual void FixedUpdate() {
         if (timeUntilShot > 0f) {

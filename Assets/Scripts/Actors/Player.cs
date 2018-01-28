@@ -19,7 +19,7 @@ public class Player : Actor, IShootable {
     private Quaternion overwatchRotation;
 
     // Use this for initialization
-    void Start() {
+    protected override void AfterStart() {
         bloodPool = FindObjectOfType<BloodPool>();  
         if (playerID == "1") {
             Select();

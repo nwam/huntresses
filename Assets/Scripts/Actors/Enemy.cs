@@ -53,7 +53,7 @@ public class Enemy : Actor, IFreezable {
     private Vector2 lastPathLocation;
 
     // Use this for initialization
-    void Start() {
+    protected override void AfterStart() {
         transform.position = path[nextPoint];
         NextPathPoint();
 
