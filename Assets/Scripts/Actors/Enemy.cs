@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Enemy : Actor, IFreezable {
 
-    private struct PlayerLocation {
+    public struct PlayerLocation {
         public Vector2 location;
         public int direction;
 
@@ -24,7 +24,7 @@ public class Enemy : Actor, IFreezable {
     private float currentSpeed;
 
     [SerializeField]
-    private float turnSpeed = 0.1f;     // Percent of turn per FixedUpdate
+    private float turnSpeed = 8.0f;     // Degrees per FixedUpdate
     private bool turning = true;
     private Quaternion startRotation;
     private int turningUpdates;
@@ -42,6 +42,7 @@ public class Enemy : Actor, IFreezable {
     private Stack<PlayerLocation> playerLocations;
     private Vector2 lastSeenPlayerLoc;
     private bool seePlayer = false;
+    private bool waiting = true;
 
     // Keep track of the direction which the player is heading in
     private float deltaRot = 0;
@@ -58,6 +59,11 @@ public class Enemy : Actor, IFreezable {
     protected override void AfterStart() {
         transform.position = path[nextPoint];
         NextPathPoint();
+
+        if (0 != nextPoint)
+        {
+            waiting = false;
+        }
 
         playerLocations = new Stack<PlayerLocation>();
 
@@ -96,6 +102,7 @@ public class Enemy : Actor, IFreezable {
             seePlayer = true;
             spinning = false;
             turning = false;
+            waiting = false;
 
             // Track the player's location
             lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
@@ -135,7 +142,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Following last seen player location */
         else if (playerLocations.Count > 0) {
-            // Debug.Log("Chasing");
+            Debug.Log("Chasing to " + playerLocations.Peek().location);
             if (currentSpeed != 0) {
                 currentSpeed = chaseSpeed;
             }
@@ -157,7 +164,13 @@ public class Enemy : Actor, IFreezable {
 
         /* On preset path */
         else {
-            if (!turning) {
+            if (waiting) {
+                int oldPoint = nextPoint;
+                if (NextPathPoint() != oldPoint) {
+                    waiting = false;
+                }
+            }
+            else if (!turning) {
                 if (!Move(path[nextPoint])) {
                     NextPathPoint();
                     ToTurnState();
@@ -175,26 +188,87 @@ public class Enemy : Actor, IFreezable {
     /* Returns false when enemy has reached destination */
     private bool Move(Vector2 destination) {
 		animator.SetBool("walk", true);
+        // Turn to look at destination
+        // Vector2 currentPosition2D = transform.position;
+        // Vector2 rotToDest = destination - currentPosition2D;
+        //transform.up = Vector2.Lerp(position2, rot, Time.deltaTime * turnSpeed);
+        // Debug.Log("Moving");
+        if(Turn(destination)) {
+            // Debug.Log("NOt moving cause turned");
+            // Don't move
+            return true;
+        }
+
+        /*
+        Vector3 vectorToTarget = new Vector3(destination.x, destination.y) - transform.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.right);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * turnSpeed);
+
+        */
+        // Move towards destination
         transform.position = Vector2.MoveTowards(transform.position, destination, currentSpeed);
 
         if ((Vector2)transform.position == destination) {
+            // Debug.Log("Reached move location of " + destination);
             return false;
         }
+        // Debug.Log("Still moving to " + destination);
         return true;
     }
 
+    private bool StartTurn(Vector2 destination) {
+        turningUpdates = 0;
+        return Turn(destination);
+    }
+
+    /* Returns true of the turn executed successfully */
     private bool Turn(Vector2 destination) {
-        float turnProgress = turnSpeed * turningUpdates++;
+
+
+        float remainingRotation = Vector2.SignedAngle(transform.right.normalized, (destination - (Vector2)transform.position).normalized);
+
+        // print("REMAINING ROTATION" + remainingRotation);
+        if (turnSpeed >= Mathf.Abs(remainingRotation)) {
+            transform.Rotate(new Vector3(0,0,remainingRotation));
+            return false;
+        }
+
+        transform.Rotate(new Vector3(0,0,turnSpeed*Mathf.Sign(remainingRotation)));
+        return true;
+
+        /*
+        Vector2 destMinusPos = (destination - (Vector2)transform.position).normalized;
+        Vector2 right = transform.right.normalized;
+        //Debug.Log("destMinusPos " + destMinusPos);
+        Debug.Log("right " + right);
+        float threshold = 0.001f;
+        if(Mathf.Abs(destMinusPos.x - right.x) < threshold && Mathf.Abs(destMinusPos.y - right.y) < threshold) {
+            Debug.Log("Don't need to turn");
+            return false;
+        }
+        Debug.Log("Turning");
+        // float turnProgress = turnSpeed * turningUpdates++;
         Vector3 targetDirection = destination - (Vector2)transform.position;
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-        Quaternion targetRotation = Quaternion.AngleAxis(targetAngle, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(startRotation, targetRotation, turnSpeed * turningUpdates);
+        Quaternion destRotation = Quaternion.LookRotation(targetDirection);
+        //Quaternion targetRotation = Quaternion.AngleAxis(targetAngle, Vector3.forward);
+        // transform.rotation = Quaternion.Slerp(/startRotation, targetRotation, turnSpeed * turningUpdates);
 
+        if (Quaternion.Equals(transform.rotation, destRotation)) {
+            Debug.Log("Don't need to turn 2");
+            return false;
+        }
+
+        transform.rotation = destRotation;
+        return true;
+/*
         if (turnProgress >= 1) {
             return false;
         }
 
         return true;
+   */
     }
 
     private void ToTurnState() {
@@ -257,5 +331,14 @@ public class Enemy : Actor, IFreezable {
 
     protected override GameObject LookForOpponent() {
         return LookFor("Player", transform.right);
+    }
+
+    public void HearNoise(PlayerLocation loc) {
+        Debug.Log("Heared a noise at " + loc.location);
+        //transform.LookAt(loc.location);
+        playerLocations.Push(loc);
+        if (playerLocations.Count <= 0) {
+            lastPathLocation = transform.position;
+        }
     }
 }

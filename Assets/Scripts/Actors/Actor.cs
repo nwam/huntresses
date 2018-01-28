@@ -57,10 +57,9 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
             float angle = Vector2.Angle(target.transform.position - transform.position, forwardDirection);
 
             if (Mathf.Abs(angle) <= fov / 2) {
-                Vector2 frontOfSelf = (Vector2)(transform.position + transform.lossyScale.x * forwardDirection.normalized);
                 Vector2 rayDirection = target.transform.position - transform.position;
-                RaycastHit2D castHit = Physics2D.Raycast(frontOfSelf, rayDirection);
-                Debug.DrawRay(frontOfSelf, rayDirection);
+                RaycastHit2D castHit = Physics2D.Raycast(transform.position, rayDirection);
+                Debug.DrawRay(transform.position, rayDirection);
 
                 if (castHit.transform != null) {
                     GameObject hitObject = castHit.transform.gameObject;
