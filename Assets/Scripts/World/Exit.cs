@@ -17,7 +17,7 @@ public class Exit : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        Debug.Log("start");
+        // Debug.Log("start")  ;
         playersOnStairs = new List<Player>();
         displayNewLevel(getSceneIndex());
     }

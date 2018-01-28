@@ -11049,11 +11049,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 592303720}
     m_Modifications:
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: path.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4950494704949892, guid: 8af6e056a42bbd043871910c3c5c69f9, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0.5
@@ -11090,61 +11085,6 @@ Prefab:
       propertyPath: m_Name
       value: Enemy 1 Init
       objectReference: {fileID: 0}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: path.Array.data[0].x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: path.Array.data[0].y
-      value: 10.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: path.Array.data[1].x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: path.Array.data[1].y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1749373564121868, guid: 8af6e056a42bbd043871910c3c5c69f9, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 212638545848714966, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: m_SortingLayerID
-      value: -98079491
-      objectReference: {fileID: 0}
-    - target: {fileID: 212638545848714966, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: chaseSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4950494704949892, guid: 8af6e056a42bbd043871910c3c5c69f9, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 270
-      objectReference: {fileID: 0}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: bulletPrefab
-      value: 
-      objectReference: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
-        type: 2}
-    - target: {fileID: 114866825479807370, guid: 8af6e056a42bbd043871910c3c5c69f9,
-        type: 2}
-      propertyPath: largeBulletPrefab
-      value: 
-      objectReference: {fileID: 114824121485882372, guid: bed05cba7a8b77546838dd78e5afcf97,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8af6e056a42bbd043871910c3c5c69f9, type: 2}
   m_IsPrefabParent: 0
