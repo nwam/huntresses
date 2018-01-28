@@ -14,14 +14,13 @@ public class BloodPool : MonoBehaviour {
     private Text text;
 
     [SerializeField]
-    private GameObject needBloodIndicator;
+    private Text notifArea;
 
     // amount of blood in the pool - starts full, cannot go below 0
     private float available;
 
     private void Start() {
         available = maxDuration;
-        needBloodIndicator.SetActive(false);
     }
 
     private void LateUpdate() {
@@ -53,8 +52,8 @@ public class BloodPool : MonoBehaviour {
     }
 
     IEnumerator displayNotEnoughBlood() {
-        needBloodIndicator.SetActive(true);
+        notifArea.text = "No more blood!";
         yield return new WaitForSeconds(1);
-        needBloodIndicator.SetActive(false);
+        notifArea.text = "";
     }
 }
