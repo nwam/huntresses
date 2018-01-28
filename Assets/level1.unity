@@ -23101,6 +23101,24 @@ Prefab:
       propertyPath: bloodPool
       value: 
       objectReference: {fileID: 1437079087}
+    - target: {fileID: 114461394275464382, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+        type: 2}
+    - target: {fileID: 114829987072939330, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+        type: 2}
+    - target: {fileID: 114543299432130968, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
   m_IsPrefabParent: 0
