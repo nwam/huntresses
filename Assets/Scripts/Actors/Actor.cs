@@ -24,7 +24,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     private List<Corpse> harvestableCorpses = new List<Corpse>();
     protected bool isHarvesting = false;
 
-	Animator animator;
+	public Animator animator;
 
 	void Start(){
 		animator = GetComponent<Animator> ();
@@ -32,7 +32,6 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 	}
 
 	protected virtual void AfterStart(){
-
 	}
 
     // Update is called once per frame
@@ -76,6 +75,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     protected virtual void Shoot(bool isEnemy) {
         if (timeUntilShot <= 0f) {
+			animator.SetBool ("shoot", true);
             // Hacky McHacker for isEnemy
             float zRotation = isEnemy ? -90 : 0;
             Vector3 shootAngle = isEnemy ? transform.right : transform.up;

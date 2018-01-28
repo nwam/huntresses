@@ -40,54 +40,62 @@ public class Player : Actor, IShootable {
         }
 
         // Harvesting is checked first. You cannot take any other action while harvesting.
-        if(Input.GetKey(harvestKey) && isHarvesting) {
+        if(isHarvesting) {
             // Continue harvesting
             Harvest();
         }
-        else if(isHarvesting) {
-            // Stop harvesting
-            StopHarvest();
-        }
-        else if(Input.GetKey(harvestKey)) {
-            // Begin harvest
-            Harvest();
-        }
-        else if (selected) {
-            // Face cursor
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 targetVector = mousePosition - transform.position;
-            transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
-
-            //transform.LookAt(Input.mousePosition);
-
-            // Player Movement controls
-            if (Input.GetKey(KeyCode.W)) {
-                Move(Vector3.up);
-            }
-            else if (Input.GetKey(KeyCode.S)) {
-                Move(Vector3.down);
-            }
-            if (Input.GetKey(KeyCode.A)) {
-                Move(Vector3.left);
-            }
-            else if (Input.GetKey(KeyCode.D)) {
-                Move(Vector3.right);
+        if (selected) {
+            if (Input.GetKeyDown(harvestKey)) {
+                if (isHarvesting) {
+                    StopHarvest();
+                }
+                else {
+                    Harvest();
+                }
             }
 
-            // Shooting controls
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                Shoot();
-                EndOverwatch();
-            }
+            if (!isHarvesting) {
+                // Face cursor
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 targetVector = mousePosition - transform.position;
+                transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
 
-            // Overwatch
-            if (Input.GetKeyDown(KeyCode.F)) {
-                StartOverwatch();
+                // Player Movement controls
+				animator.SetBool("walk", false);
+                if (Input.GetKey(KeyCode.W))
+                {
+                    Move(Vector3.up);
+                }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    Move(Vector3.down);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    Move(Vector3.left);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    Move(Vector3.right);
+                }
+
+                // Shooting controls
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Shoot();
+                    EndOverwatch();
+                }
+
+                // Overwatch
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    StartOverwatch();
+                }
             }
         }
         else {
             // Overwatching
-            if (overwatching) {
+            if (overwatching && !isHarvesting) {
                 Overwatch();
             }
         }
@@ -108,6 +116,8 @@ public class Player : Actor, IShootable {
     }
 
     void Move(Vector3 direction) {
+		animator.SetBool ("walk", true);
+
         transform.position += direction * speed * Time.deltaTime;
 
         EndOverwatch();
