@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Animator))]
 public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     [SerializeField]
@@ -28,6 +29,16 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     private List<Corpse> harvestableCorpses = new List<Corpse>();
     protected bool isHarvesting = false;
+
+	public Animator animator;
+
+	void Start(){
+		animator = GetComponent<Animator> ();
+		AfterStart ();
+	}
+
+	protected virtual void AfterStart(){
+	}
 
     // Update is called once per frame
     protected virtual void FixedUpdate() {
@@ -70,6 +81,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     protected virtual void Shoot(bool isEnemy) {
         if (timeUntilShot <= 0f) {
+			animator.SetBool ("shoot", true);
             // Hacky McHacker for isEnemy
             float zRotation = isEnemy ? -90 : 0;
             Vector3 shootAngle = isEnemy ? transform.right : transform.up;

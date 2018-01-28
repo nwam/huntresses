@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(FollowObject))]
 public class Bullet : MonoBehaviour, IFreezable {
 
     [SerializeField]
@@ -12,33 +13,57 @@ public class Bullet : MonoBehaviour, IFreezable {
     [SerializeField]
     public int damage = 1;
 
-    private void FixedUpdate()
-    {
-        transform.position += currentSpeed * transform.up * Time.deltaTime;
+	private bool hasHit = false;
+
+	private FollowObject followObj;
+
+	// Hacky for the hackathon
+	// Removes the need to rotate arrow
+	[SerializeField]
+	public Animator animator;
+
+	void Update() {
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			Debug.Break ();
+		}
+	}
+
+	private void FixedUpdate() {
+		transform.position += currentSpeed * transform.up * Time.deltaTime;
+
+		followObj = GetComponent<FollowObject> ();
+		if (followObj == null) {
+			Debug.LogError ("FollowObj is null on Bullet!");
+		}
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
+    private void OnCollisionEnter2D(Collision2D collision) {
         GameObject other = collision.gameObject;
 
-        if (other == null) {
+		if (other == null || other.tag == "ignores-bullets") {
             return;
         }
 
-        IShootable shootable = other.GetComponent<IShootable>();
-        if (shootable != null) {
-            shootable.GetShot(damage);
-        }
-
-        // Ignore objects that are tagged to ignore bullets
-        if (other.tag == "ignores-bullets") {
-            return;
-        }
+		IShootable shootable = other.GetComponent<IShootable>();
+		if (shootable != null) {
+			// Hit an enemy
+			shootable.GetShot (damage);
+			animator.SetBool ("bleed", true);
+			Vector3 offset = transform.position - other.transform.position;
+			followObj.enable ();
+			followObj.setOffset (offset);
+			followObj.setTarget (other.transform);
+			followObj.enabled = true;
+		}
+		else {
+			// Hit something other than an enemy
+			// Walls, doors, etc.
+			// In this case the animation is stationary
+			animator.SetBool ("spark", true);
+		}
         
-
-        // Hit something other than an enemy
-        // Walls, doors, etc. just destroy the bullet - Anything else a bullet can interact with?
-        //Debug.Log("Destroying: " + name);
-        Destroy(gameObject);
+		// Animator destroys bullet, but disable bullet behaviour until then
+		enabled = false;
     }
 
     public void Freeze() {
