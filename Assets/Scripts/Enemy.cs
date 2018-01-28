@@ -18,17 +18,22 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable {
 
     private const float SPEED_MULTIPLIER = 0.01f;
 
+    private enum EnemyType { normal, large };
     [SerializeField]
-    private GameObject projectilePrefab;
+    private EnemyType enemyType;
+
+    [SerializeField]
+    private GameObject bullet;
+    [SerializeField]
+    private GameObject largeBullet;
 
     [SerializeField]
     private int projectileCooldown = 30;
     private int projectileCooldownCount = 0;
     [SerializeField]
     private float fov = 60; // in degrees
-
-    [SerializeField]
-    private int health = 3;
+    
+    private int health;
 
     [SerializeField]
     private float speed = 10f;
@@ -83,6 +88,13 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable {
 		currentSpeed = defaultSpeed;
 
         fullSpinUpdates = (int)(360 / spinSpeed);
+
+        if (enemyType == EnemyType.normal) {
+            health = 1;
+        }
+        else if (enemyType == EnemyType.large) {
+            health = 3;
+        }
     }
     
     private void FixedUpdate()
@@ -111,9 +123,15 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable {
 			if (projectileCooldownCount % projectileCooldown == 0) {
 				Vector3 ea = transform.rotation.eulerAngles;
 				Quaternion fireDirection = Quaternion.Euler (ea.x, ea.y, ea.z - 90);
-				Instantiate (projectilePrefab, transform.position + transform.right * transform.lossyScale.x * 1.2f, fireDirection);
-			}
+                if (enemyType == EnemyType.normal) {
+                    Instantiate(bullet, transform.position + transform.right * transform.lossyScale.x * 1.2f, fireDirection);
+                }
+                else if (enemyType == EnemyType.large) {
+                    Instantiate(largeBullet, transform.position + transform.right * transform.lossyScale.x * 1.2f, fireDirection);
+                }
+            }
 			projectileCooldownCount += 1;
+            Debug.Log("Projectile Cooldown Live: " + projectileCooldownCount);
 		}
 
 		/* Stop shooting at player -- player hid... or died lol */

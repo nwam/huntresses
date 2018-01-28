@@ -99,12 +99,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0005230d6e853254cb5dbbb772df90d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200,
+  enemyType: 0
+  bullet: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200, type: 2}
+  largeBullet: {fileID: 1018228367014462, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
     type: 2}
   projectileCooldown: 30
   fov: 60
-  health: 3
   speed: 5
+  chaseSpeed: 20
   turnSpeed: 0.1
   spinSpeed: 8
   path: []
