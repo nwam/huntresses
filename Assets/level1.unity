@@ -19566,6 +19566,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 20799128477623958, guid: 2f452a4dc3810d84f9ef06a061d1b68d,
+        type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.24410684
+      objectReference: {fileID: 0}
+    - target: {fileID: 20799128477623958, guid: 2f452a4dc3810d84f9ef06a061d1b68d,
+        type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.2492581
+      objectReference: {fileID: 0}
+    - target: {fileID: 20799128477623958, guid: 2f452a4dc3810d84f9ef06a061d1b68d,
+        type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.25735295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f452a4dc3810d84f9ef06a061d1b68d, type: 2}
   m_IsPrefabParent: 0
@@ -22920,6 +22935,18 @@ Prefab:
       propertyPath: largeBulletPrefab
       value: 
       objectReference: {fileID: 114824121485882372, guid: bed05cba7a8b77546838dd78e5afcf97,
+        type: 2}
+    - target: {fileID: 114461394275464382, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
+        type: 2}
+    - target: {fileID: 114543299432130968, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
