@@ -8,8 +8,9 @@ public class Cog : MonoBehaviour, IFreezable {
     [SerializeField]
     private Gate controlled = null;
     [SerializeField]
-    private float chargeRate = 0f;
+    private float chargeRate = 30f;
 
+    [SerializeField]
     private GameObject brokenCogPrefab;
 
 	// Use this for initialization

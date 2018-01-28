@@ -48,6 +48,10 @@ public class BloodPool : MonoBehaviour {
         }
     }
 
+    public bool IsFull() {
+        return available >= maxDuration;
+    }
+
     IEnumerator displayNotEnoughBlood() {
         needBloodIndicator.SetActive(true);
         yield return new WaitForSeconds(1);
