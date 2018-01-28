@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cog : MonoBehaviour, IFreezable {
+public class Cog : MonoBehaviour, IFreezable, IShootable {
 
     private bool active = true;
     [SerializeField]
@@ -25,6 +25,14 @@ public class Cog : MonoBehaviour, IFreezable {
         }
 	}
 
+    public void GetShot(int d) {
+        if (d == 3) { // Hacky check for LargeBullet
+            Debug.Log(this.gameObject.name + " has been broken");
+            GameObject newBrokenCog = Instantiate(brokenCogPrefab, transform.position, transform.rotation);
+            Destroy(this.gameObject);
+        }
+    }
+
     private void PowerGate() {
         if (active) {
             controlled.setEnergy(controlled.getEnergy() + chargeRate * Time.deltaTime);
@@ -44,14 +52,5 @@ public class Cog : MonoBehaviour, IFreezable {
     public bool isDestroyed() {
         return this == null;
     }
-
-    private void OnCollisionEnter2D(Collision2D collision) {
-        LargeBullet largeBullet = collision.gameObject.GetComponent<LargeBullet>();
-        Debug.Log(this.gameObject.name + " got hit!");
-        if (largeBullet != null) {
-            GameObject newBrokenCog = Instantiate(brokenCogPrefab, transform.position, transform.rotation);
-            Destroy(this.gameObject);
-        }
-    }
-
+    
 }

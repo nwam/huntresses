@@ -19017,12 +19017,6 @@ Prefab:
         type: 2}
     - target: {fileID: 114461394275464382, guid: 29f13a59a6bad8a49ac134079ec75c10,
         type: 2}
-      propertyPath: largeBulletPrefab
-      value: 
-      objectReference: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
-        type: 2}
-    - target: {fileID: 114461394275464382, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
       propertyPath: followCam
       value: 
       objectReference: {fileID: 1387437320}
@@ -19034,12 +19028,6 @@ Prefab:
         type: 2}
     - target: {fileID: 114829987072939330, guid: 29f13a59a6bad8a49ac134079ec75c10,
         type: 2}
-      propertyPath: largeBulletPrefab
-      value: 
-      objectReference: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
-        type: 2}
-    - target: {fileID: 114829987072939330, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
       propertyPath: followCam
       value: 
       objectReference: {fileID: 1387437320}
@@ -19048,12 +19036,6 @@ Prefab:
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
-        type: 2}
-    - target: {fileID: 114543299432130968, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: largeBulletPrefab
-      value: 
-      objectReference: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
         type: 2}
     - target: {fileID: 114543299432130968, guid: 29f13a59a6bad8a49ac134079ec75c10,
         type: 2}
@@ -19079,18 +19061,36 @@ Prefab:
     - target: {fileID: 114543299432130968, guid: 29f13a59a6bad8a49ac134079ec75c10,
         type: 2}
       propertyPath: enemyType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114829987072939330, guid: 29f13a59a6bad8a49ac134079ec75c10,
         type: 2}
       propertyPath: enemyType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114461394275464382, guid: 29f13a59a6bad8a49ac134079ec75c10,
         type: 2}
       propertyPath: enemyType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114543299432130968, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: largeBulletPrefab
+      value: 
+      objectReference: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
+        type: 2}
+    - target: {fileID: 114829987072939330, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: largeBulletPrefab
+      value: 
+      objectReference: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
+        type: 2}
+    - target: {fileID: 114461394275464382, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: largeBulletPrefab
+      value: 
+      objectReference: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
   m_IsPrefabParent: 0

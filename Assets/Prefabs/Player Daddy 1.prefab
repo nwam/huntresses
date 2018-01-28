@@ -526,7 +526,7 @@ MonoBehaviour:
   enemyType: 0
   bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  largeBulletPrefab: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
+  largeBulletPrefab: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
@@ -551,7 +551,7 @@ MonoBehaviour:
   enemyType: 0
   bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  largeBulletPrefab: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
+  largeBulletPrefab: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
@@ -576,7 +576,7 @@ MonoBehaviour:
   enemyType: 0
   bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  largeBulletPrefab: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
+  largeBulletPrefab: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
