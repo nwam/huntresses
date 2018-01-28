@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50389027474473172}
   - component: {fileID: 114349154189908970}
   - component: {fileID: 60128027117460048}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LargeBullet
   m_TagString: ignores-bullets
   m_Icon: {fileID: 0}
