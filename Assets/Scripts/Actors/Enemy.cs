@@ -52,6 +52,8 @@ public class Enemy : Actor, IFreezable {
     private bool returningToPath = false;
     private Vector2 lastPathLocation;
 
+	private bool isFrozen = false;
+
     // Use this for initialization
     protected override void AfterStart() {
         transform.position = path[nextPoint];
@@ -75,7 +77,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Shooting at player */
         if (foundPlayer != null) {
-            Debug.Log("Shooting");
+            // Debug.Log("Shooting");
 
             // Keep track of the direction the player is heading in
             if (seePlayer == true) {
@@ -90,18 +92,18 @@ public class Enemy : Actor, IFreezable {
 
             // Track the player's location
             lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
-            Debug.Log("Last saw player at " + lastSeenPlayerLoc);
+            // Debug.Log(" player at " + lastSeenPlayerLoc);
 
             Turn(lastSeenPlayerLoc);
-            Debug.Log("Finished turning");
+            // Debug.Log("Finished turning");
 
             Shoot();
-            Debug.Log("Finished shooting");
+            // Debug.Log("Finished shooting");
         }
 
         /* Stop shooting at player -- player hid... or died lol */
         else if (foundPlayer == null && seePlayer) {
-            Debug.Log("Stop shooting");
+            // Debug.Log("Stop shooting");
 
             if (playerLocations.Count <= 0) {
                 lastPathLocation = transform.position;
@@ -113,7 +115,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Performing a spin to find player */
         else if (spinning && playerLocations.Count > 0) {
-            Debug.Log("Spin");
+            // Debug.Log("Spin");
             if (!Spin(playerLocations.Peek().direction)) {
                 spinning = false;
                 playerLocations.Pop();
@@ -126,7 +128,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Following last seen player location */
         else if (playerLocations.Count > 0) {
-            Debug.Log("Chasing");
+            // Debug.Log("Chasing");
             if (currentSpeed != 0) {
                 currentSpeed = chaseSpeed;
             }
@@ -137,7 +139,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Returning to where we last left our patrol path */
         else if (returningToPath) {
-            Debug.Log("Returning to path");
+            // Debug.Log("Returning to path");
             if (currentSpeed != 0) {
                 currentSpeed = defaultSpeed;
             }
@@ -221,13 +223,15 @@ public class Enemy : Actor, IFreezable {
     }
 
     public void Freeze() {
-        Debug.Log(name + " frozen");
+        // Debug.Log(name + " frozen");
+		isFrozen = true;
         currentSpeed = 0;
         // Also cannot rotate or shoot
     }
 
     public void UnFreeze() {
-        Debug.Log(name + " unfrozen");
+        // Debug.Log(name + " unfrozen");
+		isFrozen = false;
         currentSpeed = defaultSpeed;
         // Restore ability to rotate and shoot
     }
@@ -237,6 +241,10 @@ public class Enemy : Actor, IFreezable {
     }
 
     protected override void Shoot() {
+		if (isFrozen) {
+			// You cannot shoot while frozen.
+			return;
+		}
         Shoot(true);
     }
 

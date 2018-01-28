@@ -23143,6 +23143,68 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!1001 &1278272992
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034426546811384, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114996245200408484, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 127385016}
+    - target: {fileID: 114831310628559722, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 127385016}
+    - target: {fileID: 114634122325694656, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 127385016}
+    - target: {fileID: 114304814441681940, guid: 29f13a59a6bad8a49ac134079ec75c10,
+        type: 2}
+      propertyPath: bloodPool
+      value: 
+      objectReference: {fileID: 702704764}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1280285441
 GameObject:
   m_ObjectHideFlags: 0
@@ -25360,78 +25422,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!1001 &1386945825
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618095128562802, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114752208642330008, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: followCam
-      value: 
-      objectReference: {fileID: 127385016}
-    - target: {fileID: 114199755239855426, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: followCam
-      value: 
-      objectReference: {fileID: 127385016}
-    - target: {fileID: 114113654291367052, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: bloodPool
-      value: 
-      objectReference: {fileID: 702704764}
-    - target: {fileID: 114137814903439514, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: bloodPool
-      value: 
-      objectReference: {fileID: 702704764}
-    - target: {fileID: 114838086528162858, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: followCam
-      value: 
-      objectReference: {fileID: 127385016}
-    - target: {fileID: 114630559991968672, guid: 29f13a59a6bad8a49ac134079ec75c10,
-        type: 2}
-      propertyPath: bloodPool
-      value: 
-      objectReference: {fileID: 702704764}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 29f13a59a6bad8a49ac134079ec75c10, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1398891146
 GameObject:
   m_ObjectHideFlags: 0
