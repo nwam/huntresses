@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Corpse : MonoBehaviour {
-    
+
     [SerializeField]
     private float bloodCapacity = 10f;
     [SerializeField]
@@ -11,31 +11,25 @@ public class Corpse : MonoBehaviour {
 
     private IHarvester currentHarvester = null;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    private void OnTriggerEnter2D(Collider2D collision) {
         IHarvester newHarvester = collision.gameObject.GetComponent<IHarvester>();
-        
-        if (newHarvester != null)
-        {
+
+        if (newHarvester != null) {
             newHarvester.AddHarvestTarget(this);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
+    private void OnTriggerExit2D(Collider2D collision) {
         IHarvester oldHarvester = collision.gameObject.GetComponent<IHarvester>();
 
-        if (oldHarvester != null)
-        {
+        if (oldHarvester != null) {
             oldHarvester.RemoveHarvestTarget(this);
         }
     }
 
-    public float Harvest(IHarvester harvester)
-    {
+    public float Harvest(IHarvester harvester) {
         // Make sure nobody else is harvesting this corpse
-        if (currentHarvester != null && currentHarvester != harvester)
-        {
+        if (currentHarvester != null && currentHarvester != harvester) {
             return 0f;
         }
 
@@ -44,22 +38,18 @@ public class Corpse : MonoBehaviour {
 
         float drained = drainRate * Time.deltaTime;
 
-        if (bloodCapacity > drained)
-        {
+        if (bloodCapacity > drained) {
             bloodCapacity -= drained;
         }
-        else
-        {
+        else {
             drained = bloodCapacity;
             bloodCapacity = 0;
         }
         return drained;
     }
 
-    public void StopHarvest(IHarvester harvester)
-    {
-        if (harvester == currentHarvester)
-        {
+    public void StopHarvest(IHarvester harvester) {
+        if (harvester == currentHarvester) {
             currentHarvester = null;
         }
     }
