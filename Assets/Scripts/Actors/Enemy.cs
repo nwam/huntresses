@@ -55,6 +55,9 @@ public class Enemy : Actor, IFreezable {
 
     // Use this for initialization
     void Start() {
+        if(path.Count == 0) {
+            Debug.LogError("Need to set a path for enemy " + name);
+        }
         transform.position = path[nextPoint];
         NextPathPoint();
 
