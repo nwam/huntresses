@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d14535613540c4541a1251f771d6cf80
-timeCreated: 1517100717
+timeCreated: 1517103011
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -33,6 +33,7 @@ TextureImporter:
     21300052: HuntressAsterSprite 26
     21300054: HuntressAsterSprite 27
     21300056: HuntressAsterSprite 28
+    21300058: HuntressAsterSprite 29
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -495,6 +496,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 4
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: HuntressAsterSprite 29
+      rect:
+        serializedVersion: 2
+        x: 160
         y: 0
         width: 32
         height: 32
