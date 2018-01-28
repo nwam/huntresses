@@ -12,9 +12,20 @@ public class Bullet : MonoBehaviour, IFreezable {
     [SerializeField]
     public int damage = 1;
 
-    private void FixedUpdate()
+	private bool hasHit = false;
+
+	Animator animator;
+
+	void Start(){
+		// Hacky for the hackathon
+		// Removes the need to rotate arrow
+		animator = transform.GetChild(0).GetComponent<Animator> ();
+	}
+
+	private void FixedUpdate()
     {
-        transform.position += currentSpeed * transform.up * Time.deltaTime;
+		transform.position += currentSpeed * transform.up * Time.deltaTime;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -24,21 +35,25 @@ public class Bullet : MonoBehaviour, IFreezable {
             return;
         }
 
-        IShootable shootable = other.GetComponent<IShootable>();
-        if (shootable != null) {
-            shootable.GetShot(damage);
-        }
-
         // Ignore objects that are tagged to ignore bullets
         if (other.tag == "ignores-bullets") {
             return;
         }
-        
 
-        // Hit something other than an enemy
-        // Walls, doors, etc. just destroy the bullet - Anything else a bullet can interact with?
-        //Debug.Log("Destroying: " + name);
-        Destroy(gameObject);
+
+		IShootable shootable = other.GetComponent<IShootable>();
+		if (shootable != null) {
+			// Hit an enemy
+			shootable.GetShot (damage);
+			animator.SetBool ("bleed", true);
+		} else {
+			// Hit something other than an enemy
+			// Walls, doors, etc.
+			animator.SetBool ("spark", true);
+		}
+        
+		// Animator destroys bullet, but disable bullet behaviour until then
+		enabled = false;
     }
 
     public void Freeze() {
