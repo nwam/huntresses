@@ -69,6 +69,7 @@ public class Enemy : Actor, IFreezable {
 
     protected override void FixedUpdate() {
         base.FixedUpdate();
+		animator.SetBool("walk", false);
 
         GameObject foundPlayer = LookForOpponent();
 
@@ -164,6 +165,7 @@ public class Enemy : Actor, IFreezable {
 
     /* Returns false when enemy has reached destination */
     private bool Move(Vector2 destination) {
+		animator.SetBool("walk", true);
         transform.position = Vector2.MoveTowards(transform.position, destination, currentSpeed);
 
         if ((Vector2)transform.position == destination) {

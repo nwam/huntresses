@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Animator))]
 public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     [SerializeField]
