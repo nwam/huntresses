@@ -172,6 +172,10 @@ public class Player : Actor, IShootable {
 
 
     protected override float Harvest() {
+        if (bloodPool.IsFull()) {
+            StopHarvest();
+            return 0f;
+        }
         float amount = base.Harvest();
         bloodPool.Fill(amount);
         return amount;
