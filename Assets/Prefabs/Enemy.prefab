@@ -129,7 +129,7 @@ MonoBehaviour:
   timePerShot: 1
   animator: {fileID: 0}
   chaseSpeed: 10
-  turnSpeed: 0.1
+  turnSpeed: 10
   spinSpeed: 8
   path:
   - {x: 2, y: 2}
