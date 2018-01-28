@@ -80,7 +80,7 @@ public class Player : Actor, IShootable {
                 }
 
                 // Shooting controls
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyUp(KeyCode.Mouse0))
                 {
                     Shoot();
                     EndOverwatch();
@@ -99,6 +99,16 @@ public class Player : Actor, IShootable {
                 Overwatch();
             }
         }
+    }
+
+    private void OnMouseDown()
+    {
+        Player[] players = FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].Deselect();
+        }
+        Select();
     }
 
     public bool IsSelected() {
