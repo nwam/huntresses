@@ -100,7 +100,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     protected virtual float Harvest() {
         if (harvestableCorpses.Count == 0) {
-            return -1;
+            return 0f;
         }
 
         // TODO Play harvesting animation

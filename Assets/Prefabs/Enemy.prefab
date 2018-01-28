@@ -102,7 +102,7 @@ MonoBehaviour:
   health: 3
   speed: 5
   fov: 60
-  projectilePrefab: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200,
+  projectilePrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
