@@ -6,10 +6,17 @@ public class Corpse : MonoBehaviour {
 
     [SerializeField]
     private float bloodCapacity = 10f;
+	private float maxBloodCapacity;
     [SerializeField]
     private float drainRate = 1f;
+	[SerializeField]
+	private Transform bloodpool;
 
     private IHarvester currentHarvester = null;
+
+	void Start(){
+		maxBloodCapacity = bloodCapacity;
+	}
 
     private void OnTriggerEnter2D(Collider2D collision) {
         IHarvester newHarvester = collision.gameObject.GetComponent<IHarvester>();
@@ -40,6 +47,7 @@ public class Corpse : MonoBehaviour {
 
         if (bloodCapacity > drained) {
             bloodCapacity -= drained;
+			bloodpool.localScale = new Vector3 (bloodCapacity / maxBloodCapacity, bloodCapacity / maxBloodCapacity, 1);
         }
         else {
             drained = bloodCapacity;

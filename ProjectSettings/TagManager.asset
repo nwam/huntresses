@@ -44,6 +44,9 @@ TagManager:
   - name: Floor
     uniqueID: 1573072173
     locked: 0
+  - name: Bloodpool
+    uniqueID: 1885466917
+    locked: 0
   - name: Corpse
     uniqueID: 1829093519
     locked: 0
