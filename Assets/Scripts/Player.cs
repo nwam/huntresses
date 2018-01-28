@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class Player : MonoBehaviour, IShootable {
+public class Player : MonoBehaviour, IHarvester, IShootable {
     [SerializeField]
     private float speed = 5f;
     [SerializeField]
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour, IShootable {
 
     private bool selected = false;
 
-    private Corpse harvestTarget, harvestingTarget; // harvestTarget is for proximity check, harvestingTarget is for no multiple drain check
+    private List<Corpse> harvestableCorpses = new List<Corpse>();
     private bool harvesting = false;
 
     private bool overwatching = false;
@@ -59,68 +59,65 @@ public class Player : MonoBehaviour, IShootable {
         }
 
         if (harvesting) {
-            if (!Harvest(harvestTarget)) {
-                Debug.Log("This corpse has no blood left to drain!");
-                harvesting = false;
-                harvestingTarget.setBeingHarvested(false);
-                harvestingTarget = null; // Reset harvesting target
-            }
+            Harvest();
         }
-        else if (selected) {
-            // Face cursor
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 targetVector = mousePosition - transform.position;
-            transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
-
-            //transform.LookAt(Input.mousePosition);
-
-            // Player Movement controls
-            if (Input.GetKey(KeyCode.W)) {
-                Move(Vector3.up);
-            }
-            else if (Input.GetKey(KeyCode.S)) {
-                Move(Vector3.down);
-            }
-            if (Input.GetKey(KeyCode.A)) {
-                Move(Vector3.left);
-            }
-            else if (Input.GetKey(KeyCode.D)) {
-                Move(Vector3.right);
-            }
-
-            // Shooting controls
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                Shoot();
-                EndOverwatch();
-            }
-
-            // Overwatch
-            if (Input.GetKeyDown(KeyCode.F)) {
-                StartOverwatch();
-            }
-
+        if (selected) {
             // Harvesting Toggle
-
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                if (!harvesting) {
-                    if (harvestTarget == null) {
-                        Debug.Log("I don't have a corpse to harvest!");
-                    }
-                    else {
-                        harvesting = true;
-                    }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (!harvesting)
+                {
+                    Harvest();
                 }
-                else {
-                    harvesting = false;
-                    harvestingTarget.setBeingHarvested(false);
-                    harvestingTarget = null;
+                else
+                {
+                    StopHarvest();
+                }
+            }
+
+            if (!harvesting)
+            {
+                // Face cursor
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 targetVector = mousePosition - transform.position;
+                transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
+
+                // Player Movement controls
+                if (Input.GetKey(KeyCode.W))
+                {
+                    Move(Vector3.up);
+                }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    Move(Vector3.down);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    Move(Vector3.left);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    Move(Vector3.right);
+                }
+
+                // Shooting controls
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Shoot();
+                    EndOverwatch();
+                }
+
+                // Overwatch
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    StartOverwatch();
                 }
             }
         }
         else // Not selected
         {
             // Overwatching
-            if (overwatching) {
+            if (overwatching && !harvesting) {
                 Overwatch();
             }
         }
@@ -233,46 +230,41 @@ public class Player : MonoBehaviour, IShootable {
         Destroy(gameObject);
     }
 
-    private bool Harvest(Corpse corpse) {
-        if (!corpse.getBeingHarvested() || corpse == harvestingTarget) // Check if already being harvested by someone else
+    public void Harvest()
+    {
+        if (harvestableCorpses.Count == 0)
         {
-            harvestingTarget = corpse;
-            float drained = corpse.beHarvested();
-            bloodPool.Fill(drained); // TODO: Change blood pool to be a float?
-            return drained != 0;
+            return;
         }
-
-        return false;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision) {
-        Corpse swapHarvestTarget = collision.gameObject.GetComponent<Corpse>();
-
-        if (swapHarvestTarget != null) { // Check if colliding with a corpse
-            if (harvestTarget == null) { // If there is no current harvest target
-                harvestTarget = swapHarvestTarget;
-                Debug.Log("Set Harvest Target");
-            }
-            else if (swapHarvestTarget != harvestTarget) { // Swap target is not the current target
-                Vector2 swapPos = collision.gameObject.transform.position;
-                Vector2 curPos = harvestTarget.gameObject.transform.position;
-                Vector2 thisPos = transform.position;
-
-                if (Vector2.Distance(swapPos, thisPos) < Vector2.Distance(curPos, thisPos)) { // Set harvest target to closer corpse
-                    harvestTarget = swapHarvestTarget;
-                    Debug.Log("Swapped Harvest Target");
-                }
-            }
+        float drained = harvestableCorpses[0].Harvest(this);
+        if (drained != 0f)
+        {
+            harvesting = true;
+            bloodPool.Fill(drained);
+        }
+        else
+        {
+            StopHarvest();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        Corpse deselectTarget = collision.gameObject.GetComponent<Corpse>();
-
-        if (deselectTarget != null && harvestTarget == deselectTarget) { // Check if exiting the current target corpse
-            harvestTarget = null;
-            Debug.Log("Lost Harvest Target");
+    public void StopHarvest()
+    {
+        if (harvestableCorpses.Count == 0)
+        {
+            return;
         }
+        harvestableCorpses[0].StopHarvest(this);
+        harvesting = false;
     }
 
+    public void AddHarvestTarget(Corpse corpse)
+    {
+        harvestableCorpses.Add(corpse);
+    }
+
+    public void RemoveHarvestTarget(Corpse corpse)
+    {
+        harvestableCorpses.Remove(corpse);
+    }
 }

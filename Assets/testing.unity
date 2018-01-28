@@ -394,6 +394,21 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224917673208593648, guid: cf96e45af7ec2f3439b05868ca2d1ba2,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224917673208593648, guid: cf96e45af7ec2f3439b05868ca2d1ba2,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224917673208593648, guid: cf96e45af7ec2f3439b05868ca2d1ba2,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf96e45af7ec2f3439b05868ca2d1ba2, type: 2}
   m_IsPrefabParent: 0
@@ -474,6 +489,11 @@ Prefab:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114168982197938162, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9,
+        type: 2}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 1726760678}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
   m_IsPrefabParent: 0
@@ -712,6 +732,11 @@ Prefab:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 114168982197938162, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9,
+        type: 2}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 1726760678}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9, type: 2}
   m_IsPrefabParent: 0
@@ -1026,6 +1051,7 @@ GameObject:
   - component: {fileID: 1726760676}
   - component: {fileID: 1726760675}
   - component: {fileID: 1726760674}
+  - component: {fileID: 1726760678}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1096,3 +1122,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1726760678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1726760673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e174c793c48096041b35ea7f511c2caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}
