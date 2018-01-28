@@ -241,4 +241,36 @@ public class Enemy : Actor, IFreezable {
     protected override GameObject LookForOpponent() {
         return LookFor("Player", transform.right);
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        // The enemy has a 'hearing radius'. If the player or a projectile passes through this circle, the enemy is alerted.
+
+        Vector2? sourceOfNoise = null;
+        Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+        if (bullet != null) {
+            // The enemy is able to determine where the bullet was fired from from the bullet's rotation.
+            Vector2 bulletSourceDirection = -bullet.transform.up;
+            Debug.Log("Shot from " + bulletSourceDirection);
+
+            // We'll send the enemy to the location of the first thing the ray hits.
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, bulletSourceDirection);
+            sourceOfNoise = hit.transform.position;
+        }
+
+        Player player = collision.gameObject.GetComponent<Player>();
+        if (player != null) {
+
+        }
+
+        if (sourceOfNoise != null) {
+            PlayerLocation loc = new PlayerLocation((Vector2)sourceOfNoise, 1);
+            Debug.Log("SourceOfNoise " + sourceOfNoise);
+            playerLocations.Push(loc);
+            seePlayer = true;
+            if (playerLocations.Count <= 0) {
+                lastPathLocation = loc.location;
+            }
+        }
+    }
 }
