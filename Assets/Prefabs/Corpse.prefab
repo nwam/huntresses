@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212509809672736532}
   - component: {fileID: 114681174281929356}
   - component: {fileID: 58370370310560046}
+  - component: {fileID: 95832782660278400}
   m_Layer: 2
   m_Name: Corpse
   m_TagString: ignores-bullets
@@ -57,6 +58,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!95 &95832782660278400
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326873490966946}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07a9ef507ec390a4490ef580563e857e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114681174281929356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,11 +119,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1829093519
+  m_SortingLayer: -3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1d6beb56d2891e54bacf1579c9ce5950, type: 3}
-  m_Color: {r: 0.13494809, g: 0.18613516, b: 0.7058823, a: 1}
+  m_Sprite: {fileID: 21300000, guid: fa8f2e600ffe7e74cba3beb8538f1a01, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 61735738428443378}
   - component: {fileID: 95033121457233764}
   m_Layer: 8
-  m_Name: Player 2
+  m_Name: Dahlia
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 61675714419985268}
   - component: {fileID: 95548884588992594}
   m_Layer: 8
-  m_Name: Player 1
+  m_Name: Aster
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 61816843108773388}
   - component: {fileID: 95943691525055946}
   m_Layer: 8
-  m_Name: Player 3
+  m_Name: Zinnia
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,7 +426,7 @@ Animator:
   m_GameObject: {fileID: 1109105182589784}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: eb60e77fb18ac3c47bdf7c99159302eb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 90f6be062ea41e042bfe95f19902bf16, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -460,7 +460,7 @@ Animator:
   m_GameObject: {fileID: 1923461868368432}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: eb60e77fb18ac3c47bdf7c99159302eb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 67ea3883dac3f85419348cabfa9d0e37, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -526,7 +526,7 @@ MonoBehaviour:
   fov: 60
   projectilePrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
+  corpsePrefab: {fileID: 1326873490966946, guid: ea275e6943893db449bc029618f6a16a,
     type: 2}
   timePerShot: 1
   animator: {fileID: 95943691525055946}
@@ -549,7 +549,7 @@ MonoBehaviour:
   fov: 60
   projectilePrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
+  corpsePrefab: {fileID: 1326873490966946, guid: 7994c025296122142a4529299b90462b,
     type: 2}
   timePerShot: 1
   animator: {fileID: 95548884588992594}
@@ -572,7 +572,7 @@ MonoBehaviour:
   fov: 60
   projectilePrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
+  corpsePrefab: {fileID: 1326873490966946, guid: 0d6aef25b3505da488a183509d111660,
     type: 2}
   timePerShot: 1
   animator: {fileID: 95033121457233764}
@@ -613,7 +613,7 @@ SpriteRenderer:
   m_SortingLayerID: -98079491
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d14535613540c4541a1251f771d6cf80, type: 3}
+  m_Sprite: {fileID: 21300054, guid: 533b74e92878482409c01463869e7bed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -701,7 +701,7 @@ SpriteRenderer:
   m_SortingLayerID: -98079491
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d14535613540c4541a1251f771d6cf80, type: 3}
+  m_Sprite: {fileID: 21300026, guid: 05bdaef33aa705f42b54af61a4612534, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

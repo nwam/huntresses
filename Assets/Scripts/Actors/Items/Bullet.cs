@@ -22,6 +22,11 @@ public class Bullet : MonoBehaviour, IFreezable {
 	[SerializeField]
 	public Animator animator;
 
+
+	void Start(){
+		followObj = GetComponent<FollowObject> ();
+	}
+
 	void Update() {
 		if (Input.GetKeyDown (KeyCode.Z)) {
 			Debug.Break ();
@@ -30,11 +35,6 @@ public class Bullet : MonoBehaviour, IFreezable {
 
 	private void FixedUpdate() {
 		transform.position += currentSpeed * transform.up * Time.deltaTime;
-
-		followObj = GetComponent<FollowObject> ();
-		if (followObj == null) {
-			Debug.LogError ("FollowObj is null on Bullet!");
-		}
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -50,10 +50,12 @@ public class Bullet : MonoBehaviour, IFreezable {
 			shootable.GetShot (damage);
 			animator.SetBool ("bleed", true);
 			Vector3 offset = transform.position - other.transform.position;
-			followObj.enable ();
-			followObj.setOffset (offset);
-			followObj.setTarget (other.transform);
-			followObj.enabled = true;
+
+			if (followObj != null) {
+				followObj.setOffset (offset);
+				followObj.setTarget (other.transform);
+				followObj.enable ();
+			}
 		}
 		else {
 			// Hit something other than an enemy
