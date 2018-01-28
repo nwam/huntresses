@@ -17,6 +17,8 @@ public class Player : MonoBehaviour, IShootable {
     [SerializeField]
     private PlayerFollowCam followCam;
 
+	private Animator animator;
+
     [SerializeField]
     private float timePerShot = 1f; // in seconds
     private float timeUntilShot = 0f;
@@ -40,6 +42,8 @@ public class Player : MonoBehaviour, IShootable {
         if (playerID == "1") {
             Select();
         }
+
+		animator = GetComponent<Animator> ();
     }
 
     private void FixedUpdate() {
@@ -73,19 +77,24 @@ public class Player : MonoBehaviour, IShootable {
             transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.Normalize(targetVector));
 
             //transform.LookAt(Input.mousePosition);
+			animator.SetBool("walk", false);
 
             // Player Movement controls
-            if (Input.GetKey(KeyCode.W)) {
+			if (Input.GetKey(KeyCode.W)) {
                 Move(Vector3.up);
+				animator.SetBool("walk", true);
             }
             else if (Input.GetKey(KeyCode.S)) {
                 Move(Vector3.down);
+				animator.SetBool("walk", true);
             }
             if (Input.GetKey(KeyCode.A)) {
                 Move(Vector3.left);
+				animator.SetBool("walk", true);
             }
             else if (Input.GetKey(KeyCode.D)) {
                 Move(Vector3.right);
+				animator.SetBool("walk", true);
             }
 
             // Shooting controls
@@ -152,6 +161,7 @@ public class Player : MonoBehaviour, IShootable {
             // Fire a bullet in the direction the player is facing
             GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + transform.up * 0.8f, transform.rotation);
             timeUntilShot = timePerShot;
+			animator.SetBool("shoot", true);
         }
     }
 
