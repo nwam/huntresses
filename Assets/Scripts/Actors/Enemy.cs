@@ -67,6 +67,13 @@ public class Enemy : Actor, IFreezable {
         currentSpeed = defaultSpeed;
 
         fullSpinUpdates = (int)(360 / spinSpeed);
+
+        if (enemyType == EnemyType.normal) {
+            health = 1;
+        }
+        else if (enemyType == EnemyType.large) {
+            health = 3;
+        }
     }
 
     protected override void FixedUpdate() {
