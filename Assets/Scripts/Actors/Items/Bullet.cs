@@ -39,8 +39,9 @@ public class Bullet : MonoBehaviour, IFreezable {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject other = collision.gameObject;
+        //SpriteRenderer renderer = other.GetComponent<SpriteRenderer>();
 
-		if (other == null || other.tag == "ignores-bullets") {
+        if (other == null || other.tag == "ignores-bullets") {
             return;
         }
 
