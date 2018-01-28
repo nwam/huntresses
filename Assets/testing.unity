@@ -748,7 +748,7 @@ Prefab:
     - target: {fileID: 212796737109084764, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9,
         type: 2}
       propertyPath: m_FlipY
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61674716243720970, guid: 7b1d0bf39042ff7419a1b8e30b0d6fe9,
         type: 2}
@@ -786,7 +786,7 @@ Animator:
   m_GameObject: {fileID: 805751212}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 65dce755c3ff466438201d0cf996417a, type: 2}
+  m_Controller: {fileID: 9100000, guid: eb60e77fb18ac3c47bdf7c99159302eb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

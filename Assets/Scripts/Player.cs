@@ -109,7 +109,6 @@ public class Player : MonoBehaviour, IShootable {
             }
 
             // Harvesting Toggle
-
             if (Input.GetKeyDown(KeyCode.Q)) {
                 if (!harvesting) {
                     if (harvestTarget == null) {
