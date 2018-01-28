@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour, IFreezable {
 
         // Hit something other than an enemy
         // Walls, doors, etc. just destroy the bullet - Anything else a bullet can interact with?
-        Debug.Log("Destroying: " + name);
+        //Debug.Log("Destroying: " + name);
         Destroy(gameObject);
     }
 
