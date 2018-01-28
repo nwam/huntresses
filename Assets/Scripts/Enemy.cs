@@ -4,7 +4,7 @@ using UnityEngine;
 
 // NOTE: Enemies "forward" direction is position.right
 
-public class Enemy : MonoBehaviour, IShootable, IFreezable {
+public class Enemy : MonoBehaviour, IFreezable, IHarvester, IShootable {
 
     private struct PlayerLocation {
         public Vector2 location;
@@ -56,7 +56,9 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable {
 
 	[SerializeField]
 	public GameObject corpsePrefab;
-	private Corpse harvestTarget, harvestingTarget;
+
+    private List<Corpse> harvestableCorpses = new List<Corpse>();
+    private bool harvesting = false;
 
 
     private Stack<PlayerLocation> playerLocations;
@@ -295,47 +297,40 @@ public class Enemy : MonoBehaviour, IShootable, IFreezable {
         Destroy(gameObject);
     }
 
-    private bool Harvest(Corpse corpse) {
-        CircleCollider2D harvester = this.gameObject.GetComponent<CircleCollider2D>();
-        CircleCollider2D harvestable = corpse.GetComponent<CircleCollider2D>();
-
-        if (!corpse.getBeingHarvested() || corpse == harvestingTarget) // Check if already being harvested by someone else
+    public void Harvest()
+    {
+        if (harvestableCorpses.Count == 0)
         {
-            harvestingTarget = corpse;
-            float drained = corpse.beHarvested();
-            return drained != 0;
+            return;
         }
-
-        return false;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision) {
-        Corpse swapHarvestTarget = collision.gameObject.GetComponent<Corpse>();
-
-        if (swapHarvestTarget != null) { // Check if colliding with a corpse
-            if (harvestTarget == null) { // If there is no current harvest target
-                harvestTarget = swapHarvestTarget;
-                Debug.Log("Set Harvest Target");
-            }
-            else if (swapHarvestTarget != harvestTarget) { // Swap target is not the current target
-                Vector2 swapPos = collision.gameObject.transform.position;
-                Vector2 curPos = harvestTarget.gameObject.transform.position;
-                Vector2 thisPos = transform.position;
-
-                if (Vector2.Distance(swapPos, thisPos) < Vector2.Distance(curPos, thisPos)) { // Set harvest target to closer corpse
-                    harvestTarget = swapHarvestTarget;
-                    Debug.Log("Swapped Harvest Target");
-                }
-            }
+        float drained = harvestableCorpses[0].Harvest(this);
+        if (drained != 0f)
+        {
+            harvesting = true;
+        }
+        else
+        {
+            StopHarvest();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision) {
-        Corpse deselectTarget = collision.gameObject.GetComponent<Corpse>();
-
-        if (deselectTarget != null && harvestTarget == deselectTarget) { // Check if exiting the current target corpse
-            harvestTarget = null;
-            Debug.Log("Lost Harvest Target");
+    public void StopHarvest()
+    {
+        if (harvestableCorpses.Count == 0)
+        {
+            return;
         }
+        harvestableCorpses[0].StopHarvest(this);
+        harvesting = false;
+    }
+
+    public void AddHarvestTarget(Corpse corpse)
+    {
+        harvestableCorpses.Add(corpse);
+    }
+
+    public void RemoveHarvestTarget(Corpse corpse)
+    {
+        harvestableCorpses.Remove(corpse);
     }
 }

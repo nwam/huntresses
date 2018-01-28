@@ -6,34 +6,61 @@ public class Corpse : MonoBehaviour {
     
     [SerializeField]
     private float bloodCapacity = 10f;
-    private bool beingHarvested = false;
     [SerializeField]
     private float drainRate = 1f;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private IHarvester currentHarvester = null;
 
-    public bool getBeingHarvested() { return beingHarvested; }
-    public void setBeingHarvested(bool bh) { beingHarvested = bh; }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IHarvester newHarvester = collision.gameObject.GetComponent<IHarvester>();
+        
+        if (newHarvester != null)
+        {
+            newHarvester.AddHarvestTarget(this);
+        }
+    }
 
-    public float beHarvested() {
-        beingHarvested = true;
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        IHarvester oldHarvester = collision.gameObject.GetComponent<IHarvester>();
+
+        if (oldHarvester != null)
+        {
+            oldHarvester.RemoveHarvestTarget(this);
+        }
+    }
+
+    public float Harvest(IHarvester harvester)
+    {
+        // Make sure nobody else is harvesting this corpse
+        if (currentHarvester != null && currentHarvester != harvester)
+        {
+            return 0f;
+        }
+
+        // Mark this corpse as being harvested
+        currentHarvester = harvester;
+
         float drained = drainRate * Time.deltaTime;
 
-        if (bloodCapacity > drained) {
+        if (bloodCapacity > drained)
+        {
             bloodCapacity -= drained;
         }
-        else {
+        else
+        {
             drained = bloodCapacity;
             bloodCapacity = 0;
         }
         return drained;
+    }
+
+    public void StopHarvest(IHarvester harvester)
+    {
+        if (harvester == currentHarvester)
+        {
+            currentHarvester = null;
+        }
     }
 }
