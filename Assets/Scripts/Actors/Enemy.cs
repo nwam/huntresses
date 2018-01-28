@@ -92,10 +92,10 @@ public class Enemy : Actor, IFreezable {
             Debug.Log("Last saw player at " + lastSeenPlayerLoc);
 
             Turn(lastSeenPlayerLoc);
-            Debug.Log("Finished turning");
+            // Debug.Log("Finished turning");
 
             Shoot();
-            Debug.Log("Finished shooting");
+            // Debug.Log("Finished shooting");
         }
 
         /* Stop shooting at player -- player hid... or died lol */
@@ -168,9 +168,9 @@ public class Enemy : Actor, IFreezable {
         // Vector2 currentPosition2D = transform.position;
         // Vector2 rotToDest = destination - currentPosition2D;
         //transform.up = Vector2.Lerp(position2, rot, Time.deltaTime * turnSpeed);
-        Debug.Log("Moving");
+        // Debug.Log("Moving");
         if(Turn(destination)) {
-            Debug.Log("NOt moving cause turned");
+            // Debug.Log("NOt moving cause turned");
             // Don't move
             return true;
         }
@@ -186,10 +186,10 @@ public class Enemy : Actor, IFreezable {
         transform.position = Vector2.MoveTowards(transform.position, destination, currentSpeed);
 
         if ((Vector2)transform.position == destination) {
-            Debug.Log("Reached move location of " + destination);
+            // Debug.Log("Reached move location of " + destination);
             return false;
         }
-        Debug.Log("Still moving to " + destination);
+        // Debug.Log("Still moving to " + destination);
         return true;
     }
 
@@ -204,7 +204,7 @@ public class Enemy : Actor, IFreezable {
 
         float remainingRotation = Vector2.SignedAngle(transform.right.normalized, (destination - (Vector2)transform.position).normalized);
 
-        print("REMAINING ROTATION" + remainingRotation);
+        // print("REMAINING ROTATION" + remainingRotation);
         if (turnSpeed >= Mathf.Abs(remainingRotation)) {
             transform.Rotate(new Vector3(0,0,remainingRotation));
             return false;
