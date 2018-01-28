@@ -6,6 +6,7 @@ TagManager:
   tags:
   - harvestable
   - ignores-bullets
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Actors
   - 
   - 
   - 
@@ -40,6 +41,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Floor
+    uniqueID: 1573072173
+    locked: 0
+  - name: Walls
+    uniqueID: 4155772041
+    locked: 0
+  - name: TimeBubble
+    uniqueID: 1719889971
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Actors
+    uniqueID: 4196887805
     locked: 0

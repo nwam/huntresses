@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212509809672736532}
   - component: {fileID: 114681174281929356}
   - component: {fileID: 58370370310560046}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Corpse
-  m_TagString: harvestable
+  m_TagString: ignores-bullets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

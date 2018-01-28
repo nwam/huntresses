@@ -46,6 +46,7 @@ public class Stairs : MonoBehaviour {
         if (p != null) {
             playersOnStairs.Add(p);
 
+            // TODO check for count of LIVING players
             if (playersOnStairs.Count == players.Length) {
                 exitLevel();
             }
