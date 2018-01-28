@@ -11,8 +11,13 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     [SerializeField]
     protected float fov = 60;     // in degrees
 
+    protected enum EnemyType { normal, large };
     [SerializeField]
-    protected GameObject projectilePrefab;
+    protected EnemyType enemyType;
+    [SerializeField]
+    protected GameObject bulletPrefab;
+    [SerializeField]
+    protected GameObject largeBulletPrefab;
 
     [SerializeField]
     protected GameObject corpsePrefab;
@@ -71,8 +76,14 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
             // Fire a bullet in the direction the player is facing
             Vector3 ea = transform.rotation.eulerAngles;
-            GameObject newBulletGO = Instantiate(projectilePrefab, transform.position + shootAngle * 1.2f, 
-                Quaternion.Euler(ea.x, ea.y, ea.z + zRotation));
+            if (enemyType == EnemyType.normal) {
+                GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + shootAngle * 1.2f,
+                    Quaternion.Euler(ea.x, ea.y, ea.z + zRotation));
+            }
+            else if (enemyType == EnemyType.large) {
+                GameObject newBulletGO = Instantiate(largeBulletPrefab, transform.position + shootAngle * 1.2f,
+                    Quaternion.Euler(ea.x, ea.y, ea.z + zRotation));
+            }
 
             timeUntilShot = timePerShot;
         }

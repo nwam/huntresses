@@ -99,10 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0005230d6e853254cb5dbbb772df90d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   speed: 5
   fov: 60
-  projectilePrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+  enemyType: 0
+  bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+    type: 2}
+  largeBulletPrefab: {fileID: 1070908498715824, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
