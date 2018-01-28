@@ -5,7 +5,7 @@ using System.Collections;
 public class ProjectileEars : EnemyEars {
 
     protected override float getRadius() {
-        return 1.5f;
+        return 2f;
     }
 
     protected override void Hear(GameObject obj) {

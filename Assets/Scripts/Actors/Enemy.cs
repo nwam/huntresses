@@ -61,7 +61,7 @@ public class Enemy : Actor, IFreezable {
         base.Start();
 
         if(path.Count == 0) {
-            Debug.LogError("Need to set a path for enemy " + name);
+            // Debug.LogError("Need to set a path for enemy " + name);
         }
         transform.position = path[nextPoint];
         NextPathPoint();
@@ -148,7 +148,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Following last seen player location */
         else if (playerLocations.Count > 0) {
-            Debug.Log("Chasing to " + playerLocations.Peek().location);
+            // Debug.Log("Chasing to " + playerLocations.Peek().location);
             if (currentSpeed != 0) {
                 currentSpeed = chaseSpeed;
             }
@@ -245,14 +245,14 @@ public class Enemy : Actor, IFreezable {
         /*
         Vector2 destMinusPos = (destination - (Vector2)transform.position).normalized;
         Vector2 right = transform.right.normalized;
-        //Debug.Log("destMinusPos " + destMinusPos);
-        Debug.Log("right " + right);
+        //// Debug.Log("destMinusPos " + destMinusPos);
+        // Debug.Log("right " + right);
         float threshold = 0.001f;
         if(Mathf.Abs(destMinusPos.x - right.x) < threshold && Mathf.Abs(destMinusPos.y - right.y) < threshold) {
-            Debug.Log("Don't need to turn");
+            // Debug.Log("Don't need to turn");
             return false;
         }
-        Debug.Log("Turning");
+        // Debug.Log("Turning");
         // float turnProgress = turnSpeed * turningUpdates++;
         Vector3 targetDirection = destination - (Vector2)transform.position;
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
@@ -261,7 +261,7 @@ public class Enemy : Actor, IFreezable {
         // transform.rotation = Quaternion.Slerp(/startRotation, targetRotation, turnSpeed * turningUpdates);
 
         if (Quaternion.Equals(transform.rotation, destRotation)) {
-            Debug.Log("Don't need to turn 2");
+            // Debug.Log("Don't need to turn 2");
             return false;
         }
 
@@ -339,7 +339,7 @@ public class Enemy : Actor, IFreezable {
     }
 
     public void HearNoise(PlayerLocation loc) {
-        Debug.Log("Heared a noise at " + loc.location);
+        // Debug.Log("Heared a noise at " + loc.location);
         //transform.LookAt(loc.location);
         playerLocations.Push(loc);
         if (playerLocations.Count <= 0) {

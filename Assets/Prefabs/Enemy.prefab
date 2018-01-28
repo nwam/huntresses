@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4133588015164258}
   - component: {fileID: 58966091616010682}
   - component: {fileID: 114014516435051374}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerEars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4619211635627550}
   - component: {fileID: 58962424669108246}
   - component: {fileID: 114059750620960236}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: ProjectileEars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,8 +56,8 @@ GameObject:
   - component: {fileID: 212638545848714966}
   - component: {fileID: 114866825479807370}
   - component: {fileID: 50123991590478718}
-  - component: {fileID: 61352582299436646}
   - component: {fileID: 95082001590950568}
+  - component: {fileID: 58917761624740098}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -126,6 +126,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &58917761624740098
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1749373564121868}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.0000002
 --- !u!58 &58962424669108246
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -156,31 +171,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3
---- !u!61 &61352582299436646
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1749373564121868}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.75, y: 1.75}
-  m_EdgeRadius: 0
 --- !u!95 &95082001590950568
 Animator:
   serializedVersion: 3
