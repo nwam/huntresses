@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Cog : MonoBehaviour, IFreezable {
 
-    private bool active;
+    private bool active = true;
     [SerializeField]
     private Gate controlled = null;
     [SerializeField]
-    private float chargeRate = 30f;
+    private float chargeRate = 1f;
 
     [SerializeField]
     private GameObject brokenCogPrefab;
@@ -47,7 +47,7 @@ public class Cog : MonoBehaviour, IFreezable {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         LargeBullet largeBullet = collision.gameObject.GetComponent<LargeBullet>();
-        
+        Debug.Log(this.gameObject.name + " got hit!");
         if (largeBullet != null) {
             GameObject newBrokenCog = Instantiate(brokenCogPrefab, transform.position, transform.rotation);
             Destroy(this.gameObject);

@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlled: {fileID: 0}
-  chargeRate: 30
+  chargeRate: 1
   brokenCogPrefab: {fileID: 0}
 --- !u!212 &212730255670992364
 SpriteRenderer:

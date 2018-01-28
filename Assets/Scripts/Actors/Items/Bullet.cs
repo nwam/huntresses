@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour, IFreezable {
 
     [SerializeField]
-    private const float SPEED = 15f;
+    private const float SPEED = 30f;
 
     private float currentSpeed = SPEED;
 

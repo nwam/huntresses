@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(Animator))]
 public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
-
-    [SerializeField]
+    
     protected int health;
     [SerializeField]
     protected float speed;

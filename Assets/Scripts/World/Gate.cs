@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour {
 
-    private const float energyCap = 30f;
     [SerializeField]
-    private float energy = energyCap;
+    private float energyCap = 30f;
+    private float energy;
     private float drainRate = 1f;
 
 	// Use this for initialization
 	void Start () {
-		
+        energy = energyCap;
 	}
 	
 	void FixedUpdate () {

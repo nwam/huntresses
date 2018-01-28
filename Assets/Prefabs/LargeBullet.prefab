@@ -22,9 +22,11 @@ GameObject:
   - component: {fileID: 212156673278693518}
   - component: {fileID: 50446499239260690}
   - component: {fileID: 114547378018245708}
-  - component: {fileID: 60064593482661572}
   - component: {fileID: 114808813902083400}
-  m_Layer: 0
+  - component: {fileID: 114582421169645180}
+  - component: {fileID: 114082247709484754}
+  - component: {fileID: 61920864016677122}
+  m_Layer: 2
   m_Name: LargeBullet
   m_TagString: ignores-bullets
   m_Icon: {fileID: 0}
@@ -64,8 +66,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &60064593482661572
-PolygonCollider2D:
+--- !u!61 &61920864016677122
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -73,25 +75,35 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.00000047683716, y: -0.45850563}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 1, y: 1}
+    oldSize: {x: 1.3333334, y: 1.3333334}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.5, y: -0.000000021855694}
-      - {x: 0.00000004371139, y: -0.5}
-      - {x: 0.5, y: 0.0000000059624403}
+  serializedVersion: 2
+  m_Size: {x: 0.39142704, y: 0.80636215}
+  m_EdgeRadius: 0
+--- !u!114 &114082247709484754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1070908498715824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37bb3cb8e9614a64ebe738a06931e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
 --- !u!114 &114547378018245708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,6 +116,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
+  animator: {fileID: 0}
+--- !u!114 &114582421169645180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1070908498715824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fbb2dec5084dbe4cb3a4a057298b025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114808813902083400
 MonoBehaviour:
   m_ObjectHideFlags: 1
