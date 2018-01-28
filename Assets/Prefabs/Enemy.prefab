@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114866825479807370}
   - component: {fileID: 50123991590478718}
   - component: {fileID: 61352582299436646}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -99,19 +99,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0005230d6e853254cb5dbbb772df90d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 0
-  bullet: {fileID: 1630591413643092, guid: c8b5f3259dc71fa499b0628bba59c200, type: 2}
-  largeBullet: {fileID: 1018228367014462, guid: 445eef4cf6cd1264d8615d9e323e5bdd,
-    type: 2}
-  projectileCooldown: 30
-  fov: 60
+  health: 3
   speed: 5
-  chaseSpeed: 20
+  fov: 60
+  projectilePrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+    type: 2}
+  corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
+    type: 2}
+  timePerShot: 1
+  chaseSpeed: 10
   turnSpeed: 0.1
   spinSpeed: 8
   path: []
-  corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
-    type: 2}
 --- !u!212 &212638545848714966
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -143,8 +142,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -98079491
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 535f8576e045ddc47906ee2857de2c3e, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
