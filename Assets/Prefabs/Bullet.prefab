@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114330791780416256}
   - component: {fileID: 95865257961042716}
   - component: {fileID: 61887137406685688}
+  - component: {fileID: 114187921280686732}
   m_Layer: 2
   m_Name: Bullet
   m_TagString: ignores-bullets
@@ -154,6 +155,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114187921280686732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1494309937607826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37bb3cb8e9614a64ebe738a06931e296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
 --- !u!114 &114330791780416256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+  animator: {fileID: 95816662781917922}
 --- !u!212 &212008470373728858
 SpriteRenderer:
   m_ObjectHideFlags: 1

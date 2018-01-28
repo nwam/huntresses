@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114866825479807370}
   - component: {fileID: 50123991590478718}
   - component: {fileID: 61352582299436646}
+  - component: {fileID: 95082001590950568}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -88,6 +89,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &95082001590950568
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1749373564121868}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb60e77fb18ac3c47bdf7c99159302eb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114866825479807370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,6 +125,7 @@ MonoBehaviour:
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
   timePerShot: 1
+  animator: {fileID: 0}
   chaseSpeed: 10
   turnSpeed: 0.1
   spinSpeed: 8
