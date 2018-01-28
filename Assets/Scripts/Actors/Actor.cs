@@ -15,9 +15,9 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     [SerializeField]
     protected EnemyType enemyType;
     [SerializeField]
-    protected GameObject bulletPrefab;
+    protected Bullet bulletPrefab;
     [SerializeField]
-    protected GameObject largeBulletPrefab;
+    protected Bullet largeBulletPrefab;
 
     [SerializeField]
     protected GameObject corpsePrefab;
@@ -81,19 +81,27 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     protected virtual void Shoot(bool isEnemy) {
         if (timeUntilShot <= 0f) {
 			animator.SetBool ("shoot", true);
+
             // Hacky McHacker for isEnemy
             float zRotation = isEnemy ? -90 : 0;
             Vector3 shootAngle = isEnemy ? transform.right : transform.up;
 
             // Fire a bullet in the direction the player is facing
+            Vector3 target = transform.position + shootAngle * 1.2f;
+
             Vector3 ea = transform.rotation.eulerAngles;
-            if (enemyType == EnemyType.normal) {
-                GameObject newBulletGO = Instantiate(bulletPrefab, transform.position + shootAngle * 1.2f,
-                    Quaternion.Euler(ea.x, ea.y, ea.z + zRotation));
+            Quaternion rotation = Quaternion.Euler(ea.x, ea.y, ea.z + zRotation);
+
+            Bullet fab = bulletPrefab;
+            if (enemyType == EnemyType.large) {
+                fab = largeBulletPrefab;
             }
-            else if (enemyType == EnemyType.large) {
-                GameObject newBulletGO = Instantiate(largeBulletPrefab, transform.position + shootAngle * 1.2f,
-                    Quaternion.Euler(ea.x, ea.y, ea.z + zRotation));
+            if(fab != null) {
+                Bullet newBulletGO = Instantiate(fab, target, rotation);
+                newBulletGO.SetCreator(this);
+            }
+            else {
+                Debug.LogError("Missing bullet prefab for " + name);
             }
 
             timeUntilShot = timePerShot;
