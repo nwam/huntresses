@@ -80,7 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlled: {fileID: 0}
   chargeRate: 1
-  brokenCogPrefab: {fileID: 0}
+  brokenCogPrefab: {fileID: 1093590824588940, guid: d4d61c7c735536d4eaa5b753a4fa866c,
+    type: 2}
 --- !u!212 &212730255670992364
 SpriteRenderer:
   m_ObjectHideFlags: 1
