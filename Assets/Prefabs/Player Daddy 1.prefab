@@ -524,9 +524,9 @@ MonoBehaviour:
   speed: 5
   fov: 60
   enemyType: 0
-  bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+  bulletPrefab: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  largeBulletPrefab: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
+  largeBulletPrefab: {fileID: 114824121485882372, guid: bed05cba7a8b77546838dd78e5afcf97,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: ea275e6943893db449bc029618f6a16a,
     type: 2}
@@ -549,9 +549,9 @@ MonoBehaviour:
   speed: 5
   fov: 60
   enemyType: 0
-  bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+  bulletPrefab: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  largeBulletPrefab: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
+  largeBulletPrefab: {fileID: 114824121485882372, guid: bed05cba7a8b77546838dd78e5afcf97,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 7994c025296122142a4529299b90462b,
     type: 2}
@@ -574,9 +574,9 @@ MonoBehaviour:
   speed: 5
   fov: 60
   enemyType: 0
-  bulletPrefab: {fileID: 1494309937607826, guid: c8b5f3259dc71fa499b0628bba59c200,
+  bulletPrefab: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
     type: 2}
-  largeBulletPrefab: {fileID: 1470724890318932, guid: bed05cba7a8b77546838dd78e5afcf97,
+  largeBulletPrefab: {fileID: 114824121485882372, guid: bed05cba7a8b77546838dd78e5afcf97,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 0d6aef25b3505da488a183509d111660,
     type: 2}
