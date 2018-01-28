@@ -4,6 +4,7 @@ using UnityEngine;
 
 // NOTE: Enemies "forward" direction is position.right
 
+[RequireComponent(typeof(Animator))]
 public class Enemy : Actor, IFreezable {
 
     public struct PlayerLocation {
@@ -56,7 +57,9 @@ public class Enemy : Actor, IFreezable {
 	private bool isFrozen = false;
 
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
+        base.Start();
+
         if(path.Count == 0) {
             Debug.LogError("Need to set a path for enemy " + name);
         }
@@ -186,7 +189,6 @@ public class Enemy : Actor, IFreezable {
             }
         }
     }
-
 
     /* Returns false when enemy has reached destination */
     private bool Move(Vector2 destination) {

@@ -29,9 +29,9 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     private List<Corpse> harvestableCorpses = new List<Corpse>();
     protected bool isHarvesting = false;
 
-	public Animator animator;
+	protected Animator animator;
 
-	void Start(){
+	protected virtual void Start(){
 		animator = GetComponent<Animator> ();
 		AfterStart ();
 	}
@@ -45,6 +45,11 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
             timeUntilShot -= Time.deltaTime;
         }
     }
+
+    public Animator getAnimator() {
+        return animator;
+    }
+
 
     /**
      * TargetTag - "Player" or "Enemy"

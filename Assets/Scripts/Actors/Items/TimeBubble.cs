@@ -40,7 +40,7 @@ public class TimeBubble : MonoBehaviour {
         }
 
         rend.enabled = isActive;
-		attachedPlayer.animator.SetBool ("spell", isActive);
+		attachedPlayer.getAnimator().SetBool ("spell", isActive);
 
         if(isActive) {
             // Remove destroyed objects - should be a way to optimize this

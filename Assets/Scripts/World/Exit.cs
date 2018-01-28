@@ -71,7 +71,6 @@ public class Exit : MonoBehaviour {
     }
 
     IEnumerator displayText(string text) {
-        Debug.Log("Tryna display " + text);
         GameObject obj = GameObject.Find(NOTIF_AREA);
         if (obj == null) {
             Debug.LogError("No game object named " + NOTIF_AREA);
