@@ -31,8 +31,11 @@ public class Bullet : MonoBehaviour, IFreezable {
         creator = actor;
     }
 
-    void Start() {
-    }
+
+	void Start(){
+		followObj = GetComponent<FollowObject> ();
+	}
+
 
 	void Update() {
 		if (Input.GetKeyDown (KeyCode.Z)) {
@@ -43,11 +46,6 @@ public class Bullet : MonoBehaviour, IFreezable {
 	private void FixedUpdate() {
         // Debug.Log("edgeCollider null? " + edgeCollider == null);
 		transform.position += currentSpeed * transform.up * Time.deltaTime;
-
-		followObj = GetComponent<FollowObject> ();
-		if (followObj == null) {
-			Debug.LogError ("FollowObj is null on Bullet!");
-		}
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -96,6 +94,7 @@ public class Bullet : MonoBehaviour, IFreezable {
                 followObj.setTarget (other.transform);
                 followObj.enable ();
             }
+
 		}
 		else {
 			// Hit something other than an enemy
