@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212509809672736532}
   - component: {fileID: 114681174281929356}
   - component: {fileID: 58370370310560046}
-  - component: {fileID: 95832782660278400}
+  - component: {fileID: 95508383741752168}
   m_Layer: 2
-  m_Name: Corpse
+  m_Name: CorpseDahlia
   m_TagString: ignores-bullets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!95 &95832782660278400
+--- !u!95 &95508383741752168
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -67,7 +67,7 @@ Animator:
   m_GameObject: {fileID: 1326873490966946}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 07a9ef507ec390a4490ef580563e857e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 49ebaaea19735d64abf48211e2b983fd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -122,7 +122,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fa8f2e600ffe7e74cba3beb8538f1a01, type: 3}
+  m_Sprite: {fileID: 21300004, guid: ea4933dde6827344a8040a95132166f5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
