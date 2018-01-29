@@ -80,10 +80,10 @@ public class Enemy : Actor, IFreezable {
 
         fullSpinUpdates = (int)(360 / spinSpeed);
 
-        if (enemyType == EnemyType.normal) {
+        if (enemyType == EnemyType.Normal) {
             health = 1;
         }
-        else if (enemyType == EnemyType.large) {
+        else if (enemyType == EnemyType.Large) {
             health = 3;
         }
     }
@@ -336,6 +336,11 @@ public class Enemy : Actor, IFreezable {
 
     protected override GameObject LookForOpponent() {
         return LookFor("Player", transform.right);
+    }
+
+    // The cooldown in between shots, IE 1 / FireRate = Shots / second
+    protected override float GetFireRate() {
+        return 1f;
     }
 
     public void HearNoise(PlayerLocation loc) {

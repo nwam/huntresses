@@ -9,10 +9,10 @@ public class TimeBubble : MonoBehaviour {
 
     private List<IFreezable> collisions = new List<IFreezable>();
 
-    [SerializeField]
+    // [SerializeField]
     private Player attachedPlayer;
 
-    [SerializeField]
+    // [SerializeField]
     private BloodPool bloodPool;
 
     [SerializeField]
@@ -22,6 +22,8 @@ public class TimeBubble : MonoBehaviour {
     void Start () {
         isActive = false;
         rend = GetComponent<Renderer>();
+        attachedPlayer = GetComponentInParent<Player>();
+        bloodPool = GameObject.FindObjectOfType<BloodPool>();
 	}
 	
 	// Update is called once per frame
@@ -30,12 +32,14 @@ public class TimeBubble : MonoBehaviour {
 
         if(Input.GetKeyDown(key) && attachedPlayer.IsSelected()) {
             isActive = !isActive;
+            Debug.Log(attachedPlayer.name + " toggled timebubble " + isActive);
         }
 
         if (isActive) {
             // Drain Blood
             if (!bloodPool.Withdraw()) {
                 isActive = false;
+                Debug.Log("Ran out of blood");
             }
         }
 
@@ -62,9 +66,15 @@ public class TimeBubble : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         IFreezable freezable = collision.gameObject.GetComponent<IFreezable>();
-
         if(freezable != null) {
-            if(isActive) {
+            Freeze(freezable);
+            //Debug.Log("Freezing " + collision.gameObject.name);
+        }
+    }
+
+    private void Freeze(IFreezable freezable) {
+        if (freezable != null && !collisions.Contains(freezable)) {
+            if (isActive) {
                 freezable.Freeze();
             }
             collisions.Add(freezable);

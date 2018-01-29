@@ -11,7 +11,8 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     [SerializeField]
     protected float fov = 60;     // in degrees
 
-    protected enum EnemyType { normal, large };
+    protected enum EnemyType { Normal, Large };
+
     [SerializeField]
     protected EnemyType enemyType;
     [SerializeField]
@@ -22,8 +23,6 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     [SerializeField]
     protected GameObject corpsePrefab;
 
-    [SerializeField]
-    protected float timePerShot = 1f; // in seconds
     private float timeUntilShot = 0f;
 
     private List<Corpse> harvestableCorpses = new List<Corpse>();
@@ -33,10 +32,6 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
 	protected virtual void Start(){
 		animator = GetComponent<Animator> ();
-		AfterStart ();
-	}
-
-	protected virtual void AfterStart(){
 	}
 
     // Update is called once per frame
@@ -80,6 +75,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     }
 
     protected abstract GameObject LookForOpponent();
+    protected abstract float GetFireRate();
     protected abstract void Shoot();
 
     protected virtual void Shoot(bool isEnemy) {
@@ -97,7 +93,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
             Quaternion rotation = Quaternion.Euler(ea.x, ea.y, ea.z + zRotation);
 
             Bullet fab = bulletPrefab;
-            if (enemyType == EnemyType.large) {
+            if (enemyType == EnemyType.Large) {
                 fab = largeBulletPrefab;
             }
             if(fab != null) {
@@ -108,7 +104,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
                 Debug.LogError("Missing bullet prefab for " + name);
             }
 
-            timeUntilShot = timePerShot;
+            timeUntilShot = GetFireRate();
         }
     }
 

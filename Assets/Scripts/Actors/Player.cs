@@ -19,7 +19,8 @@ public class Player : Actor, IShootable {
     private Quaternion overwatchRotation;
 
     // Use this for initialization
-    protected override void AfterStart() {
+    protected override void Start() {
+        base.Start();
         bloodPool = FindObjectOfType<BloodPool>();  
         if (playerID == "1") {
             Select();
@@ -179,5 +180,9 @@ public class Player : Actor, IShootable {
         float amount = base.Harvest();
         bloodPool.Fill(amount);
         return amount;
+    }
+
+    protected override float GetFireRate() {
+        return 0.75f;
     }
 }
