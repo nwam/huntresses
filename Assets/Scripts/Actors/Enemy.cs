@@ -127,6 +127,7 @@ public class Enemy : Actor, IFreezable {
                 lastPathLocation = transform.position;
             }
 
+			// Debug.Log ("Player Hid at " + lastSeenPlayerLoc);
             playerLocations.Push(new PlayerLocation(lastSeenPlayerLoc, (int)Mathf.Sign(deltaRot)));
             seePlayer = false;
         }
@@ -157,7 +158,7 @@ public class Enemy : Actor, IFreezable {
 
         /* Returning to where we last left our patrol path */
         else if (returningToPath) {
-            // Debug.Log("Returning to path");
+            // Debug.Log("Returning to path at" + lastPathLocation);
             if (currentSpeed != 0) {
                 currentSpeed = defaultSpeed;
             }
@@ -294,6 +295,7 @@ public class Enemy : Actor, IFreezable {
         spinUpdates += 1;
 
         if (spinUpdates >= fullSpinUpdates) {
+			spinUpdates = 0;
             return false;
         }
         return true;
@@ -337,9 +339,9 @@ public class Enemy : Actor, IFreezable {
     public void HearNoise(PlayerLocation loc) {
         // Debug.Log("Heared a noise at " + loc.location);
         //transform.LookAt(loc.location);
+		if (playerLocations.Count <= 0) {
+			lastPathLocation = transform.position;
+		}
         playerLocations.Push(loc);
-        if (playerLocations.Count <= 0) {
-            lastPathLocation = transform.position;
-        }
     }
 }
