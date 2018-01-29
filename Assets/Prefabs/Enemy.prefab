@@ -224,9 +224,9 @@ MonoBehaviour:
   speed: 5
   fov: 60
   enemyType: 0
-  bulletPrefab: {fileID: 114330791780416256, guid: c8b5f3259dc71fa499b0628bba59c200,
+  bulletPrefab: {fileID: 114330791780416256, guid: 6f8d4589debc9f44a854555301d0dc45,
     type: 2}
-  largeBulletPrefab: {fileID: 114824121485882372, guid: bed05cba7a8b77546838dd78e5afcf97,
+  largeBulletPrefab: {fileID: 114330791780416256, guid: 6f8d4589debc9f44a854555301d0dc45,
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}

@@ -531,7 +531,6 @@ MonoBehaviour:
   corpsePrefab: {fileID: 1326873490966946, guid: ea275e6943893db449bc029618f6a16a,
     type: 2}
   timePerShot: 1
-  animator: {fileID: 95943691525055946}
   harvestKey: 113
   playerID: 3
   followCam: {fileID: 0}
@@ -556,7 +555,6 @@ MonoBehaviour:
   corpsePrefab: {fileID: 1326873490966946, guid: 7994c025296122142a4529299b90462b,
     type: 2}
   timePerShot: 1
-  animator: {fileID: 95548884588992594}
   harvestKey: 113
   playerID: 1
   followCam: {fileID: 0}
@@ -581,7 +579,6 @@ MonoBehaviour:
   corpsePrefab: {fileID: 1326873490966946, guid: 0d6aef25b3505da488a183509d111660,
     type: 2}
   timePerShot: 1
-  animator: {fileID: 95033121457233764}
   harvestKey: 113
   playerID: 2
   followCam: {fileID: 0}
