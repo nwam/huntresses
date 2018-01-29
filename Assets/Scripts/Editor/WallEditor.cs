@@ -18,7 +18,7 @@ public class WallEditor : EditorWindow {
     private int btnWidth = 100;
     private int btnHeight = 25;
 
-    [MenuItem("GameObject/Tim's Amazing Wall Generator")]
+    [MenuItem("GameObject/Daddy's Amazing Wall Generator")]
     static void OpenWindow() {
         GetWindow(typeof(WallEditor), false, title: "Edit Strings");
     }
