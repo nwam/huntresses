@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloodCapacity: 10
   drainRate: 1
-  bloodpool: {fileID: 0}
+  bloodpool: {fileID: 4225891425481702}
 --- !u!212 &212509809672736532
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -31,6 +31,10 @@ public class Bullet : MonoBehaviour, IFreezable {
         creator = actor;
     }
 
+    public bool IsPlayerBullet() {
+        return creator.gameObject.GetComponent<Player>() != null;
+    }
+
 
 	void Start(){
 		followObj = GetComponent<FollowObject> ();
@@ -51,8 +55,7 @@ public class Bullet : MonoBehaviour, IFreezable {
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject other = collision.gameObject;
         //SpriteRenderer renderer = other.GetComponent<SpriteRenderer>();
-        Debug.Log("Shot " + other.name);
-        //Debug.Break();
+        // Debug.Log("Shot " + other.name);
 
         if (other == null || other.tag == "ignores-bullets") {
             return;
@@ -94,7 +97,6 @@ public class Bullet : MonoBehaviour, IFreezable {
                 followObj.setTarget (other.transform);
                 followObj.enable ();
             }
-
 		}
 		else {
 			// Hit something other than an enemy
@@ -108,12 +110,12 @@ public class Bullet : MonoBehaviour, IFreezable {
     }
 
     public void Freeze() {
-        Debug.Log(name + " frozen");
+        // Debug.Log(name + " frozen");
         currentSpeed = 0;
     }
 
     public void UnFreeze() {
-        Debug.Log(name + " unfrozen");
+        // Debug.Log(name + " unfrozen");
         currentSpeed = SPEED;
     }
 

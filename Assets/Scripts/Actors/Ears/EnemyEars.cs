@@ -11,6 +11,7 @@ public abstract class EnemyEars : MonoBehaviour {
         owner = GetComponentInParent<Enemy>();
         CircleCollider2D collider = GetComponent<CircleCollider2D>();
         collider.radius = getRadius();
+        // Debug.Log("Initialized the ears of " + owner.name);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

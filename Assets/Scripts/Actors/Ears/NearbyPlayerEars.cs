@@ -28,7 +28,6 @@ public class NearbyPlayerEars : EnemyEars {
 
     protected override void Hear(GameObject obj) {
         // The enemy has a 'hearing radius'. If the player passes through this circle, the enemy is alerted.
-
         Vector2? sourceOfNoise = null;
         Player player = obj.GetComponent<Player>();
         if (player != null) {
@@ -46,6 +45,7 @@ public class NearbyPlayerEars : EnemyEars {
             
             collidingPlayers.Add(player);
             if(listenForPlayer(player)) {
+                Debug.Log("Shitteroo");
                 // Send the enemy after the player if the ray hits the player
                 SendHearNoise(player);
             }
@@ -62,7 +62,7 @@ public class NearbyPlayerEars : EnemyEars {
         RaycastHit2D castHit = Physics2D.Raycast(owner.transform.position, player.transform.position - owner.transform.position);// Mathf.Infinity, layerMask);
         // Debug.Log("The cast hit " + castHit.transform.gameObject.name + " tagged " + castHit.transform.gameObject.tag);
 
-        // Debug.DrawRay(owner.transform.position, player.transform.position - owner.transform.position, Color.red);
+        Debug.DrawRay(owner.transform.position, player.transform.position - owner.transform.position, Color.red);
         return castHit.transform != null && castHit.transform.gameObject.CompareTag("Player");
     }
 
