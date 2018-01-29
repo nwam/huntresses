@@ -4,10 +4,6 @@ using System.Collections;
 // Listens for nearby Bullets
 public class ProjectileEars : EnemyEars {
 
-    protected override float getRadius() {
-        return 2.25f;
-    }
-
     protected override void Hear(GameObject obj) {
         // The enemy has a 'hearing radius'. If the player or a projectile passes through this circle, the enemy is alerted.
 

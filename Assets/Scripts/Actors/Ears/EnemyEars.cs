@@ -10,7 +10,6 @@ public abstract class EnemyEars : MonoBehaviour {
     void Start() {
         owner = GetComponentInParent<Enemy>();
         CircleCollider2D collider = GetComponent<CircleCollider2D>();
-        collider.radius = getRadius();
         // Debug.Log("Initialized the ears of " + owner.name);
     }
 
@@ -19,5 +18,4 @@ public abstract class EnemyEars : MonoBehaviour {
     }
 
     protected abstract void Hear(GameObject obj);
-    protected abstract float getRadius();   
 }

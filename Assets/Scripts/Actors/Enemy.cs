@@ -27,8 +27,6 @@ public class Enemy : Actor, IFreezable {
     [SerializeField]
     private float turnSpeed = 8.0f;     // Degrees per FixedUpdate
     private bool turning = true;
-    private Quaternion startRotation;
-    private int turningUpdates;
 
     [SerializeField]
     private float spinSpeed = 8;        // Degrees per FixedUpdate
@@ -222,11 +220,6 @@ public class Enemy : Actor, IFreezable {
         return true;
     }
 
-    private bool StartTurn(Vector2 destination) {
-        turningUpdates = 0;
-        return Turn(destination);
-    }
-
     /* Returns true of the turn executed successfully */
     private bool Turn(Vector2 destination) {
 
@@ -278,8 +271,6 @@ public class Enemy : Actor, IFreezable {
 
     private void ToTurnState() {
         turning = true;
-        startRotation = transform.rotation;
-        turningUpdates = 0;
     }
 
     private void ToMoveState() {

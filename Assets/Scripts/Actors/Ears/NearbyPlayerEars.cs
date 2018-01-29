@@ -7,10 +7,6 @@ public class NearbyPlayerEars : EnemyEars {
 
     private List<Player> collidingPlayers = new List<Player>();
 
-    protected override float getRadius() {
-        return 3f;
-    }
-
     private void Update() {
         collidingPlayers.ForEach(player => {
             if (listenForPlayer(player)) {

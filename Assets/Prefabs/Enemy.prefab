@@ -155,7 +155,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.25
+  m_Radius: 3
 --- !u!58 &58966091616010682
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -230,7 +230,6 @@ MonoBehaviour:
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 2494ffd6605afd44aaa6701dbe1f9af5,
     type: 2}
-  timePerShot: 1
   chaseSpeed: 10
   turnSpeed: 10
   spinSpeed: 8
