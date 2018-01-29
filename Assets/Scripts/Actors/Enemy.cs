@@ -17,6 +17,9 @@ public class Enemy : Actor, IFreezable {
         }
     }
 
+	private enum State{PATROL, COMBAT, SEARCH, SPIN, RETURN};
+    private State state;
+
     private const float SPEED_MULTIPLIER = 0.01f;
 
     [SerializeField]
@@ -41,7 +44,6 @@ public class Enemy : Actor, IFreezable {
     private Stack<PlayerLocation> playerLocations;
     private Vector2 lastSeenPlayerLoc;
     private bool seePlayer = false;
-    private bool waiting = true;
 
     // Keep track of the direction which the player is heading in
     private float deltaRot = 0;
@@ -52,6 +54,8 @@ public class Enemy : Actor, IFreezable {
     private bool returningToPath = false;
     private Vector2 lastPathLocation;
 
+    [SerializeField]
+    private float fireRate;
 	private bool isFrozen = false;
 
     // Use this for initialization
@@ -63,11 +67,6 @@ public class Enemy : Actor, IFreezable {
         }
         transform.position = path[nextPoint];
         NextPathPoint();
-
-        if (0 != nextPoint)
-        {
-            waiting = false;
-        }
 
         playerLocations = new Stack<PlayerLocation>();
 
@@ -106,7 +105,6 @@ public class Enemy : Actor, IFreezable {
             seePlayer = true;
             spinning = false;
             turning = false;
-            waiting = false;
 
             // Track the player's location
             lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
@@ -169,22 +167,8 @@ public class Enemy : Actor, IFreezable {
 
         /* On preset path */
         else {
-            if (waiting) {
-                int oldPoint = nextPoint;
-                if (NextPathPoint() != oldPoint) {
-                    waiting = false;
-                }
-            }
-            else if (!turning) {
-                if (!Move(path[nextPoint])) {
-                    NextPathPoint();
-                    ToTurnState();
-                }
-            }
-            else {
-                if (!Turn(path[nextPoint])) {
-                    ToMoveState();
-                }
+            if (path.Count > 1 && !Move(path[nextPoint])) {
+                NextPathPoint();
             }
         }
     }
@@ -223,7 +207,6 @@ public class Enemy : Actor, IFreezable {
 
     /* Returns true of the turn executed successfully */
     private bool Turn(Vector2 destination) {
-
 
         float remainingRotation = Vector2.SignedAngle(transform.right.normalized, (destination - (Vector2)transform.position).normalized);
 
@@ -270,14 +253,6 @@ public class Enemy : Actor, IFreezable {
    */
     }
 
-    private void ToTurnState() {
-        turning = true;
-    }
-
-    private void ToMoveState() {
-        turning = false;
-    }
-
     private void ToSpinState() {
         spinning = true;
         spinUpdates = 0;
@@ -301,6 +276,14 @@ public class Enemy : Actor, IFreezable {
         return true;
     }
 
+    protected override void Shoot() {
+		if (isFrozen) {
+			// You cannot shoot while frozen.
+			return;
+		}
+        Shoot(true);
+    }
+
     public void Freeze() {
         // Debug.Log(name + " frozen");
 		isFrozen = true;
@@ -315,16 +298,8 @@ public class Enemy : Actor, IFreezable {
         // Restore ability to rotate and shoot
     }
 
-    public bool isDestroyed() {
+    public bool IsDestroyed() {
         return this == null;
-    }
-
-    protected override void Shoot() {
-		if (isFrozen) {
-			// You cannot shoot while frozen.
-			return;
-		}
-        Shoot(true);
     }
 
     protected override GameObject LookForOpponent() {
@@ -333,7 +308,7 @@ public class Enemy : Actor, IFreezable {
 
     // The cooldown in between shots, IE 1 / FireRate = Shots / second
     protected override float GetFireRate() {
-        return 1f;
+        return fireRate;
     }
 
     public void HearNoise(PlayerLocation loc) {

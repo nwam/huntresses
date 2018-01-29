@@ -134,7 +134,7 @@ public class Bullet : MonoBehaviour, IFreezable {
         isFrozen = false;
     }
 
-    public bool isDestroyed() {
+    public bool IsDestroyed() {
         return this == null;
     }
 }

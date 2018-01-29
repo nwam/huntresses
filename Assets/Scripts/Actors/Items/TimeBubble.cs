@@ -49,7 +49,7 @@ public class TimeBubble : MonoBehaviour {
         if(isActive) {
             // Remove destroyed objects - should be a way to optimize this
             for (int i = 0; i < collisions.Count; i++) {
-                if (collisions[i].isDestroyed()) {
+                if (collisions[i].IsDestroyed()) {
                     collisions.RemoveAt(i);
                 }
             }

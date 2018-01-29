@@ -49,7 +49,7 @@ public class Cog : MonoBehaviour, IFreezable, IShootable {
         active = true;
     }
 
-    public bool isDestroyed() {
+    public bool IsDestroyed() {
         return this == null;
     }
     
