@@ -7,6 +7,7 @@ TagManager:
   - harvestable
   - ignores-bullets
   - Enemy
+  - notifArea
   layers:
   - Default
   - TransparentFX

@@ -342,4 +342,9 @@ public class Enemy : Actor, IFreezable {
             lastPathLocation = transform.position;
         }
     }
+    
+    protected override void Die() {
+        base.Die();
+        Destroy(gameObject);
+    }
 }

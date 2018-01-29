@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class Player : Actor, IShootable {
     [SerializeField]
@@ -18,10 +19,15 @@ public class Player : Actor, IShootable {
     private bool overwatching = false;
     private Quaternion overwatchRotation;
 
+    private static List<Player> livingPlayers = new List<Player>();
+
     // Use this for initialization
     protected override void Start() {
         base.Start();
-        bloodPool = FindObjectOfType<BloodPool>();  
+        bloodPool = FindObjectOfType<BloodPool>();
+
+        livingPlayers.Add(this);
+
         if (playerID == "1") {
             Select();
         }
@@ -103,6 +109,7 @@ public class Player : Actor, IShootable {
     }
 
     private void OnMouseOver() {
+        // Right-click a player to select them
         if (Input.GetKeyDown(KeyCode.Mouse1)) {
             Player[] players = FindObjectsOfType<Player>();
             for (int i = 0; i < players.Length; i++)
@@ -117,7 +124,7 @@ public class Player : Actor, IShootable {
         return selected;
     }
 
-    void Select() {
+    public void Select() {
         selected = true;
         followCam.setActivePlayer(gameObject.transform);
         //timeBubble.SetSelectedPlayer(this);
@@ -167,10 +174,40 @@ public class Player : Actor, IShootable {
         Shoot(false);
     }
 
+    protected override void Die() {
+        base.Die();
+
+        Deselect();
+
+        int index = livingPlayers.IndexOf(this);
+        livingPlayers.Remove(this);
+
+        Debug.Log(livingPlayers.Count + " players remain1");
+        if(livingPlayers.Count > 0) {
+            StartCoroutine(cameraFollowNextPlayer());    
+        }
+        else {
+            Debug.Log("You lost haha");
+            GameObject.FindGameObjectWithTag("notifArea").GetComponent<Text>().text = "You lost haha";
+        }
+    }
+
+    // Also destroys this object!! It should already be hidden.
+    IEnumerator cameraFollowNextPlayer() {
+        yield return new WaitForSeconds(1);
+
+        Player newSelected = livingPlayers[0];
+        Debug.Log("The new active player is " + newSelected.name);
+        Debug.Log(livingPlayers.Count + " players remain");
+        newSelected.Select();
+        followCam.setActivePlayer(newSelected.transform);
+
+        Destroy(gameObject);
+    }
+
     protected override GameObject LookForOpponent() {
         return LookFor("Enemy", transform.up);
     }
-
 
     protected override float Harvest() {
         if (bloodPool.IsFull()) {
