@@ -5,7 +5,7 @@ using UnityEngine;
 // NOTE: Enemies "forward" direction is position.right
 
 [RequireComponent(typeof(Animator))]
-public class Enemy : Actor, IFreezable {
+public class Enemy : Actor, IFreezable, IPathLogic {
 
     public struct PlayerLocation {
         public Vector2 location;

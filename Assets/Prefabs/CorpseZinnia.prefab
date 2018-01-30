@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896af2391e8a47a49a66100e300ea5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldGrid: {fileID: 1275651015700262, guid: 047958677dd170948a26850c899544d4, type: 2}
   bloodCapacity: 10
   drainRate: 1
   bloodpool: {fileID: 4552123377224372}

@@ -5,6 +5,10 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Animator))]
 public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic {
 
+    [SerializeField]
+    private GameObject worldGrid;
+    private GameObject spawnSender;
+
     protected int health;
     [SerializeField]
     protected float speed;
@@ -34,7 +38,8 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
     protected virtual void Start() {
         animator = GetComponent<Animator>();
         rendererr = GetComponent<Renderer>();
-
+        spawnSender = Instantiate(worldGrid) as GameObject;
+        onSpawn();
     }
 
     // Update is called once per frame
@@ -173,5 +178,9 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
 
     public virtual string MapKey() {
         return "Actor";
+    }
+
+    public void onSpawn() {
+        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
     }
 }

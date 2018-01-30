@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077b8a6c05ff5ee4f9db241302a8050b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldGrid: {fileID: 1275651015700262, guid: 047958677dd170948a26850c899544d4, type: 2}
   controlled: {fileID: 0}
   chargeRate: 1
   brokenCogPrefab: {fileID: 1093590824588940, guid: d4d61c7c735536d4eaa5b753a4fa866c,

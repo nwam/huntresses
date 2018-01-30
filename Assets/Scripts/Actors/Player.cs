@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class Player : Actor, IShootable {
+public class Player : Actor, IShootable, IPathLogic {
     [SerializeField]
     private KeyCode harvestKey;
     [SerializeField]

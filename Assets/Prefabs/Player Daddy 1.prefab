@@ -479,8 +479,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c012d288a159f4b43954d6d01589b12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedPlayer: {fileID: 114461394275464382}
-  bloodPool: {fileID: 0}
   key: 101
 --- !u!114 &114071273795402002
 MonoBehaviour:
@@ -493,8 +491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c012d288a159f4b43954d6d01589b12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedPlayer: {fileID: 114829987072939330}
-  bloodPool: {fileID: 0}
   key: 101
 --- !u!114 &114298665328125530
 MonoBehaviour:
@@ -507,8 +503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c012d288a159f4b43954d6d01589b12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedPlayer: {fileID: 114543299432130968}
-  bloodPool: {fileID: 0}
   key: 101
 --- !u!114 &114461394275464382
 MonoBehaviour:
@@ -521,6 +515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acefe382905d5a46b19165252c40353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldGrid: {fileID: 1275651015700262, guid: 047958677dd170948a26850c899544d4, type: 2}
   speed: 5
   fov: 60
   enemyType: 0
@@ -530,7 +525,6 @@ MonoBehaviour:
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: ea275e6943893db449bc029618f6a16a,
     type: 2}
-  timePerShot: 1
   harvestKey: 113
   playerID: 3
   followCam: {fileID: 0}
@@ -545,6 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acefe382905d5a46b19165252c40353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldGrid: {fileID: 1275651015700262, guid: 047958677dd170948a26850c899544d4, type: 2}
   speed: 5
   fov: 60
   enemyType: 0
@@ -554,7 +549,6 @@ MonoBehaviour:
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 7994c025296122142a4529299b90462b,
     type: 2}
-  timePerShot: 1
   harvestKey: 113
   playerID: 1
   followCam: {fileID: 0}
@@ -569,6 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acefe382905d5a46b19165252c40353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldGrid: {fileID: 1275651015700262, guid: 047958677dd170948a26850c899544d4, type: 2}
   speed: 5
   fov: 60
   enemyType: 0
@@ -578,7 +573,6 @@ MonoBehaviour:
     type: 2}
   corpsePrefab: {fileID: 1326873490966946, guid: 0d6aef25b3505da488a183509d111660,
     type: 2}
-  timePerShot: 1
   harvestKey: 113
   playerID: 2
   followCam: {fileID: 0}

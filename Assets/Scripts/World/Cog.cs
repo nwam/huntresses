@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
 
+    [SerializeField]
+    private GameObject worldGrid;
+    private GameObject spawnSender;
+
     private bool active = true;
     [SerializeField]
     private Gate controlled = null;
@@ -15,7 +19,8 @@ public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
 
 	// Use this for initialization
 	void Start () {
-		
+        spawnSender = Instantiate(worldGrid) as GameObject;
+        onSpawn();
 	}
 	
 	// Update is called once per frame
@@ -60,5 +65,9 @@ public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
 
     public string MapKey() {
         return "Cog";
+    }
+
+    public void onSpawn() {
+        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
     }
 }

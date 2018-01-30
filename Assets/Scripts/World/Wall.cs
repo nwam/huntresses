@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour, IPathLogic {
 
+    [SerializeField]
+    private GameObject worldGrid;
+    private GameObject spawnSender;
+
 	// Use this for initialization
 	void Start () {
-		
-	}
+        spawnSender = Instantiate(worldGrid) as GameObject;
+        onSpawn();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -21,5 +26,9 @@ public class Wall : MonoBehaviour, IPathLogic {
 
     public string MapKey() {
         return "Wall";
+    }
+
+    public void onSpawn() {
+        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
     }
 }

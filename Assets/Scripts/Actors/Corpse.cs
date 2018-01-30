@@ -5,6 +5,10 @@ using UnityEngine;
 public class Corpse : MonoBehaviour, IPathLogic {
 
     [SerializeField]
+    private GameObject worldGrid;
+    private GameObject spawnSender;
+
+    [SerializeField]
     private float bloodCapacity = 10f;
 	private float maxBloodCapacity;
     [SerializeField]
@@ -16,7 +20,9 @@ public class Corpse : MonoBehaviour, IPathLogic {
 
 	void Start(){
 		maxBloodCapacity = bloodCapacity;
-	}
+        spawnSender = Instantiate(worldGrid) as GameObject;
+        onSpawn();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         IHarvester newHarvester = collision.gameObject.GetComponent<IHarvester>();
@@ -69,5 +75,9 @@ public class Corpse : MonoBehaviour, IPathLogic {
 
     public string MapKey() {
         return "Corpse";
+    }
+
+    public void onSpawn() {
+        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
     }
 }

@@ -19,14 +19,6 @@ public class WorldGrid : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        // Find all pathing logic objects in the scene
-        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
-        for (int i = 0; i < allObjects.Length; i++) {
-            if (allObjects[i].GetComponent<IPathLogic>() != null) {
-                pathingObjects.Add(allObjects[i]);
-            }
-        }
-
         // Initialize location grid
         int centering = numCols / 2;
         for (int i = 0; i < numCols; i++) {
@@ -38,26 +30,34 @@ public class WorldGrid : MonoBehaviour {
     
     // Update is called once per frame
     void FixedUpdate() {
-        mapState = refreshMapState();
+
     }
 
-    public string[,] refreshMapState() {
+    public string[,] getMapState() {
         string[,] refreshedMap = new string[numCols, numCols];
-        for (int i = 0; i < pathingObjects.Count; i++) {
-            Vector2 origPos = pathingObjects[i].transform.position;
-            // Snap the position of the object to the grid
-            Vector2 snapGridPos = new Vector2(Mathf.Round(origPos.x * 2.0f) / 2.0f, Mathf.Round(origPos.y * 2.0f) / 2.0f);
+        for (int i = pathingObjects.Count - 1; i >= 0; i--) {
+            if (pathingObjects[i] != null) { // Check if the object has been destroyed, and if so remove it
+                Vector2 origPos = pathingObjects[i].transform.position;
+                // Snap the position of the object to the grid
+                Vector2 snapGridPos = new Vector2(Mathf.Round(origPos.x * 2.0f) / 2.0f, Mathf.Round(origPos.y * 2.0f) / 2.0f);
 
-            // Find the indices of the position in the mapGrid, then map the object on the mapState
-            for (int j = 0; j < numCols; j++) {
-                for (int k = 0; k < numCols; k++) {
-                    if (mapGrid[k, j] == snapGridPos) {
-                        refreshedMap[k, j] = pathingObjects[i].GetComponent<IPathLogic>().MapKey();
+                // Find the indices of the position in the mapGrid, then map the object on the mapState
+                for (int j = 0; j < numCols; j++) {
+                    for (int k = 0; k < numCols; k++) {
+                        if (mapGrid[k, j] == snapGridPos) {
+                            refreshedMap[k, j] = pathingObjects[i].GetComponent<IPathLogic>().MapKey();
+                        }
                     }
                 }
+            }
+            else {
+                pathingObjects.RemoveAt(i);
             }
         }
         return refreshedMap;
     }
-    
+
+    public void AddToMap(GameObject spawned) {
+        pathingObjects.Add(spawned);
+    }
 }
