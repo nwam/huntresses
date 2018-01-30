@@ -53,7 +53,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
      * TargetTag - "Player" or "Enemy"
      * ForwardDirection - UP for player, RIGHT for enemy.
      */
-    protected GameObject LookFor(string targetTag, Vector3 forwardDirection) {
+    protected GameObject LookFor(string targetTag, Vector3 forwardDirection, float fov) {
         // Enemies array could be cached to improve performance
         GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
         foreach (GameObject target in targets) {

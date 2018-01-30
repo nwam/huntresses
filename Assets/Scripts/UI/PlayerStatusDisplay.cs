@@ -29,6 +29,10 @@ public class PlayerStatusDisplay : MonoBehaviour {
 	}
 
     public void EnterState(PlayerState state) {
+        if(stateColors == null) {
+            Start();
+        }
+
         if(state == PlayerState.DEAD) {
             // Special state - Hide this StatusDisplay
             gameObject.transform.localScale = new Vector3(0, 0, 0);

@@ -52,20 +52,19 @@ public class Enemy : Actor, IFreezable {
     private bool returningToPath = false;
     private Vector2 lastPathLocation;
 
-	private bool isFrozen = false;
+    private bool isFrozen = false;
 
     // Use this for initialization
     protected override void Start() {
         base.Start();
 
-        if(path.Count == 0) {
+        if (path.Count == 0) {
             // Debug.LogError("Need to set a path for enemy " + name);
         }
         transform.position = path[nextPoint];
         NextPathPoint();
 
-        if (0 != nextPoint)
-        {
+        if (0 != nextPoint) {
             waiting = false;
         }
 
@@ -88,7 +87,7 @@ public class Enemy : Actor, IFreezable {
 
     protected override void FixedUpdate() {
         base.FixedUpdate();
-		animator.SetBool("walk", false);
+        animator.SetBool("walk", false);
 
         GameObject foundPlayer = LookForOpponent();
 
@@ -127,7 +126,7 @@ public class Enemy : Actor, IFreezable {
                 lastPathLocation = transform.position;
             }
 
-			// Debug.Log ("Player Hid at " + lastSeenPlayerLoc);
+            // Debug.Log ("Player Hid at " + lastSeenPlayerLoc);
             playerLocations.Push(new PlayerLocation(lastSeenPlayerLoc, (int)Mathf.Sign(deltaRot)));
             seePlayer = false;
         }
@@ -191,13 +190,13 @@ public class Enemy : Actor, IFreezable {
 
     /* Returns false when enemy has reached destination */
     private bool Move(Vector2 destination) {
-		animator.SetBool("walk", true);
+        animator.SetBool("walk", true);
         // Turn to look at destination
         // Vector2 currentPosition2D = transform.position;
         // Vector2 rotToDest = destination - currentPosition2D;
         //transform.up = Vector2.Lerp(position2, rot, Time.deltaTime * turnSpeed);
         // Debug.Log("Moving");
-        if(Turn(destination)) {
+        if (Turn(destination)) {
             // Debug.Log("NOt moving cause turned");
             // Don't move
             return true;
@@ -223,17 +222,16 @@ public class Enemy : Actor, IFreezable {
 
     /* Returns true of the turn executed successfully */
     private bool Turn(Vector2 destination) {
-
-
-        float remainingRotation = Vector2.SignedAngle(transform.right.normalized, (destination - (Vector2)transform.position).normalized);
+        float remainingRotation = Vector2.SignedAngle(transform.right.normalized, 
+            (destination - (Vector2)transform.position).normalized);
 
         // print("REMAINING ROTATION" + remainingRotation);
         if (turnSpeed >= Mathf.Abs(remainingRotation)) {
-            transform.Rotate(new Vector3(0,0,remainingRotation));
+            transform.Rotate(new Vector3(0, 0, remainingRotation));
             return false;
         }
 
-        transform.Rotate(new Vector3(0,0,turnSpeed*Mathf.Sign(remainingRotation)));
+        transform.Rotate(new Vector3(0, 0, turnSpeed * Mathf.Sign(remainingRotation)));
         return true;
 
         /*
@@ -295,7 +293,7 @@ public class Enemy : Actor, IFreezable {
         spinUpdates += 1;
 
         if (spinUpdates >= fullSpinUpdates) {
-			spinUpdates = 0;
+            spinUpdates = 0;
             return false;
         }
         return true;
@@ -303,14 +301,14 @@ public class Enemy : Actor, IFreezable {
 
     public void Freeze() {
         // Debug.Log(name + " frozen");
-		isFrozen = true;
+        isFrozen = true;
         currentSpeed = 0;
         // Also cannot rotate or shoot
     }
 
     public void UnFreeze() {
         // Debug.Log(name + " unfrozen");
-		isFrozen = false;
+        isFrozen = false;
         currentSpeed = defaultSpeed;
         // Restore ability to rotate and shoot
     }
@@ -320,15 +318,15 @@ public class Enemy : Actor, IFreezable {
     }
 
     protected override void Shoot() {
-		if (isFrozen) {
-			// You cannot shoot while frozen.
-			return;
-		}
+        if (isFrozen) {
+            // You cannot shoot while frozen.
+            return;
+        }
         Shoot(true);
     }
 
     protected override GameObject LookForOpponent() {
-        return LookFor("Player", transform.right);
+        return LookFor("Player", transform.right, fov);
     }
 
     // The cooldown in between shots, IE 1 / FireRate = Shots / second
@@ -339,12 +337,12 @@ public class Enemy : Actor, IFreezable {
     public void HearNoise(PlayerLocation loc) {
         // Debug.Log("Heared a noise at " + loc.location);
         //transform.LookAt(loc.location);
-		if (playerLocations.Count <= 0) {
-			lastPathLocation = transform.position;
-		}
+        if (playerLocations.Count <= 0) {
+            lastPathLocation = transform.position;
+        }
         playerLocations.Push(loc);
     }
-    
+
     protected override void Die() {
         base.Die();
         Destroy(gameObject);

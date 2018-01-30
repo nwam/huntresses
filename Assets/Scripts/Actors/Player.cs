@@ -15,6 +15,9 @@ public class Player : Actor, IShootable {
     private KeyCode harvestKey = KeyCode.Q;
     [SerializeField]
     private KeyCode overwatchKey = KeyCode.F;
+
+    // Player has a worse FOV to keep a lid on Overwatch
+    new protected int fov = 15;
     [SerializeField]
     private string playerID = "0";
     [SerializeField]
@@ -32,7 +35,7 @@ public class Player : Actor, IShootable {
     private bool selected = false;
 
     // These variables prevent the 'same' keyDown event from being processed twice because the player held it down for 
-    private const float KEYPRESS_COOLDOWN = 0.2f;       // in seconds
+    private const float KEYPRESS_COOLDOWN = 0.1f;       // in seconds
     private float overwatchKeyPressTimer = KEYPRESS_COOLDOWN;
     private float harvestKeyPressTimer = KEYPRESS_COOLDOWN;
 
@@ -64,7 +67,7 @@ public class Player : Actor, IShootable {
         }
     }
 
-    protected override void FixedUpdate() {
+    protected void Update() {
         base.FixedUpdate();
 
         if (harvestKeyPressTimer < KEYPRESS_COOLDOWN) {
@@ -76,7 +79,7 @@ public class Player : Actor, IShootable {
 
         // Select player
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
-            if (Input.GetKeyDown(playerID)) {
+            if (Input.GetKeyDown(playerID) && state != PlayerState.DEAD) {
                 Select();
             }
             else {
@@ -86,7 +89,7 @@ public class Player : Actor, IShootable {
 
         // Harvesting is checked first. You cannot take any other action while harvesting.
         if (isHarvesting) {
-            if (Input.GetKeyDown(harvestKey) && harvestKeyPressTimer >= KEYPRESS_COOLDOWN) {
+            if (Input.GetKeyDown(harvestKey) && harvestKeyPressTimer >= KEYPRESS_COOLDOWN && IsSelected()) {
                 Debug.Log("Requested leave harvest");
                 StopHarvest();
             }
@@ -95,7 +98,7 @@ public class Player : Actor, IShootable {
             }
         }
         else if (state == PlayerState.OVERWATCH) {
-            if (Input.GetKeyDown(overwatchKey) && overwatchKeyPressTimer >= KEYPRESS_COOLDOWN) {
+            if (Input.GetKeyDown(overwatchKey) && overwatchKeyPressTimer >= KEYPRESS_COOLDOWN&& IsSelected()) {
                 Debug.Log("Requested leave overwatch");
                 EndOverwatch();
             }
@@ -139,6 +142,7 @@ public class Player : Actor, IShootable {
         }
     }
 
+    /*
     private void OnMouseOver() {
         // Right-click a player to select them
         if (Input.GetKeyDown(KeyCode.Mouse1)) {
@@ -149,8 +153,9 @@ public class Player : Actor, IShootable {
             Select();
         }
     }
+    */
 
-    public bool IsSelected() {
+    private bool IsSelected() {
         return selected;
     }
 
@@ -193,7 +198,7 @@ public class Player : Actor, IShootable {
         // Find an enemy.
         GameObject visibleEnemy = LookForOpponent();
         if (visibleEnemy == null) {
-            Debug.Log("No visible enemy");
+            // Debug.Log("No visible enemy");
             return;
         }
 
@@ -202,6 +207,25 @@ public class Player : Actor, IShootable {
         transform.rotation = Quaternion.LookRotation(transform.forward, targetVector);
 
         Shoot();
+    }
+
+    /*
+     * Tries to start the time bubble, and returns if the bubble was started so that TimeBubble class can continue.
+     * Does not start the bubble if player is not selected.
+     */
+    public bool StartTimeBubble() {
+        // Starting the bubble cancels Overwatch or Harvesting states
+        if(IsSelected()) {
+            EnterState(PlayerState.BUBBLE);
+            return true;
+        }
+        return false;
+    }
+
+    public void StopTimeBubble() {
+        if(IsSelected()) {
+            EnterState(PlayerState.SELECTED);
+        }
     }
 
     protected override void Shoot() {
@@ -213,16 +237,23 @@ public class Player : Actor, IShootable {
 
         Deselect();
 
-        int index = livingPlayers.IndexOf(this);
+        // If the currently selected player dies, switch to the next living player
         livingPlayers.Remove(this);
 
-        Debug.Log(livingPlayers.Count + " players remain1");
+        // Debug.Log(livingPlayers.Count + " players remain1");
         if (livingPlayers.Count > 0) {
-            StartCoroutine(cameraFollowNextPlayer());
+            // Do not switch if the dead player was not selected
+            if(IsSelected()) {
+                StartCoroutine(cameraFollowNextPlayer());
+            }
+            else {
+                // Since we don't call cameraFollow, we have to destroy the player here
+                Destroy(gameObject);
+            }
         }
         else {
             Debug.Log("You lost haha");
-            GameObject.FindGameObjectWithTag("notifArea").GetComponent<Text>().text = "You lost haha";
+            StartCoroutine(notify("You lost haha", -1));
         }
         EnterState(PlayerState.DEAD);
     }
@@ -239,9 +270,28 @@ public class Player : Actor, IShootable {
 
         Destroy(gameObject);
     }
+    
+    // TODO: Move this elsewhere!
+    // Pass duration = -1 to keep the notification there indefinitely.
+    private IEnumerator notify(string notif, int duration) {
+        string notifAreaTag = "notifArea";
+        Text notifier = GameObject.FindGameObjectWithTag(notifAreaTag).GetComponent<Text>();
+        if(notifier != null) {
+            notifier.text = "You lost haha";
+        }
+        else {
+            Debug.LogError("No " + notifAreaTag + " in scene");
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        if(duration > 0) {
+            notifier.text = "";
+        }
+    }
 
     protected override GameObject LookForOpponent() {
-        return LookFor("Enemy", transform.up);
+        return LookFor("Enemy", transform.up, fov);
     }
 
     protected override float Harvest() {

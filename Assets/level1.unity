@@ -593,6 +593,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!1 &25390738 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1422488282701734, guid: 5c0014cf7531d93408aa0d2af11718f0,
+    type: 2}
+  m_PrefabInternal: {fileID: 939163096}
+--- !u!114 &25390742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 25390738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20040d08b987e8e4b9ddfbb3b954cb6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &26696285
 Prefab:
   m_ObjectHideFlags: 0
@@ -17798,6 +17814,21 @@ Prefab:
     - target: {fileID: 1422488282701734, guid: 5c0014cf7531d93408aa0d2af11718f0, type: 2}
       propertyPath: m_Name
       value: NotifArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 224585222399570342, guid: 5c0014cf7531d93408aa0d2af11718f0,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 114662010413845794, guid: 5c0014cf7531d93408aa0d2af11718f0,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224083832768770506, guid: 5c0014cf7531d93408aa0d2af11718f0,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c0014cf7531d93408aa0d2af11718f0, type: 2}
