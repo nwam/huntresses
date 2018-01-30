@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cog : MonoBehaviour, IFreezable, IShootable {
+public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
 
     private bool active = true;
     [SerializeField]
@@ -53,4 +53,12 @@ public class Cog : MonoBehaviour, IFreezable, IShootable {
         return this == null;
     }
     
+    public float Priority() {
+        // Should actually return the priority of the thing...
+        return 0f;
+    }
+
+    public string MapKey() {
+        return "Cog";
+    }
 }

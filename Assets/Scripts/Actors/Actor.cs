@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Animator))]
-public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
+public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic {
 
     protected int health;
     [SerializeField]
@@ -166,4 +166,12 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     #endregion Harvesting
 
+    public float Priority() {
+        // Should actually return the priority of the thing...
+        return 0f;
+    }
+
+    public virtual string MapKey() {
+        return "Actor";
+    }
 }

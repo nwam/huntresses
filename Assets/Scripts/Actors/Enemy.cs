@@ -349,4 +349,13 @@ public class Enemy : Actor, IFreezable {
         base.Die();
         Destroy(gameObject);
     }
+
+    public float Priority() {
+        // Should actually return the priority of the thing...
+        return 0f;
+    }
+
+    public string MapKey() {
+        return "Enemy";
+    }
 }

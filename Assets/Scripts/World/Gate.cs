@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gate : MonoBehaviour {
+public class Gate : MonoBehaviour, IPathLogic {
 
     [SerializeField]
     private float energyCap = 30f;
@@ -41,4 +41,12 @@ public class Gate : MonoBehaviour {
         }
     }
 
+    public float Priority() {
+        // Should actually return the priority of the thing...
+        return 0f;
+    }
+
+    public string MapKey() {
+        return "Gate";
+    }
 }

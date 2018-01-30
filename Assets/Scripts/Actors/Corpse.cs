@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Corpse : MonoBehaviour {
+public class Corpse : MonoBehaviour, IPathLogic {
 
     [SerializeField]
     private float bloodCapacity = 10f;
@@ -60,5 +60,14 @@ public class Corpse : MonoBehaviour {
         if (harvester == currentHarvester) {
             currentHarvester = null;
         }
+    }
+
+    public float Priority() {
+        // Should actually return the priority of the thing...
+        return 0f;
+    }
+
+    public string MapKey() {
+        return "Corpse";
     }
 }

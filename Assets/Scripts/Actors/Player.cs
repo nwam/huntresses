@@ -222,4 +222,13 @@ public class Player : Actor, IShootable {
     protected override float GetFireRate() {
         return 0.75f;
     }
+
+    public float Priority() {
+        // Should actually return the priority of the thing...
+        return 0f;
+    }
+
+    public string MapKey() {
+        return "Player";
+    }
 }
