@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Gate : MonoBehaviour, IPathLogic {
-
-    [SerializeField]
-    private GameObject worldGrid;
-    private GameObject spawnSender;
-
+    
     [SerializeField]
     private float energyCap = 30f;
     private float energy;
@@ -16,7 +12,6 @@ public class Gate : MonoBehaviour, IPathLogic {
 	// Use this for initialization
 	void Start () {
         energy = energyCap;
-        spawnSender = Instantiate(worldGrid) as GameObject;
         onSpawn();
     }
 	
@@ -57,6 +52,6 @@ public class Gate : MonoBehaviour, IPathLogic {
     }
 
     public void onSpawn() {
-        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
+        WorldGrid.AddToMap(this.gameObject);
     }
 }

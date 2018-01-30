@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Corpse : MonoBehaviour, IPathLogic {
-
-    [SerializeField]
-    private GameObject worldGrid;
-    private GameObject spawnSender;
-
+    
     [SerializeField]
     private float bloodCapacity = 10f;
 	private float maxBloodCapacity;
@@ -20,7 +16,6 @@ public class Corpse : MonoBehaviour, IPathLogic {
 
 	void Start(){
 		maxBloodCapacity = bloodCapacity;
-        spawnSender = Instantiate(worldGrid) as GameObject;
         onSpawn();
     }
 
@@ -78,6 +73,6 @@ public class Corpse : MonoBehaviour, IPathLogic {
     }
 
     public void onSpawn() {
-        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
+        WorldGrid.AddToMap(this.gameObject);
     }
 }

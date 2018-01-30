@@ -18,7 +18,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     }
 
     private const float SPEED_MULTIPLIER = 0.01f;
-
+    
     [SerializeField]
     private float chaseSpeed = 20f;
     private float defaultSpeed;
@@ -89,7 +89,6 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     protected override void FixedUpdate() {
         base.FixedUpdate();
 		animator.SetBool("walk", false);
-
         GameObject foundPlayer = LookForOpponent();
 
         /* Shooting at player */
@@ -188,7 +187,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             }
         }
     }
-
+    
     /* Returns false when enemy has reached destination */
     private bool Move(Vector2 destination) {
 		animator.SetBool("walk", true);

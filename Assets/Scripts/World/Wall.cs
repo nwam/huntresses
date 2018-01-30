@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Wall : MonoBehaviour, IPathLogic {
-
-    [SerializeField]
-    private GameObject worldGrid;
-    private GameObject spawnSender;
-
+    
 	// Use this for initialization
 	void Start () {
-        spawnSender = Instantiate(worldGrid) as GameObject;
         onSpawn();
     }
 	
@@ -26,9 +21,10 @@ public class Wall : MonoBehaviour, IPathLogic {
 
     public string MapKey() {
         return "Wall";
+        Debug.Log("I have been recorded");
     }
 
     public void onSpawn() {
-        spawnSender.SendMessage("AddToMap", this.gameObject, SendMessageOptions.RequireReceiver);
+        WorldGrid.AddToMap(this.gameObject);
     }
 }
