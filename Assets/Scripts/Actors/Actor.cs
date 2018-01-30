@@ -133,6 +133,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     protected virtual float Harvest() {
         if (harvestableCorpses.Count == 0) {
+            Debug.Log("Nothing to harvest");
             return 0f;
         }
 
@@ -148,7 +149,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
         return drained;
     }
 
-    protected void StopHarvest() {
+    protected virtual void StopHarvest() {
         if (harvestableCorpses.Count == 0) {
             return;
         }
