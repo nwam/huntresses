@@ -17,6 +17,9 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         }
     }
 
+	private enum State{PATROL, COMBAT, SEARCH, SPIN, RETURN};
+    private State state;
+
     private const float SPEED_MULTIPLIER = 0.01f;
     
     [SerializeField]
@@ -33,6 +36,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     private bool spinning = false;
     private int spinUpdates;
     private int fullSpinUpdates;
+    private int spinDirection;
 
     [SerializeField]
     private List<Vector2> path;
@@ -41,7 +45,8 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     private Stack<PlayerLocation> playerLocations;
     private Vector2 lastSeenPlayerLoc;
     private bool seePlayer = false;
-    private bool waiting = true;
+
+    private Stack<Vector2> pathToReturnToPatrol;
 
     // Keep track of the direction which the player is heading in
     private float deltaRot = 0;
@@ -52,6 +57,8 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     private bool returningToPath = false;
     private Vector2 lastPathLocation;
 
+    [SerializeField]
+    private float fireRate;
 	private bool isFrozen = false;
 
     
@@ -64,11 +71,6 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         }
         transform.position = path[nextPoint];
         NextPathPoint();
-
-        if (0 != nextPoint)
-        {
-            waiting = false;
-        }
 
         playerLocations = new Stack<PlayerLocation>();
 
@@ -92,7 +94,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
 		animator.SetBool("walk", false);
         GameObject foundPlayer = LookForOpponent();
 
-        /* Shooting at player */
+        /* COMBAT */
         if (foundPlayer != null) {
             // Debug.Log("Shooting");
 
@@ -106,7 +108,6 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             seePlayer = true;
             spinning = false;
             turning = false;
-            waiting = false;
 
             // Track the player's location
             lastSeenPlayerLoc = (Vector2)foundPlayer.transform.position;
@@ -122,30 +123,20 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         /* Stop shooting at player -- player hid... or died lol */
         else if (foundPlayer == null && seePlayer) {
             // Debug.Log("Stop shooting");
-
-            if (playerLocations.Count <= 0) {
-                lastPathLocation = transform.position;
-            }
-
-			// Debug.Log ("Player Hid at " + lastSeenPlayerLoc);
-            playerLocations.Push(new PlayerLocation(lastSeenPlayerLoc, (int)Mathf.Sign(deltaRot)));
+            ChasePlayer(new PlayerLocation(lastSeenPlayerLoc, (int)Mathf.Sign(deltaRot)));
             seePlayer = false;
         }
 
         /* Performing a spin to find player */
-        else if (spinning && playerLocations.Count > 0) {
+        else if (spinning) {
             // Debug.Log("Spin");
-            if (!Spin(playerLocations.Peek().direction)) {
-                spinning = false;
-                playerLocations.Pop();
+            if (!Spin(spinDirection)) {
+                ToReturnState();
 
-                if (playerLocations.Count <= 0) {
-                    returningToPath = true;
-                }
             }
         }
 
-        /* Following last seen player location */
+        /* SEARCH */
         else if (playerLocations.Count > 0) {
             // Debug.Log("Chasing to " + playerLocations.Peek().location);
             if (currentSpeed != 0) {
@@ -156,9 +147,8 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             }
         }
 
-        /* Returning to where we last left our patrol path */
+        /* RETURN */
         else if (returningToPath) {
-            // Debug.Log("Returning to path at" + lastPathLocation);
             if (currentSpeed != 0) {
                 currentSpeed = defaultSpeed;
             }
@@ -167,24 +157,10 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             }
         }
 
-        /* On preset path */
+        /* PATROL */
         else {
-            if (waiting) {
-                int oldPoint = nextPoint;
-                if (NextPathPoint() != oldPoint) {
-                    waiting = false;
-                }
-            }
-            else if (!turning) {
-                if (!Move(path[nextPoint])) {
-                    NextPathPoint();
-                    ToTurnState();
-                }
-            }
-            else {
-                if (!Turn(path[nextPoint])) {
-                    ToMoveState();
-                }
+            if (path.Count > 1 && !Move(path[nextPoint])) {
+                NextPathPoint();
             }
         }
     }
@@ -223,7 +199,6 @@ public class Enemy : Actor, IFreezable, IPathLogic {
 
     /* Returns true of the turn executed successfully */
     private bool Turn(Vector2 destination) {
-
 
         float remainingRotation = Vector2.SignedAngle(transform.right.normalized, (destination - (Vector2)transform.position).normalized);
 
@@ -270,17 +245,23 @@ public class Enemy : Actor, IFreezable, IPathLogic {
    */
     }
 
-    private void ToTurnState() {
-        turning = true;
-    }
-
-    private void ToMoveState() {
-        turning = false;
+    private void ChasePlayer(PlayerLocation playerLoc) {
+		if (playerLocations.Count <= 0) {
+			lastPathLocation = transform.position;
+		}
+        playerLocations.Push(playerLoc);
     }
 
     private void ToSpinState() {
         spinning = true;
         spinUpdates = 0;
+        spinDirection = playerLocations.Peek().direction;
+        playerLocations.Pop();
+    }
+
+    private void ToReturnState() {
+        spinning = false;
+        returningToPath = true;
     }
 
     private int NextPathPoint() {
@@ -301,6 +282,14 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         return true;
     }
 
+    protected override void Shoot() {
+		if (isFrozen) {
+			// You cannot shoot while frozen.
+			return;
+		}
+        Shoot(true);
+    }
+
     public void Freeze() {
         // Debug.Log(name + " frozen");
 		isFrozen = true;
@@ -315,39 +304,23 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         // Restore ability to rotate and shoot
     }
 
-    public bool isDestroyed() {
+    public bool IsDestroyed() {
         return this == null;
     }
 
-    protected override void Shoot() {
-		if (isFrozen) {
-			// You cannot shoot while frozen.
-			return;
-		}
-        Shoot(true);
-    }
-
     protected override GameObject LookForOpponent() {
-        return LookFor("Player", transform.right);
+        return LookFor("Player", transform.right, fov);
     }
 
     // The cooldown in between shots, IE 1 / FireRate = Shots / second
     protected override float GetFireRate() {
-        return 1f;
+        return fireRate;
     }
 
     public void HearNoise(PlayerLocation loc) {
         // Debug.Log("Heared a noise at " + loc.location);
         //transform.LookAt(loc.location);
-		if (playerLocations.Count <= 0) {
-			lastPathLocation = transform.position;
-		}
-        playerLocations.Push(loc);
-    }
-    
-    protected override void Die() {
-        base.Die();
-        Destroy(gameObject);
+        ChasePlayer(loc);
     }
 
     public float Priority() {

@@ -53,7 +53,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
      * TargetTag - "Player" or "Enemy"
      * ForwardDirection - UP for player, RIGHT for enemy.
      */
-    protected GameObject LookFor(string targetTag, Vector3 forwardDirection) {
+    protected GameObject LookFor(string targetTag, Vector3 forwardDirection, float fov) {
         // Enemies array could be cached to improve performance
         GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
         foreach (GameObject target in targets) {
@@ -133,6 +133,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
 
     protected virtual float Harvest() {
         if (harvestableCorpses.Count == 0) {
+            Debug.Log("Nothing to harvest");
             return 0f;
         }
 
@@ -148,7 +149,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
         return drained;
     }
 
-    protected void StopHarvest() {
+    protected virtual void StopHarvest() {
         if (harvestableCorpses.Count == 0) {
             return;
         }

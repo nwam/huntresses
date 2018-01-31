@@ -7,8 +7,6 @@ using UnityEditor.SceneManagement;
 
 public class WallEditor : EditorWindow {
 
-    private string csvFolder;
-
     private string[] scenes;
     private string[] levelCsvs;
 
@@ -18,15 +16,17 @@ public class WallEditor : EditorWindow {
     private int btnWidth = 100;
     private int btnHeight = 25;
 
+    private CSVReader csvReader;
+
     [MenuItem("GameObject/Daddy's Amazing Wall Generator")]
     static void OpenWindow() {
         GetWindow(typeof(WallEditor), false, title: "Generate Walls with Daddy");
     }
 
     private void OnEnable() {
-        csvFolder = Application.dataPath + "/Scripts/Editor";
+        csvReader = new CSVReader();
         scenes = loadScenes();
-        levelCsvs = loadLevels();
+        levelCsvs = csvReader.GetFilenames();
     }
 
     private void OnGUI() {
@@ -55,7 +55,7 @@ public class WallEditor : EditorWindow {
 
         if(GUILayout.Button("Refresh", GUILayout.Width(btnWidth), GUILayout.Height(btnHeight))) {
             scenes = loadScenes();
-            levelCsvs = loadLevels();
+            levelCsvs = csvReader.GetFilenames();
         }
 
         GUILayout.FlexibleSpace();
@@ -78,11 +78,6 @@ public class WallEditor : EditorWindow {
         return result;
     }
 
-    private string[] loadLevels() {
-        return Directory.GetFiles(csvFolder, "*.csv")
-            .Select(lvl => Path.GetFileName(lvl))
-            .ToArray();
-    }
 
     private Scene getScene(string sceneName) {
         for (int i = 0; i < SceneManager.sceneCount; i++) {
