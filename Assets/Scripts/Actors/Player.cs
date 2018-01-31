@@ -245,56 +245,38 @@ public class Player : Actor, IShootable {
 
         // If the currently selected player dies, switch to the next living player
         livingPlayers.Remove(this);
-
-        // Debug.Log(livingPlayers.Count + " players remain1");
-        if (livingPlayers.Count > 0) {
-            // Do not switch if the dead player was not selected
-            if(IsSelected()) {
-                Deselect();
-                StartCoroutine(cameraFollowNextPlayer());
-            }
-            else {
-                // Since we don't call cameraFollow, we have to destroy the player here
-                Destroy(gameObject);
-            }
-        }
-        else {
-            Debug.Log("You lost haha");
-            StartCoroutine(notify("You lost haha", -1));
-        }
+        // Must determine if selected before setting state to dead
+        // bool selected = IsSelected();
         EnterState(PlayerState.DEAD);
+
+        Debug.Log(livingPlayers.Count + " players remain1");
+        // Do not switch if the dead player was not selected
+        if(IsSelected()) {
+            //Debug.Log("A selected player died " + name);
+            Deselect();
+            StartCoroutine(cameraFollowNextPlayer());
+        }
     }
 
+    // TO be run on player death
+    // Also checks for game over state!
     // Also destroys this object!! It should already be hidden.
     IEnumerator cameraFollowNextPlayer() {
         yield return new WaitForSeconds(1);
 
-        Player newSelected = livingPlayers[0];
-        Debug.Log("The new active player is " + newSelected.name);
-        Debug.Log(livingPlayers.Count + " players remain");
-        newSelected.Select();
-        followCam.SetActivePlayer(newSelected.transform);
-
-        Destroy(gameObject);
-    }
-    
-    // TODO: Move this elsewhere, but must still be in a MonoB
-    // Pass duration = -1 to keep the notification there indefinitely.
-    private IEnumerator notify(string notif, int duration) {
-        string notifAreaTag = "notifArea";
-        Text notifier = GameObject.FindGameObjectWithTag(notifAreaTag).GetComponent<Text>();
-        if(notifier != null) {
-            notifier.text = "You lost haha";
+        if (livingPlayers.Count <= 0) {
+            Debug.Log("You lost haha");
+            FindObjectOfType<Notifier>().Notify("YOU LOST >=(", -1);
         }
         else {
-            Debug.LogError("No " + notifAreaTag + " in scene");
+            Player newSelected = livingPlayers[0];
+            //Debug.Log("The new active player is " + newSelected.name);
+            //Debug.Log(livingPlayers.Count + " players remain");
+            newSelected.Select();
+            followCam.SetActivePlayer(newSelected.transform);
         }
 
-        yield return new WaitForSeconds(duration);
-
-        if(duration > 0) {
-            notifier.text = "";
-        }
+        Destroy(gameObject);
     }
 
     protected override GameObject LookForOpponent() {

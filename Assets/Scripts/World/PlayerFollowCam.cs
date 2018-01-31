@@ -48,7 +48,7 @@ public class PlayerFollowCam : MonoBehaviour {
     }
 
     private void ConstrictToLevelBounds() {
-        // Make sure the camera does not show any empty space outside the level.
+        // Make sure the camera shows a minimum amount of space outside the level.
 
         float halfViewportWidth = -offset.z;
 

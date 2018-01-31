@@ -46,7 +46,7 @@ public class TimeBubble : MonoBehaviour {
         if (isActive) {
             // These checks must be done always when the bubble is active - either running out of blood
             // or entering Overwatch state cancels bubble.
-            if (attachedPlayer.GetState() == PlayerState.OVERWATCH || !bloodPool.Withdraw()) {
+            if (attachedPlayer.GetState() == PlayerState.OVERWATCH || !bloodPool.Withdraw() || attachedPlayer == null) {
                 // Debug.Log("cancelling bubble due to overwatch");
                 isActive = false;
             }

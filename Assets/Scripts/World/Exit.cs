@@ -27,7 +27,7 @@ public class Exit : MonoBehaviour {
         int sceneIndex = getSceneIndex();
         sceneIndex++;
         if(sceneIndex > NUM_LEVELS) {
-            displayText("Gratz you win");
+            FindObjectOfType<Notifier>().Notify(")=<    You lost    >=(");
         }
         else {
             string nextScene = LEVELS_NAME + sceneIndex;
@@ -67,26 +67,6 @@ public class Exit : MonoBehaviour {
     }
 
     private void displayNewLevel(int levelIndex) {
-        StartCoroutine(displayText("Floor " + levelIndex));
+        FindObjectOfType<Notifier>().Notify("Floor " + levelIndex);
     }
-
-    IEnumerator displayText(string text) {
-        GameObject obj = GameObject.FindGameObjectWithTag("notifArea");
-        if (obj == null) {
-            Debug.LogError("No game object tagged " + NOTIF_AREA);
-        }
-        else {
-            Text notifArea = obj.GetComponent<Text>();
-            if (notifArea == null) {
-                Debug.LogError(NOTIF_AREA + " missing Text component");
-            }
-            else {
-                notifArea.text = text;
-                yield return new WaitForSeconds(3);
-                notifArea.text = "";
-            }
-        }
-    }
-
-
 }
