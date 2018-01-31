@@ -14,7 +14,7 @@ public class PlayerFollowCam : MonoBehaviour {
     [SerializeField]
     private int levelHeight = -1;
 
-    private Camera cam;
+    private float aspectRatio;
 
     private Transform activePlayer;
 
@@ -27,7 +27,7 @@ public class PlayerFollowCam : MonoBehaviour {
             Debug.LogError("Invalid level height " + levelHeight);
         }
 
-        cam = GetComponent<Camera>();
+        aspectRatio = GetComponent<Camera>().aspect;
 	}
 	
 	// Update is called once per frame
@@ -71,7 +71,7 @@ public class PlayerFollowCam : MonoBehaviour {
         }
 
         // Adjust the viewport width for y axis 
-        halfViewportWidth *= 1/cam.aspect;
+        halfViewportWidth *= 1/aspectRatio;
         // Bottom
         boundary = Mathf.RoundToInt(-levelHeight / 2);
         viewportEdge = transform.position.y - halfViewportWidth;
