@@ -63,7 +63,7 @@ public class WallEditor : EditorWindow {
             // Do generation
             Scene scene = getScene(scenes[selectedSceneIndex]);
             CSVReader csvReader = new CSVReader();
-            bool[,] walls = csvReader.ParseCSV(csvFolder + "/" + levelCsvs[selectedLevelIndex]);
+            bool[,] walls = csvReader.ParseCSV(levelCsvs[selectedLevelIndex]);
             addWallsToScene(scene, walls);
         }
         EditorGUILayout.EndHorizontal();

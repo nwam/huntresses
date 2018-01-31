@@ -127,12 +127,11 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             seePlayer = false;
         }
 
-        /* Performing a spin to find player */
+        /* SPIN -- I actually do think it needs to be a state */
         else if (spinning) {
             // Debug.Log("Spin");
             if (!Spin(spinDirection)) {
                 ToReturnState();
-
             }
         }
 
@@ -152,8 +151,12 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             if (currentSpeed != 0) {
                 currentSpeed = defaultSpeed;
             }
-            if (!Move(lastPathLocation)) {
-                returningToPath = false;
+            print("Returning to path - heading to " + pathToReturnToPatrol.Peek());
+            if (!Move(pathToReturnToPatrol.Peek())) {
+                pathToReturnToPatrol.Pop();
+                if (pathToReturnToPatrol.Count <= 0) {
+                    returningToPath = false;
+                }
             }
         }
 
@@ -256,12 +259,15 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         spinning = true;
         spinUpdates = 0;
         spinDirection = playerLocations.Peek().direction;
-        playerLocations.Pop();
+
+        // TODO: player locations should only be one location
+        playerLocations = new Stack<PlayerLocation>();
     }
 
     private void ToReturnState() {
         spinning = false;
         returningToPath = true;
+        pathToReturnToPatrol = new Stack<Vector2>(GameObject.FindObjectOfType<WorldGrid>().AStar(transform.position, path[nextPoint]));
     }
 
     private int NextPathPoint() {

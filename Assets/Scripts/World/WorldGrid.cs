@@ -58,7 +58,7 @@ public class WorldGrid : MonoBehaviour {
     }
     
     public static string[,] updateMapState() {
-        Debug.Log("Getting map state. pathingObjects: " + pathingObjects.Count);
+        //Debug.Log("Getting map state. pathingObjects: " + pathingObjects.Count);
         string[,] refreshedMap = new string[numCols, numCols];
         for (int i = pathingObjects.Count - 1; i >= 0; i--) {
             if (pathingObjects[i] != null) { // Check if the object has been destroyed, and if so remove it
@@ -106,6 +106,8 @@ public class WorldGrid : MonoBehaviour {
         start = WorldToGrid(start);
         goal = WorldToGrid(goal);
 
+        //print("Performing AStar to go from " + start + " to " + goal);
+
         updateMapState();
         Dictionary<Vector2, HashSet<Vector2>> adjList = GetAdjacencyList();
         HashSet<Vector2> visited = new HashSet<Vector2>();
@@ -140,11 +142,20 @@ public class WorldGrid : MonoBehaviour {
                 }
             }
 
+            print("AStar current is" + current);
+
             // Fond goal, return path in world coords
             if (current.Equals(goal)) { 
                 List<Vector2> retracedPath = FindMyWayHome(cameFrom, current, start);
+
+                Debug.Log("Path in grid coords");
+                for (int i = 0; i < retracedPath.Count; i++) {
+                    Debug.Log(retracedPath[i]);
+                }
+                Debug.Log("Path in world coords");
                 for (int i = 0; i < retracedPath.Count; i++) {
                     retracedPath[i] = GridToWorld(retracedPath[i]);
+                    Debug.Log(retracedPath[i]);
                 }
 
                 return retracedPath;
@@ -183,6 +194,7 @@ public class WorldGrid : MonoBehaviour {
         }
 
         // We never found the goal :'(
+        print("Failed to find AStar path");
         return null;
     }
 
