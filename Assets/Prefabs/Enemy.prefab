@@ -237,6 +237,7 @@ MonoBehaviour:
   path:
   - {x: -0.5, y: 10.5}
   - {x: -0.5, y: 0.5}
+  fireRate: 0.3
 --- !u!212 &212638545848714966
 SpriteRenderer:
   m_ObjectHideFlags: 1

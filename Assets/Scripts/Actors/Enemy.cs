@@ -54,6 +54,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
 
 	private bool isFrozen = false;
 
+    
     // Use this for initialization
     protected override void Start() {
         base.Start();
