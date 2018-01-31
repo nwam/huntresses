@@ -108,7 +108,16 @@ public class WorldGrid : MonoBehaviour {
 
         //print("Performing AStar to go from " + start + " to " + goal);
 
+        string mapStateStr = "";
         updateMapState();
+        for (int i = 0; i < mapState.GetLength(0); i++) {
+            for (int j = 0; j < mapState.GetLength(1); j++) {
+                mapStateStr += mapState[i, j] + ","; 
+            }
+            mapStateStr += "\n";
+        }
+        print(mapStateStr);
+
         Dictionary<Vector2, HashSet<Vector2>> adjList = GetAdjacencyList();
         HashSet<Vector2> visited = new HashSet<Vector2>();
         List<Vector2> fringe = new List<Vector2>();
