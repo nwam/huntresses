@@ -1,0 +1,7 @@
+Only one player at atime can have timebubble active
+It should be possible to see which player is selected even while they are in other states
+
+Enemies murder each other far too often
+Enemies cannot see through each other
+
+Should prevent camera from going out of the level`

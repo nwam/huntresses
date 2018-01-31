@@ -126,7 +126,7 @@ public class Player : Actor, IShootable {
 
     public void Select() {
         selected = true;
-        followCam.setActivePlayer(gameObject.transform);
+        followCam.SetActivePlayer(gameObject.transform);
         //timeBubble.SetSelectedPlayer(this);
     }
 
@@ -200,7 +200,7 @@ public class Player : Actor, IShootable {
         Debug.Log("The new active player is " + newSelected.name);
         Debug.Log(livingPlayers.Count + " players remain");
         newSelected.Select();
-        followCam.setActivePlayer(newSelected.transform);
+        followCam.SetActivePlayer(newSelected.transform);
 
         Destroy(gameObject);
     }
