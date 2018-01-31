@@ -19,34 +19,43 @@ public class TimeBubble : MonoBehaviour {
     private KeyCode key;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         isActive = false;
         rend = GetComponent<Renderer>();
         attachedPlayer = GetComponentInParent<Player>();
-        bloodPool = GameObject.FindObjectOfType<BloodPool>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        bloodPool = FindObjectOfType<BloodPool>();
+    }
+
+    // Update is called once per frame
+    void Update() {
         bool wasActive = isActive;
 
-        if(Input.GetKeyDown(key) && attachedPlayer.IsSelected()) {
+        if (Input.GetKeyDown(key) && attachedPlayer.IsSelected()) {
             isActive = !isActive;
-            Debug.Log(attachedPlayer.name + " toggled timebubble " + isActive);
+            // Debug.Log(attachedPlayer.name + " toggled timebubble " + isActive);
+        }
+
+        if(isActive && !wasActive) {
+            // ask the player if it is in a state where it can activate the bubble.
+            if(!attachedPlayer.OnStartTimeBubble()) {
+                Debug.Log("Not starting time bubble cause " + attachedPlayer.gameObject.name + " is not selected");
+                isActive = false; 
+            }
         }
 
         if (isActive) {
-            // Drain Blood
-            if (!bloodPool.Withdraw()) {
+            // These checks must be done always when the bubble is active - either running out of blood
+            // or entering Overwatch state cancels bubble.
+            if (attachedPlayer.GetState() == PlayerState.OVERWATCH || !bloodPool.Withdraw() || attachedPlayer == null) {
+                // Debug.Log("cancelling bubble due to overwatch");
                 isActive = false;
-                Debug.Log("Ran out of blood");
             }
         }
 
         rend.enabled = isActive;
-		attachedPlayer.getAnimator().SetBool ("spell", isActive);
+        attachedPlayer.getAnimator().SetBool("spell", isActive);
 
-        if(isActive) {
+        if (isActive) {
             // Remove destroyed objects - should be a way to optimize this
             for (int i = 0; i < collisions.Count; i++) {
                 if (collisions[i].IsDestroyed()) {
@@ -59,14 +68,15 @@ public class TimeBubble : MonoBehaviour {
         if (isActive && !wasActive) {
             collisions.ForEach(obj => obj.Freeze());
         }
-        else if(!isActive && wasActive) {
+        else if (!isActive && wasActive) {
             collisions.ForEach(obj => obj.UnFreeze());
+            attachedPlayer.OnStopTimeBubble();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         IFreezable freezable = collision.gameObject.GetComponent<IFreezable>();
-        if(freezable != null) {
+        if (freezable != null) {
             Freeze(freezable);
             //Debug.Log("Freezing " + collision.gameObject.name);
         }
@@ -85,7 +95,7 @@ public class TimeBubble : MonoBehaviour {
         IFreezable freezable = collision.gameObject.GetComponent<IFreezable>();
 
         if (freezable != null) {
-            if(isActive) {
+            if (isActive) {
                 freezable.UnFreeze();
             }
             collisions.Remove(freezable);

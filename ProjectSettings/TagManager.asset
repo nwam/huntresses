@@ -7,6 +7,7 @@ TagManager:
   - harvestable
   - ignores-bullets
   - Enemy
+  - notifArea
   layers:
   - Default
   - TransparentFX
@@ -61,4 +62,7 @@ TagManager:
     locked: 0
   - name: Actors
     uniqueID: 4196887805
+    locked: 0
+  - name: UI
+    uniqueID: 4024606093
     locked: 0

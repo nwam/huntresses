@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimatorSetBool : StateMachineBehaviour {
 
 	[SerializeField]
-	private string name;
+	new private string name;
 
 	[SerializeField]
 	private bool value;

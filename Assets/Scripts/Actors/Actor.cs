@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(Animator))]
 public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
-    
+
     protected int health;
     [SerializeField]
     protected float speed;
@@ -28,11 +28,14 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
     private List<Corpse> harvestableCorpses = new List<Corpse>();
     protected bool isHarvesting = false;
 
-	protected Animator animator;
+    protected Animator animator;
+    protected Renderer rendererr;
 
-	protected virtual void Start(){
-		animator = GetComponent<Animator> ();
-	}
+    protected virtual void Start() {
+        animator = GetComponent<Animator>();
+        rendererr = GetComponent<Renderer>();
+
+    }
 
     // Update is called once per frame
     protected virtual void FixedUpdate() {
@@ -50,7 +53,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
      * TargetTag - "Player" or "Enemy"
      * ForwardDirection - UP for player, RIGHT for enemy.
      */
-    protected GameObject LookFor(string targetTag, Vector3 forwardDirection) {
+    protected GameObject LookFor(string targetTag, Vector3 forwardDirection, float fov) {
         // Enemies array could be cached to improve performance
         GameObject[] targets = GameObject.FindGameObjectsWithTag(targetTag);
         foreach (GameObject target in targets) {
@@ -80,7 +83,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     protected virtual void Shoot(bool isEnemy) {
         if (timeUntilShot <= 0f) {
-			animator.SetBool ("shoot", true);
+            animator.SetBool("shoot", true);
 
             // Hacky McHacker for isEnemy
             float zRotation = isEnemy ? -90 : 0;
@@ -96,7 +99,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
             if (enemyType == EnemyType.Large) {
                 fab = largeBulletPrefab;
             }
-            if(fab != null) {
+            if (fab != null) {
                 Bullet newBulletGO = Instantiate(fab, target, rotation);
                 newBulletGO.SetCreator(this);
             }
@@ -118,18 +121,19 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
         }
     }
 
-    protected void Die() {
+    // Subclasses are responsible for destroying themselves when they die. Call this, perform any post-death actions, then destroy self.
+    protected virtual void Die() {
         GameObject newCorpse = Instantiate(corpsePrefab, transform.position, transform.rotation);
 
-        // TODO: Make the corpse use the appropriate player corpse
-
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        rendererr.enabled = false;
     }
 
-#region Harvesting
+    #region Harvesting
 
     protected virtual float Harvest() {
         if (harvestableCorpses.Count == 0) {
+            Debug.Log("Nothing to harvest");
             return 0f;
         }
 
@@ -145,7 +149,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
         return drained;
     }
 
-    protected void StopHarvest() {
+    protected virtual void StopHarvest() {
         if (harvestableCorpses.Count == 0) {
             return;
         }
@@ -161,6 +165,6 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
         harvestableCorpses.Remove(corpse);
     }
 
-#endregion Harvesting
+    #endregion Harvesting
 
 }

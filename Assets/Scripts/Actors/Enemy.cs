@@ -36,6 +36,7 @@ public class Enemy : Actor, IFreezable {
     private bool spinning = false;
     private int spinUpdates;
     private int fullSpinUpdates;
+    private int spinDirection;
 
     [SerializeField]
     private List<Vector2> path;
@@ -44,6 +45,8 @@ public class Enemy : Actor, IFreezable {
     private Stack<PlayerLocation> playerLocations;
     private Vector2 lastSeenPlayerLoc;
     private bool seePlayer = false;
+
+    private Stack<Vector2> pathToReturnToPatrol;
 
     // Keep track of the direction which the player is heading in
     private float deltaRot = 0;
@@ -91,7 +94,7 @@ public class Enemy : Actor, IFreezable {
 
         GameObject foundPlayer = LookForOpponent();
 
-        /* Shooting at player */
+        /* COMBAT */
         if (foundPlayer != null) {
             // Debug.Log("Shooting");
 
@@ -120,30 +123,20 @@ public class Enemy : Actor, IFreezable {
         /* Stop shooting at player -- player hid... or died lol */
         else if (foundPlayer == null && seePlayer) {
             // Debug.Log("Stop shooting");
-
-            if (playerLocations.Count <= 0) {
-                lastPathLocation = transform.position;
-            }
-
-			// Debug.Log ("Player Hid at " + lastSeenPlayerLoc);
-            playerLocations.Push(new PlayerLocation(lastSeenPlayerLoc, (int)Mathf.Sign(deltaRot)));
+            ChasePlayer(new PlayerLocation(lastSeenPlayerLoc, (int)Mathf.Sign(deltaRot)));
             seePlayer = false;
         }
 
         /* Performing a spin to find player */
-        else if (spinning && playerLocations.Count > 0) {
+        else if (spinning) {
             // Debug.Log("Spin");
-            if (!Spin(playerLocations.Peek().direction)) {
-                spinning = false;
-                playerLocations.Pop();
+            if (!Spin(spinDirection)) {
+                ToReturnState();
 
-                if (playerLocations.Count <= 0) {
-                    returningToPath = true;
-                }
             }
         }
 
-        /* Following last seen player location */
+        /* SEARCH */
         else if (playerLocations.Count > 0) {
             // Debug.Log("Chasing to " + playerLocations.Peek().location);
             if (currentSpeed != 0) {
@@ -154,9 +147,8 @@ public class Enemy : Actor, IFreezable {
             }
         }
 
-        /* Returning to where we last left our patrol path */
+        /* RETURN */
         else if (returningToPath) {
-            // Debug.Log("Returning to path at" + lastPathLocation);
             if (currentSpeed != 0) {
                 currentSpeed = defaultSpeed;
             }
@@ -165,7 +157,7 @@ public class Enemy : Actor, IFreezable {
             }
         }
 
-        /* On preset path */
+        /* PATROL */
         else {
             if (path.Count > 1 && !Move(path[nextPoint])) {
                 NextPathPoint();
@@ -253,9 +245,23 @@ public class Enemy : Actor, IFreezable {
    */
     }
 
+    private void ChasePlayer(PlayerLocation playerLoc) {
+		if (playerLocations.Count <= 0) {
+			lastPathLocation = transform.position;
+		}
+        playerLocations.Push(playerLoc);
+    }
+
     private void ToSpinState() {
         spinning = true;
         spinUpdates = 0;
+        spinDirection = playerLocations.Peek().direction;
+        playerLocations.Pop();
+    }
+
+    private void ToReturnState() {
+        spinning = false;
+        returningToPath = true;
     }
 
     private int NextPathPoint() {
@@ -303,7 +309,7 @@ public class Enemy : Actor, IFreezable {
     }
 
     protected override GameObject LookForOpponent() {
-        return LookFor("Player", transform.right);
+        return LookFor("Player", transform.right, fov);
     }
 
     // The cooldown in between shots, IE 1 / FireRate = Shots / second
@@ -314,9 +320,6 @@ public class Enemy : Actor, IFreezable {
     public void HearNoise(PlayerLocation loc) {
         // Debug.Log("Heared a noise at " + loc.location);
         //transform.LookAt(loc.location);
-		if (playerLocations.Count <= 0) {
-			lastPathLocation = transform.position;
-		}
-        playerLocations.Push(loc);
+        ChasePlayer(loc);
     }
 }
