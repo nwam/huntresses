@@ -40,16 +40,20 @@ public class BloodPool : MonoBehaviour {
         }        
     }
 
-    public void Fill(float amount) {
+    // Returns the amount of blood added to the pool. Ie returns 0 if the pool is full.
+    public float Fill(float amount) {
+        float originalAvailable = available;
         available += amount;
         if(available > maxDuration) {
             available = maxDuration;
         }
+        return available - originalAvailable;
     }
-
+    /*
     public bool IsFull() {
         return available >= maxDuration;
     }
+    */
 
     IEnumerator displayNotEnoughBlood() {
         notifArea.text = "No more blood!";

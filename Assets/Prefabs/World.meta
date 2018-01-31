@@ -1,11 +1,7 @@
 fileFormatVersion: 2
-guid: aaba8765caf7f3d459b3909e6cf45997
+guid: 75e8adb873a686b4bacfbe0418e37ba7
 folderAsset: yes
-<<<<<<< HEAD
-timeCreated: 1517298871
-=======
-timeCreated: 1517283810
->>>>>>> playerStateUI
+timeCreated: 1517286581
 licenseType: Free
 DefaultImporter:
   externalObjects: {}

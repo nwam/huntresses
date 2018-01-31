@@ -41,7 +41,6 @@ public class NearbyPlayerEars : EnemyEars {
             
             collidingPlayers.Add(player);
             if(listenForPlayer(player)) {
-                Debug.Log("Shitteroo");
                 // Send the enemy after the player if the ray hits the player
                 SendHearNoise(player);
             }

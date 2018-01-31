@@ -27,15 +27,17 @@ public class Bullet : MonoBehaviour, IFreezable {
     private const int enemyBulletSpeed = 10;
 
     private bool isFrozen = false;
+    private bool isPlayerBullet;
 
     //private Collider2D edgeCollider;
 
     public void SetCreator(Actor actor) {
         creator = actor;
+        isPlayerBullet = creator.gameObject != null && creator.gameObject.GetComponent<Player>() != null;
     }
 
     public bool IsPlayerBullet() {
-        return creator.gameObject.GetComponent<Player>() != null;
+        return isPlayerBullet;
     }
 
     /*
@@ -64,7 +66,7 @@ public class Bullet : MonoBehaviour, IFreezable {
     private void OnCollisionEnter2D(Collision2D collision) {
         GameObject other = collision.gameObject;
         //SpriteRenderer renderer = other.GetComponent<SpriteRenderer>();
-        Debug.Log("Shot " + other.name);
+        // Debug.Log("Shot " + other.name);
 
         if (other == null || other.tag == "ignores-bullets") {
             return;
