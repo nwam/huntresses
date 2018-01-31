@@ -30,26 +30,25 @@ public class TimeBubble : MonoBehaviour {
     void Update() {
         bool wasActive = isActive;
 
-        if (Input.GetKeyDown(key) /*&& attachedPlayer.IsSelected()*/) {
+        if (Input.GetKeyDown(key) && attachedPlayer.IsSelected()) {
             isActive = !isActive;
-            Debug.Log(attachedPlayer.name + " toggled timebubble " + isActive);
+            // Debug.Log(attachedPlayer.name + " toggled timebubble " + isActive);
         }
 
         if(isActive && !wasActive) {
             // ask the player if it is in a state where it can activate the bubble.
-            if(!attachedPlayer.StartTimeBubble()) {
+            if(!attachedPlayer.OnStartTimeBubble()) {
                 Debug.Log("Not starting time bubble cause " + attachedPlayer.gameObject.name + " is not selected");
                 isActive = false; 
             }
         }
 
         if (isActive) {
-            // Try to activate the bubble
-            // Ask the player object if it wants to enter the Bubble state,
-            // and try to Drain Blood. If either of these fails, the bubble must turn off.
-            if (!bloodPool.Withdraw()) {
+            // These checks must be done always when the bubble is active - either running out of blood
+            // or entering Overwatch state cancels bubble.
+            if (attachedPlayer.GetState() == PlayerState.OVERWATCH || !bloodPool.Withdraw()) {
+                // Debug.Log("cancelling bubble due to overwatch");
                 isActive = false;
-                // Debug.Log("Ran out of blood");
             }
         }
 
@@ -71,7 +70,7 @@ public class TimeBubble : MonoBehaviour {
         }
         else if (!isActive && wasActive) {
             collisions.ForEach(obj => obj.UnFreeze());
-            attachedPlayer.StopTimeBubble();
+            attachedPlayer.OnStopTimeBubble();
         }
     }
 

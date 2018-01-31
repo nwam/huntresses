@@ -1,4 +1,3 @@
-Only one player at atime can have timebubble active
-It should be possible to see which player is selected even while they are in other states
-
 Enemies murder each other far too often
+
+Actor.LookFor should use GetComponent<Foe> not go by tag

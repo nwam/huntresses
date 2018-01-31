@@ -73,7 +73,7 @@ public class Exit : MonoBehaviour {
     IEnumerator displayText(string text) {
         GameObject obj = GameObject.FindGameObjectWithTag("notifArea");
         if (obj == null) {
-            Debug.LogError("No game object named " + NOTIF_AREA);
+            Debug.LogError("No game object tagged " + NOTIF_AREA);
         }
         else {
             Text notifArea = obj.GetComponent<Text>();
