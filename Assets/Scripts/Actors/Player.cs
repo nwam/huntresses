@@ -136,7 +136,7 @@ public class Player : Actor, IShootable {
             }
 
             // Shooting controls
-            if (Input.GetKeyDown(shootKey)) {
+            if (Input.GetKey(shootKey)) {
                 Shoot();
             }
             // Succ
@@ -301,6 +301,6 @@ public class Player : Actor, IShootable {
     }
 
     protected override float GetFireRate() {
-        return 0.75f;
+        return 1f;
     }
 }
