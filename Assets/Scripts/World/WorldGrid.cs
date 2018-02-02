@@ -109,7 +109,7 @@ public class WorldGrid : Singleton<WorldGrid> {
         start = WorldToGrid(start);
         goal = WorldToGrid(goal);
 
-        print("Performing AStar to go from " + start + " to " + goal);
+        //print("Performing AStar to go from " + start + " to " + goal);
 
         updateMapState();
         //Print2DArray(mapState);

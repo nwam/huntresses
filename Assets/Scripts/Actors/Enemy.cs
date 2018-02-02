@@ -55,7 +55,6 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     // When a player chase is over and the enemy wants to return
     // to where they left off
     private bool returningToPath = false;
-    private Vector2 lastPathLocation;
 
     [SerializeField]
     private float fireRate;
@@ -249,9 +248,6 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     }
 
     private void ChasePlayer(PlayerLocation playerLoc) {
-		if (playerLocations.Count <= 0) {
-			lastPathLocation = transform.position;
-		}
         playerLocations.Push(playerLoc);
     }
 
@@ -329,7 +325,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         ChasePlayer(loc);
     }
 
-    public float Priority() {
+    public override float Priority() {
         // Should actually return the priority of the thing...
         return 0f;
     }

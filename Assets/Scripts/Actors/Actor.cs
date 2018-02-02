@@ -167,7 +167,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
 
     #endregion Harvesting
 
-    public float Priority() {
+    public virtual float Priority() {
         // Should actually return the priority of the thing...
         return 0f;
     }

@@ -113,9 +113,9 @@ public class Bullet : MonoBehaviour, IFreezable {
 
             if (followObj != null) {
                 Vector3 offset = transform.position - other.transform.position;
-                followObj.setOffset(offset);
-                followObj.setTarget(other.transform);
-                followObj.enable();
+                followObj.SetOffset(offset);
+                followObj.SetTarget(other.transform);
+                followObj.Enable();
             }
         }
         else {

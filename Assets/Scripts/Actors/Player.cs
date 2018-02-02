@@ -304,12 +304,12 @@ public class Player : Actor, IShootable, IPathLogic {
         return 0.75f;
     }
 
-    public float Priority() {
+    public override float Priority() {
         // Should actually return the priority of the thing...
         return 0f;
     }
 
-    public string MapKey() {
+    public override string MapKey() {
         return "Player";
     }
 }

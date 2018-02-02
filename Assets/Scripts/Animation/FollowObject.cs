@@ -9,26 +9,26 @@ public class FollowObject : MonoBehaviour	 {
 	[SerializeField]
 	private Transform target;
 
-	private bool enabled = false;
+	private bool following = false;
 
-	public void enable() {
-		enabled = true;
+	public void Enable() {
+		following = true;
 	}
 
-	public void disable() {
-		enabled = false;
+	public void Disable() {
+		following = false;
 	}
 
-	public void setOffset(Vector3 newOffset) {
+	public void SetOffset(Vector3 newOffset) {
 		offset = newOffset;
 	}
 
-	public void setTarget(Transform newTarget) {
+	public void SetTarget(Transform newTarget) {
 		target = newTarget;
 	}
 
 	void Update() {
-		if (enabled && target != null) {
+		if (following && target != null) {
 			transform.position = target.position + offset;
 		}
 	}
