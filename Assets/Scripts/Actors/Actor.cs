@@ -90,7 +90,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
             Vector3 shootAngle = isEnemy ? transform.right : transform.up;
 
             // Fire a bullet in the direction the player is facing
-            Vector3 target = transform.position + shootAngle * 1.2f;
+            Vector3 target = transform.position + shootAngle * 1f;
 
             Vector3 ea = transform.rotation.eulerAngles;
             Quaternion rotation = Quaternion.Euler(ea.x, ea.y, ea.z + zRotation);
@@ -113,7 +113,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
 
     public void GetShot(int damage) {
         health -= damage;
-        Debug.Log(name + " got shot, now I have " + health + "hp");
+        // Debug.Log(name + " got shot, now I have " + health + "hp");
 
         if (health <= 0) {
             Debug.Log(name + " is dead");
