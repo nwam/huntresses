@@ -90,7 +90,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester {
             Vector3 shootAngle = isEnemy ? transform.right : transform.up;
 
             // Fire a bullet in the direction the player is facing
-            Vector3 target = transform.position + shootAngle * 1f;
+            Vector3 target = transform.position + shootAngle * 0.8f;
 
             Vector3 ea = transform.rotation.eulerAngles;
             Quaternion rotation = Quaternion.Euler(ea.x, ea.y, ea.z + zRotation);
