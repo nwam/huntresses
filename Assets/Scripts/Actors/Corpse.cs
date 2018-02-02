@@ -16,7 +16,7 @@ public class Corpse : MonoBehaviour, IPathLogic {
 
 	void Start(){
 		maxBloodCapacity = bloodCapacity;
-        onSpawn();
+        OnSpawn();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -72,7 +72,7 @@ public class Corpse : MonoBehaviour, IPathLogic {
         return "Corpse";
     }
 
-    public void onSpawn() {
-        WorldGrid.AddToMap(this.gameObject);
+    public void OnSpawn() {
+        WorldGrid.Instance.AddToMap(this.gameObject);
     }
 }

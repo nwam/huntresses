@@ -15,7 +15,7 @@ public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
 
 	// Use this for initialization
 	void Start () {
-        onSpawn();
+        OnSpawn();
 	}
 	
 	// Update is called once per frame
@@ -62,7 +62,7 @@ public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
         return "Cog";
     }
 
-    public void onSpawn() {
-        WorldGrid.AddToMap(this.gameObject);
+    public void OnSpawn() {
+        WorldGrid.Instance.AddToMap(this.gameObject);
     }
 }

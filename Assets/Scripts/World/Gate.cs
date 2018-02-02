@@ -12,7 +12,7 @@ public class Gate : MonoBehaviour, IPathLogic {
 	// Use this for initialization
 	void Start () {
         energy = energyCap;
-        onSpawn();
+        OnSpawn();
     }
 	
 	void FixedUpdate () {
@@ -51,7 +51,7 @@ public class Gate : MonoBehaviour, IPathLogic {
         return "Gate";
     }
 
-    public void onSpawn() {
-        WorldGrid.AddToMap(this.gameObject);
+    public void OnSpawn() {
+        WorldGrid.Instance.AddToMap(this.gameObject);
     }
 }

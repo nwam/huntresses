@@ -34,7 +34,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
     protected virtual void Start() {
         animator = GetComponent<Animator>();
         rendererr = GetComponent<Renderer>();
-        onSpawn();
+        OnSpawn();
     }
 
     // Update is called once per frame
@@ -176,7 +176,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
         return "Actor";
     }
 
-    public void onSpawn() {
-        WorldGrid.AddToMap(this.gameObject);
+    public void OnSpawn() {
+        WorldGrid.Instance.AddToMap(this.gameObject);
     }
 }

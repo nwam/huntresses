@@ -151,7 +151,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
             if (currentSpeed != 0) {
                 currentSpeed = defaultSpeed;
             }
-            print("Returning to path - heading to " + pathToReturnToPatrol.Peek());
+            //print("Returning to path - heading to " + pathToReturnToPatrol.Peek());
             if (!Move(pathToReturnToPatrol.Peek())) {
                 pathToReturnToPatrol.Pop();
                 if (pathToReturnToPatrol.Count <= 0) {
@@ -267,7 +267,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
     private void ToReturnState() {
         spinning = false;
         returningToPath = true;
-        pathToReturnToPatrol = new Stack<Vector2>(GameObject.FindObjectOfType<WorldGrid>().AStar(transform.position, path[nextPoint]));
+        pathToReturnToPatrol = new Stack<Vector2>(WorldGrid.Instance.AStar(transform.position, path[nextPoint]));
     }
 
     private int NextPathPoint() {
@@ -334,7 +334,7 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         return 0f;
     }
 
-    public string MapKey() {
+    public override string MapKey() {
         return "Enemy";
     }
 }

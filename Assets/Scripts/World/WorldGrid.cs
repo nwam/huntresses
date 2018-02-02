@@ -7,9 +7,9 @@ using UnityEditor.SceneManagement;
 using System.Collections.Generic;
 using System.Reflection;
 
-public class WorldGrid : MonoBehaviour {
+public class WorldGrid : Singleton<WorldGrid> {
 
-    private static List<GameObject> pathingObjects = new List<GameObject>();
+    private List<GameObject> pathingObjects = new List<GameObject>();
     private const int numCols = 26;
     private const float cellOffset = 0.5f;
     private const float cellParam = 1f;
@@ -55,11 +55,13 @@ public class WorldGrid : MonoBehaviour {
                 mapGrid[j, i] = new Vector2(cellOffset + cellParam * j - centering, cellOffset + cellParam * i - centering);
             }
         }
-    }
-    
-    public static string[,] updateMapState() {
-        //Debug.Log("Getting map state. pathingObjects: " + pathingObjects.Count);
+    } 
+
+    /* TODO: make this change mapState inplace instead of creating a new map */
+    public string[,] updateMapState() {
+
         string[,] refreshedMap = new string[numCols, numCols];
+
         for (int i = pathingObjects.Count - 1; i >= 0; i--) {
             if (pathingObjects[i] != null) { // Check if the object has been destroyed, and if so remove it
                 Vector2 worldPos = pathingObjects[i].transform.position;
@@ -71,12 +73,13 @@ public class WorldGrid : MonoBehaviour {
                 refreshedMap[xIndex, yIndex] = pathingObjects[i].GetComponent<IPathLogic>().MapKey();
             }
         }
+
         mapState = refreshedMap;
         return mapState;
     }
 
     // When an IPathLogic object is spawned, it should be added to the list
-    public static void AddToMap(GameObject spawned) {
+    public void AddToMap(GameObject spawned) {
         pathingObjects.Add(spawned);
     }
 
@@ -106,17 +109,10 @@ public class WorldGrid : MonoBehaviour {
         start = WorldToGrid(start);
         goal = WorldToGrid(goal);
 
-        //print("Performing AStar to go from " + start + " to " + goal);
+        print("Performing AStar to go from " + start + " to " + goal);
 
-        string mapStateStr = "";
         updateMapState();
-        for (int i = 0; i < mapState.GetLength(0); i++) {
-            for (int j = 0; j < mapState.GetLength(1); j++) {
-                mapStateStr += mapState[i, j] + ","; 
-            }
-            mapStateStr += "\n";
-        }
-        print(mapStateStr);
+        //Print2DArray(mapState);
 
         Dictionary<Vector2, HashSet<Vector2>> adjList = GetAdjacencyList();
         HashSet<Vector2> visited = new HashSet<Vector2>();
@@ -151,27 +147,27 @@ public class WorldGrid : MonoBehaviour {
                 }
             }
 
-            print("AStar current is" + current);
+            //Debug.Log("AStar current is" + current);
 
             // Fond goal, return path in world coords
             if (current.Equals(goal)) { 
                 List<Vector2> retracedPath = FindMyWayHome(cameFrom, current, start);
 
-                Debug.Log("Path in grid coords");
+                //Debug.Log("Path in grid coords");
                 for (int i = 0; i < retracedPath.Count; i++) {
-                    Debug.Log(retracedPath[i]);
+                    //Debug.Log(retracedPath[i]);
                 }
-                Debug.Log("Path in world coords");
+                //Debug.Log("Path in world coords");
                 for (int i = 0; i < retracedPath.Count; i++) {
                     retracedPath[i] = GridToWorld(retracedPath[i]);
-                    Debug.Log(retracedPath[i]);
+                    //Debug.Log(retracedPath[i]);
                 }
 
                 return retracedPath;
 
             }
 
-            fringe.RemoveAt(0);
+            fringe.Remove(current);
             visited.Add(current);
 
             // Explore neighbors
@@ -223,7 +219,6 @@ public class WorldGrid : MonoBehaviour {
         Dictionary<Vector2, HashSet<Vector2>> result = new Dictionary<Vector2, HashSet<Vector2>>();
         HashSet<string> walkables = new HashSet<string>();
 
-
         int w = mapState.GetLength(0);
         int h = mapState.GetLength(1);
         for (int i = 1; i < w-1; i++) {
@@ -255,6 +250,14 @@ public class WorldGrid : MonoBehaviour {
             }
         }
 
+        /*
+        print("These are things in 10 13");
+        HashSet<Vector2> hs = result[new Vector2(10, 13)];
+        foreach (Vector2 v2 in hs) {
+            print(v2);
+        }
+        */
+
         return result;
     }
 
@@ -275,5 +278,17 @@ public class WorldGrid : MonoBehaviour {
 
     private static float ManhattanDistance(Vector2 s, Vector2 e) {
         return Mathf.Abs(s.x - e.x) + Mathf.Abs(s.y - e.y);
+    }
+
+    private static void Print2DArray(string[,] arr) {
+        string arrStr = "";
+        for (int i = 0; i < arr.GetLength(0); i++) {
+            for (int j = 0; j < arr.GetLength(1); j++) {
+                arrStr += IsWalkable(arr[i, j]) ? "1" : "0";
+                arrStr += ",";
+            }
+            arrStr += "\n";
+        }
+        print(arrStr);
     }
 }

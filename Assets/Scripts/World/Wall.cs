@@ -6,7 +6,7 @@ public class Wall : MonoBehaviour, IPathLogic {
     
 	// Use this for initialization
 	void Start () {
-        onSpawn();
+        OnSpawn();
     }
 	
 	// Update is called once per frame
@@ -21,10 +21,9 @@ public class Wall : MonoBehaviour, IPathLogic {
 
     public string MapKey() {
         return "Wall";
-        Debug.Log("I have been recorded");
     }
 
-    public void onSpawn() {
-        WorldGrid.AddToMap(this.gameObject);
+    public void OnSpawn() {
+        WorldGrid.Instance.AddToMap(this.gameObject);
     }
 }
