@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: -12}
-  levelWidth: 25
-  levelHeight: 27
+  levelWidth: 32
+  levelHeight: 30
 --- !u!124 &124274041657405814
 Behaviour:
   m_ObjectHideFlags: 1

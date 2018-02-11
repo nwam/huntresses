@@ -285,6 +285,11 @@ public class Enemy : Actor, IFreezable, IPathLogic {
         return fireRate;
     }
 
+    protected override void Die() {
+        base.Die();
+        Destroy(gameObject);
+    }
+
     public void HearNoise(PlayerLocation loc) {
         // Debug.Log("Heared a noise at " + loc.location);
         //transform.LookAt(loc.location);

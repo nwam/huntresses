@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-Only one player at atime can have timebubble active
-It should be possible to see which player is selected even while they are in other states
-
+Can run and shoot through corner-walls
+Camera is too zoomed in on larger resolutions on level 2 ??
 Enemies murder each other far too often
 Enemies cannot see through each other
 
-Should prevent camera from going out of the level`
-=======
-Enemies murder each other far too often
+If you select another player right after you die, it is possible to select two players at once
 
 Actor.LookFor should use GetComponent<Foe> not go by tag
->>>>>>> playerStateUI

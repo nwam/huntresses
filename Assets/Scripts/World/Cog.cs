@@ -35,7 +35,7 @@ public class Cog : MonoBehaviour, IFreezable, IShootable, IPathLogic {
 
     private void PowerGate() {
         if (active) {
-            controlled.setEnergy(controlled.getEnergy() + chargeRate * Time.deltaTime);
+            controlled.SetEnergy(controlled.GetEnergy() + chargeRate * Time.deltaTime);
         }
     }
 

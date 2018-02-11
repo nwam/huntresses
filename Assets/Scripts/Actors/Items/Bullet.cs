@@ -51,12 +51,27 @@ public class Bullet : MonoBehaviour, IFreezable {
 
         speed = IsPlayerBullet() ? playerBulletSpeed : enemyBulletSpeed;
         currentSpeed = isFrozen ? 0 : speed;
+        
     }
 
+/*
+    IEnumerator IgnoreSelfCollisionBriefly() { 
+        // For a very short time after they are created, bullets ignore collision with their creator, this is 
+        // so that actors do not shoot themseles
+        Collider2D thisCollider = GetComponent<Collider2D>();
+        Collider2D creatorCollider = creator.GetComponent<Collider2D>();
+        if(creatorCollider == null) {
+            Debug.LogError("CreatorCollider not found on actor " + creator.name);
+            yield return 0;
+        }
 
-    void Update() {
-
+        Physics2D.IgnoreCollision(thisCollider, creatorCollider);
+        Debug.Log("Ignoring");
+        yield return new WaitForSeconds(1f);
+        Debug.Log("Unignoring");
+        Physics2D.IgnoreCollision(thisCollider, creatorCollider, false);
     }
+*/
 
     private void FixedUpdate() {
         // Debug.Log("edgeCollider null? " + edgeCollider == null);
@@ -68,7 +83,8 @@ public class Bullet : MonoBehaviour, IFreezable {
         //SpriteRenderer renderer = other.GetComponent<SpriteRenderer>();
         // Debug.Log("Shot " + other.name);
 
-        if (other == null || other.tag == "ignores-bullets") {
+        // Dont hurt nothing, things that ignore bullets, or yourself
+        if (other == null || other.tag == "ignores-bullets" || other.GetComponent<Actor>() == creator) {
             return;
         }
         else if(isFrozen) {

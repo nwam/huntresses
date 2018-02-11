@@ -138,9 +138,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.13, y: 0.06}
   serializedVersion: 2
-  m_Radius: 1.0000002
+  m_Radius: 0.82
 --- !u!58 &58962424669108246
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -237,7 +237,7 @@ MonoBehaviour:
   path:
   - {x: -0.5, y: 10.5}
   - {x: -0.5, y: 0.5}
-  fireRate: 0.3
+  fireRate: 1
 --- !u!212 &212638545848714966
 SpriteRenderer:
   m_ObjectHideFlags: 1

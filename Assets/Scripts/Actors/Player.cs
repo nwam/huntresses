@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public enum PlayerState { ALIVE, HARVEST, BUBBLE, OVERWATCH, DEAD };
 
 public class Player : Actor, IShootable, IPathLogic {
+
     [SerializeField]
     private KeyCode shootKey = KeyCode.Mouse0;
     [SerializeField]
@@ -136,7 +137,7 @@ public class Player : Actor, IShootable, IPathLogic {
             }
 
             // Shooting controls
-            if (Input.GetKeyDown(shootKey)) {
+            if (Input.GetKey(shootKey)) {
                 Shoot();
             }
             // Succ
@@ -301,7 +302,7 @@ public class Player : Actor, IShootable, IPathLogic {
     }
 
     protected override float GetFireRate() {
-        return 0.75f;
+        return 1f;
     }
 
     public override float Priority() {
