@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // These states are used by PlayerStatusDisplay to display how the player is currently acting.
 // The player only has one state at a time. The initial state is Alive.
 public enum PlayerState { ALIVE, HARVEST, BUBBLE, OVERWATCH, DEAD };
-
+ 
 public class Player : Actor, IShootable {
     [SerializeField]
     private KeyCode shootKey = KeyCode.Mouse0;
