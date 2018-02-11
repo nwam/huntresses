@@ -125,7 +125,7 @@ public abstract class Actor : MonoBehaviour, IShootable, IHarvester, IPathLogic 
     protected virtual void Die() {
         GameObject newCorpse = Instantiate(corpsePrefab, transform.position, transform.rotation);
 
-        // Destroy(gameObject);
+        Destroy(gameObject);
         rendererr.enabled = false;
     }
 
